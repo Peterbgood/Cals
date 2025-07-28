@@ -16,6 +16,27 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/url-js/2.6.0/url.min.js"></script>
+  <style>
+    .chart-container {
+      width: 100% !important;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    #weightChart {
+      max-height: 300px;
+    }
+    @media (max-width: 576px) {
+      .chart-container {
+        padding: 10px;
+      }
+      #weightChart {
+        max-height: 250px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="nav-container">
@@ -296,11 +317,11 @@
           <button id="next-week-button" class="btn btn-primary shadow-sm"><i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </div>
-      <div class="chart-container" style="width:300px; height:180px; margin: 0 auto;">
+      <div class="chart-container" style="max-width: 300px; height: 180px; margin: 0 auto;">
         <canvas id="weeklyChart"></canvas>
       </div>
       <h2 class="text-center mt-4 mb-3">Weight Trend (Last 3 Months)</h2>
-      <div class="chart-container" style="width:600px; height:300px; margin: 0 auto;">
+      <div class="chart-container">
         <canvas id="weightChart"></canvas>
       </div>
       <ul id="weekly-list" class="list-group my-3"></ul>
@@ -836,6 +857,8 @@
           }]
         },
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
           scales: {
             y: { max: 3000, beginAtZero: true }
           },
@@ -885,7 +908,10 @@
                 text: 'Date'
               },
               ticks: {
-                maxTicksLimit: 10 // Limit number of date labels for readability
+                maxTicksLimit: 8, // Reduced for better readability on smaller screens
+                autoSkip: true,
+                maxRotation: 45,
+                minRotation: 0
               }
             },
             y: {
