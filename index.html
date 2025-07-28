@@ -157,7 +157,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: move; /* Indicate draggable */
+      cursor: move;
     }
 
     .list-group-item.dragging {
@@ -199,22 +199,21 @@
       text-align: center;
       z-index: 10;
       background-color: #FFFFFF;
-      border-top: 1px solid #D1D5DB;
       margin: 0 !important;
     }
 
     .nav-tabs {
       flex-direction: row;
-      justify-content: space-around;
+      justify-content: center;
       width: 100%;
       margin: 0 auto;
       padding: 10px 0;
-      border-bottom: none;
+      border: none;
     }
 
     .nav-item {
-      margin: 0;
-      flex: 1;
+      margin: 0 10px;
+      flex: 0 0 auto;
     }
 
     .nav-link {
@@ -471,7 +470,7 @@
                 <div class="accordion-body">
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Donut" data-calories="240" data-type="donut" data-icon="fas fa-circle"><i class="fas fa-circle me-1"></i> Donut (240)</button>
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Biscuit" data-calories="470" data-type="biscuit" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Sausage (470)</button>
-                  <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Biscuit" data-calories="400" data-type="biscuit" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Biscuit (400)</button>
+                  <button type="type" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Biscuit" data-calories="400" data-type="biscuit" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Biscuit (400)</button>
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Wrap" data-calories="210" data-type="wrap" data-icon="fas fa-taco"><i class="fas fa-taco me-1"></i> Wrap (210)</button>
                 </div>
               </div>
@@ -504,7 +503,7 @@
             </div>
             <div class="accordion-item">
               <h2 class="accordion-header">
-                <button размера="button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBeverages" aria-expanded="false" aria-controls="collapseBeverages">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBeverages" aria-expanded="false" aria-controls="collapseBeverages">
                   <i class="fas fa-wine-glass me-2"></i> Beverages
                 </button>
               </h2>
@@ -566,13 +565,13 @@
     <div class="nav-container">
       <ul class="nav nav-tabs" id="trackerTabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="daily-tab" data-bs-toggle="tab" data-bs-target="#daily-view" type="button" role="tab" aria-controls="daily-view" aria-selected="true">Daily</button>
+          <button class="nav-link active" id="daily-tab" data-bs-toggle="tab" data-bs-target="#daily-view" type="button" role="tab" aria-controls="daily-view" aria-selected="true"><i class="fas fa-calendar-day"></i></button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="weekly-tab" data-bs-toggle="tab" data-bs-target="#weekly-view" type="button" role="tab" aria-controls="weekly-view" aria-selected="false">Weekly</button>
+          <button class="nav-link" id="weekly-tab" data-bs-toggle="tab" data-bs-target="#weekly-view" type="button" role="tab" aria-controls="weekly-view" aria-selected="false"><i class="fas fa-calendar-week"></i></button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="weight-tab" data-bs-toggle="tab" data-bs-target="#weight-view" type="button" role="tab" aria-controls="weight-view" aria-selected="false">Weight</button>
+          <button class="nav-link" id="weight-tab" data-bs-toggle="tab" data-bs-target="#weight-view" type="button" role="tab" aria-controls="weight-view" aria-selected="false"><i class="fas fa-weight-scale"></i></button>
         </li>
       </ul>
     </div>
@@ -855,8 +854,8 @@
 
       const totalCaloriesText = document.querySelector('.text-primary');
       const totalCaloriesBadge = document.getElementById('total-calories');
-      const remainingCaloriesText = document.querySelector('.text-success');
       const remainingCaloriesBadge = document.getElementById('remaining-calories');
+      const remainingCaloriesText = document.querySelector('.text-success');
 
       totalCaloriesBadge.innerText = totalCalories;
       remainingCaloriesBadge.innerText = remainingCalories;
@@ -1180,8 +1179,11 @@
         }
       });
 
-      // Sort by date in descending order
+      // Sort by date in descending order (most recent first)
       weightData.sort((a, b) => b.date - a.date);
+
+      const weightListElement = document.getElementById('weight-list');
+      weightListElement.innerHTML = '';
 
       // Group by weeks
       const weeks = {};
@@ -1192,15 +1194,11 @@
         if (!weeks[weekStartStr]) {
           weeks[weekStartStr] = {
             weekNumber: weekNumber,
-            days: Array(DAYS_PER_WEEK).fill(null)
+            days: []
           };
         }
-        const dayIndex = (entry.date.getDay() + 6) % 7; // Monday=0, ..., Sunday=6
-        weeks[weekStartStr].days[dayIndex] = { date: getDateString(entry.date), weight: entry.weight };
+        weeks[weekStartStr].days.push({ date: getDateString(entry.date), weight: entry.weight, rawDate: entry.date });
       });
-
-      const weightListElement = document.getElementById('weight-list');
-      weightListElement.innerHTML = '';
 
       // Sort weeks by week start date in descending order
       const sortedWeekStarts = Object.keys(weeks).sort((a, b) => new Date(b) - new Date(a));
@@ -1212,16 +1210,16 @@
         weightListElement.innerHTML += `
           <li class="list-group-item week-divider">Week ${week.weekNumber} (${formatDate(weekStart)})</li>
         `;
-        for (let i = 0; i < DAYS_PER_WEEK; i++) {
-          const day = week.days[i];
-          if (day) {
-            weightListElement.innerHTML += `
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                ${DAYS_OF_WEEK[i]} ${day.date}: ${day.weight} lbs
-              </li>
-            `;
-          }
-        }
+        // Sort days within the week in descending order
+        week.days.sort((a, b) => b.rawDate - a.rawDate);
+        week.days.forEach(day => {
+          const dayIndex = (new Date(day.date).getDay() + 6) % 7; // Monday=0, ..., Sunday=6
+          weightListElement.innerHTML += `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              ${DAYS_OF_WEEK[dayIndex]} ${day.date}: ${day.weight} lbs
+            </li>
+          `;
+        });
       });
     }
 
