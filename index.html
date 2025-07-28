@@ -87,7 +87,7 @@
               <div class="accordion-body">
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Banana" data-calories="100" data-type="banana" data-icon="fas fa-leaf"><i class="fas fa-leaf me-1"></i> Banana (100)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Peach" data-calories="70" data-type="peach" data-icon="fas fa-leaf"><i class="fas fa-leaf me-1"></i> Peach (70)</button>
-                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Avocado" data-calories="250" data-type="avocado" data-icon="fas fa-leaf"><i class="fas fa-leaf me-1"></i> Avocado (250)</button>
+                <button type="type" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Avocado" data-calories="250" data-type="avocado" data-icon="fas fa-leaf"><i class="fas fa-leaf me-1"></i> Avocado (250)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Apple" data-calories="95" data-type="apple" data-icon="fas fa-apple-alt"><i class="fas fa-apple-alt me-1"></i> Apple (95)</button>
               </div>
             </div>
@@ -202,7 +202,7 @@
             </h2>
             <div id="collapseFreddies" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
               <div class="accordion-body">
-                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Lettuce Burger" data-calories="500" data-type="sandwich" data-icon="fas fa-hamburger"><i class="fas fa-hamburger me-1"></i> Lettuce Burger (500)</button>
+                <button type="type" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Lettuce Burger" data-calories="500" data-type="sandwich" data-icon="fas fa-hamburger"><i class="fas fa-hamburger me-1"></i> Lettuce Burger (500)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Fries" data-calories="440" data-type="fries" data-icon="fas fa-french-fries"><i class="fas fa-french-fries me-1"></i> Freddy Fries (440)</button>
               </div>
             </div>
@@ -299,6 +299,10 @@
       <div class="chart-container" style="width:300px; height:180px; margin: 0 auto;">
         <canvas id="weeklyChart"></canvas>
       </div>
+      <h2 class="text-center mt-4 mb-3">Weight Trend (Last 3 Months)</h2>
+      <div class="chart-container" style="width:600px; height:300px; margin: 0 auto;">
+        <canvas id="weightChart"></canvas>
+      </div>
       <ul id="weekly-list" class="list-group my-3"></ul>
       <ul id="weekly-weight-list" class="list-group my-3"></ul>
       <p id="weekly-total" class="fs-5 text-center"></p>
@@ -321,7 +325,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="js/nav.js"></script>
   <script>
-    let dailyChart, weeklyChart;
+    let dailyChart, weeklyChart, weightChart;
     let data = {
       totalCaloriesUsed: 0,
       remainingCalories: 1500
@@ -339,6 +343,7 @@
     const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const MS_PER_DAY = 24 * 60 * 60 * 1000;
     const MS_PER_WEEK = MS_PER_DAY * DAYS_PER_WEEK;
+    const THREE_MONTHS_MS = 90 * MS_PER_DAY;
 
     // Function to get the Monday of the week containing the given date
     function getWeekStart(date) {
@@ -524,6 +529,7 @@
       updateWeeklyWeightList();
       updateWeeklyTotals();
       renderWeeklyChart();
+      renderWeightChart();
       updateWeekDateRange();
       updateNavigationButtons();
     }
@@ -741,6 +747,33 @@
       return weekWeights;
     }
 
+    function getThreeMonthWeightData() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const threeMonthsAgo = new Date(today.getTime() - THREE_MONTHS_MS);
+      
+      const weightData = [];
+      Object.keys(weightLog).forEach(dateStr => {
+        const date = new Date(dateStr);
+        if (isNaN(date)) return;
+        date.setHours(0, 0, 0, 0);
+        if (date >= threeMonthsAgo && date <= today) {
+          weightData.push({
+            date: date,
+            weight: weightLog[dateStr]
+          });
+        }
+      });
+
+      // Sort by date
+      weightData.sort((a, b) => a.date - b.date);
+      
+      return {
+        labels: weightData.map(entry => getDateString(entry.date)),
+        weights: weightData.map(entry => entry.weight)
+      };
+    }
+
     function updateWeeklyList() {
       const weekData = getWeekData();
       const weeklyListElement = document.getElementById('weekly-list');
@@ -811,6 +844,68 @@
               callbacks: {
                 label: (context) => `${context.raw} cals (Limit: ${DAILY_MAXIMUMS[context.dataIndex]})`
               }
+            }
+          }
+        }
+      });
+    }
+
+    function renderWeightChart() {
+      const ctx = document.getElementById('weightChart').getContext('2d');
+      const { labels, weights } = getThreeMonthWeightData();
+
+      // Calculate min and max weights for y-axis scaling
+      const minWeight = weights.length > 0 ? Math.min(...weights) : 100;
+      const maxWeight = weights.length > 0 ? Math.max(...weights) : 200;
+      const padding = (maxWeight - minWeight) * 0.1 || 10; // 10% padding or 10 lbs if range is 0
+
+      if (weightChart) weightChart.destroy();
+      weightChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Weight (lbs)',
+            data: weights,
+            borderColor: 'rgba(75, 94, 170, 1)', // #4B5EAA
+            backgroundColor: 'rgba(75, 94, 170, 0.2)',
+            fill: false,
+            tension: 0.1,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              },
+              ticks: {
+                maxTicksLimit: 10 // Limit number of date labels for readability
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Weight (lbs)'
+              },
+              min: minWeight - padding,
+              max: maxWeight + padding,
+              beginAtZero: false
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.raw} lbs`
+              }
+            },
+            legend: {
+              display: true
             }
           }
         }
