@@ -161,7 +161,7 @@
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Fries" data-calories="440" data-type="fries" data-icon="fas fa-french-fries"><i class="fas fa-french-fries me-1"></i> Fries (440)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Zesty" data-calories="25" data-type="sauce" data-icon="fas fa-pepper-hot"><i class="fas fa-pepper-hot me-1"></i> Zesty (25)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Shake" data-calories="560" data-type="shake" data-icon="fas fa-ice-cream"><i class="fas fa-ice-cream me-1"></i> Shake (560)</button>
-                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Lemon" data-calories="320" data-type="shake" data-icon="fas fa-lemon"><i class="fas fa-lemon me-1"></i> Shake (320)</button>
+                <button type="type" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Lemon" data-calories="320" data-type="shake" data-icon="fas fa-lemon"><i class="fas fa-lemon me-1"></i> Shake (320)</button>
               </div>
             </div>
           </div>
@@ -475,13 +475,18 @@
         weightLog = {};
       }
 
-      const storedDate = localStorage.getItem('currentDate');
-      currentDate = storedDate ? new Date(storedDate) : new Date();
+      // Always set to today's date on page load
+      currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
 
-      const storedWeekStart = localStorage.getItem('currentWeekStart');
-      currentWeekStart = storedWeekStart ? new Date(storedWeekStart) : getWeekStart(currentDate);
+      currentWeekStart = getWeekStart(currentDate);
       currentWeekStart.setHours(0, 0, 0, 0);
+
+      // Ensure daily view is displayed on page load
+      isDailyView = true;
+      document.getElementById('daily-view').style.display = 'block';
+      document.getElementById('weekly-view').style.display = 'none';
+      document.getElementById('toggle-view-button').textContent = 'Switch to Weekly View';
 
       updateUI();
     }
