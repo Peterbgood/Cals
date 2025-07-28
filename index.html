@@ -1,1 +1,809 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weight Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/url-js/2.6.0/url.min.js"></script>
+</head>
+<body>
+  <div class="nav-container">
+    <!-- Navigation content loaded via nav.js -->
+  </div>
+  <div class="container">
+    <div class="d-flex justify-content-center mb-4 mt-5">
+      <button id="toggle-view-button" class="btn btn-primary">Switch to Weekly View</button>
+    </div>
+
+    <!-- Daily View -->
+    <div id="daily-view">
+      <h1 class="text-center mb-4 animate__animated animate__fadeIn">Daily Calorie Tracker</h1>
+      <div class="row mb-4 justify-content-center">
+        <div class="input-group arrowbuttons col-md-6">
+          <button id="prev-date-button" class="btn btn-primary shadow-sm"><i class="fa-solid fa-arrow-left"></i></button>
+          <input type="text" id="date-input" class="form-control text-center shadow-sm" readonly>
+          <button id="next-date-button" class="btn btn-primary shadow-sm"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+      <div class="chart-container" style="max-width: 300px; height: 300px; margin: 0 auto; padding: 20px;">
+        <canvas id="caloriesChart"></canvas>
+      </div>
+      <ul id="food-list" class="list-group mt-5 shadow-sm rounded"></ul>
+      <div class="mt-4 fw-bold fs-3 text-center text-primary">
+        Total Calories: <span id="total-calories" class="badge bg-primary">0</span>
+      </div>
+      <div class="mt-2 fw-bold fs-3 text-center text-success">
+        Remaining Calories: <span id="remaining-calories" class="badge bg-success">1500</span>
+      </div>
+
+      <!-- Calorie Buttons Section -->
+      <div class="mt-5 btn-cal">
+        <div class="accordion" id="foodAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGeneric" aria-expanded="false" aria-controls="collapseGeneric">
+                <i class="fas fa-utensils me-2"></i> Generic Foods
+              </button>
+            </h2>
+            <div id="collapseGeneric" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Coffee" data-calories="40" data-type="coffee" data-icon="fas fa-mug-hot"><i class="fas fa-mug-hot me-1"></i> Coffee (40)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="500" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (500)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="400" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (400)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="300" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (300)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="200" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (200)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="100" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (100)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="50" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (50)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="20" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (20)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="10" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (10)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFruits" aria-expanded="false" aria-controls="collapseFruits">
+                <i class="fas fa-apple-alt me-2"></i> Fruits
+              </button>
+            </h2>
+            <div id="collapseFruits" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Banana" data-calories="100" data-type="banana" data-icon="fas fa-leaf"><i class="fas fa-leaf me-1"></i> Banana (100)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Peach" data-calories="70" data-type="peach" data-icon="fas fa-leaf"><i class="fas fa-leaf me-1"></i> Peach (70)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Avocado" data-calories="250" data-type="avocado" data-icon="fas fa-leaf"><i class="fas fa-leaf me-1"></i> Avocado (250)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Apple" data-calories="95" data-type="apple" data-icon="fas fa-apple-alt"><i class="fas fa-apple-alt me-1"></i> Apple (95)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDairy" aria-expanded="false" aria-controls="collapseDairy">
+                <i class="fas fa-cheese me-2"></i> Dairy/Eggs
+              </button>
+            </h2>
+            <div id="collapseDairy" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Eggs" data-calories="70" data-type="eggs" data-icon="fas fa-egg"><i class="fas fa-egg me-1"></i> Eggs (70)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Yogurt" data-calories="80" data-type="yogurt" data-icon="fas fa-bowl-food"><i class="fas fa-bowl-food me-1"></i> Yogurt (80)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Milk" data-calories="150" data-type="milk" data-icon="fas fa-glass-whiskey"><i class="fas fa-glass-whiskey me-1"></i> Milk (150)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Almond" data-calories="80" data-type="milk" data-icon="fas fa-glass-whiskey"><i class="fas fa-glass-whiskey me-1"></i> Almond (80)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Almond" data-calories="30" data-type="milk" data-icon="fas fa-glass-whiskey"><i class="fas fa-glass-whiskey me-1"></i> Almond (30)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Cheese" data-calories="80" data-type="cheese" data-icon="fas fa-cheese"><i class="fas fa-cheese me-1"></i> Cheese (80)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Cheese" data-calories="50" data-type="cheese" data-icon="fas fa-cheese"><i class="fas fa-cheese me-1"></i> Cheese (50)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGrains" aria-expanded="false" aria-controls="collapseGrains">
+                <i class="fas fa-bread-slice me-2"></i> Grains
+              </button>
+            </h2>
+            <div id="collapseGrains" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Whole" data-calories="110" data-type="bread" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Whole (110)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Bread" data-calories="70" data-type="bread" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Bread (70)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Bread" data-calories="35" data-type="bread" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Keto Bread (35)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Oat Meal" data-calories="300" data-type="bread" data-icon="fa-solid fa-bowl-food"><i class="fa-solid fa-bowl-food"></i> Oatmeal (300)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOther" aria-expanded="false" aria-controls="collapseOther">
+                <i class="fas fa-hamburger me-2"></i> Other Foods
+              </button>
+            </h2>
+            <div id="collapseOther" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Bacon Bowl" data-calories="440" data-type="bacon" data-icon="fas fa-bacon"><i class="fas fa-bacon me-1"></i> Bacon Bowl (440)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Sausage Bowl" data-calories="360" data-type="sausage" data-icon="fas fa-hotdog"><i class="fas fa-hotdog me-1"></i> Sausage Bowl (360)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Beans" data-calories="440" data-type="beans" data-icon="fas fa-seedling"><i class="fas fa-seedling me-1"></i> Beans (440)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Ham" data-calories="80" data-type="ham" data-icon="fas fa-drumstick-bite"><i class="fas fa-drumstick-bite me-1"></i> Ham (80)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Peanut" data-calories="100" data-type="peanut" data-icon="fas fa-seedling"><i class="fas fa-seedling me-1"></i> Peanut (100)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Popsicle" data-calories="40" data-type="popsicle" data-icon="fas fa-ice-cream"><i class="fas fa-ice-cream me-1"></i> Popsicle (40)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Sauce" data-calories="50" data-type="sauce" data-icon="fas fa-pepper-hot"><i class="fas fa-pepper-hot me-1"></i> Sauce (50)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Oreo" data-calories="340" data-type="dessert" data-icon="fas fa-cookie"><i class="fas fa-cookie me-1"></i> Blizzard (340)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Andes" data-calories="25" data-type="chocolate" data-icon="fas fa-candy-cane"><i class="fas fa-candy-cane me-1"></i> Andes (25)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Hersheys" data-calories="15" data-type="chocolate" data-icon="fas fa-square"><i class="fas fa-square me-1"></i> Hersheys (15)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChickfila" aria-expanded="false" aria-controls="collapseChickfila">
+                <i class="fas fa-drumstick-bite me-2"></i> Chick-fil-A
+              </button>
+            </h2>
+            <div id="collapseChickfila" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Deluxe" data-calories="490" data-type="sandwich" data-icon="fas fa-hamburger"><i class="fas fa-hamburger me-1"></i> Deluxe (490)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Sandwich" data-calories="440" data-type="sandwich" data-icon="fas fa-hamburger"><i class="fas fa-hamburger me-1"></i> Sandwich (440)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Strips" data-calories="410" data-type="chicken" data-icon="fas fa-drumstick-bite"><i class="fas fa-drumstick-bite me-1"></i> Strips (410)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Biscuit" data-calories="460" data-type="biscuit" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Biscuit (460)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Fries" data-calories="440" data-type="fries" data-icon="fas fa-french-fries"><i class="fas fa-french-fries me-1"></i> Fries (440)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Zesty" data-calories="25" data-type="sauce" data-icon="fas fa-pepper-hot"><i class="fas fa-pepper-hot me-1"></i> Zesty (25)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Shake" data-calories="560" data-type="shake" data-icon="fas fa-ice-cream"><i class="fas fa-ice-cream me-1"></i> Shake (560)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Lemon" data-calories="320" data-type="shake" data-icon="fas fa-lemon"><i class="fas fa-lemon me-1"></i> Shake (320)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMcDonalds" aria-expanded="false" aria-controls="collapseMcDonalds">
+                <i class="fas fa-burger me-2"></i> McDonald's
+              </button>
+            </h2>
+            <div id="collapseMcDonalds" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Big Mac" data-calories="550" data-type="sandwich" data-icon="fas fa-hamburger"><i class="fas fa-hamburger me-1"></i> Big Mac (550)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Fries" data-calories="440" data-type="fries" data-icon="fas fa-french-fries"><i class="fas fa-french-fries me-1"></i> Fries (440)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Quarter" data-calories="520" data-type="sandwich" data-icon="fas fa-hamburger"><i class="fas fa-hamburger me-1"></i> Pounder (520)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="McMuffin" data-calories="480" data-type="sandwich" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Sausage (480)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Nuggets" data-calories="410" data-type="chicken" data-icon="fas fa-drumstick-bite"><i class="fas fa-drumstick-bite me-1"></i> Nuggets (410)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBurgerKing" aria-expanded="false" aria-controls="collapseBurgerKing">
+                <i class="fas fa-crown me-2"></i> Burger King
+              </button>
+            </h2>
+            <div id="collapseBurgerKing" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Whopper" data-calories="670" data-type="sandwich" data-icon="fas fa-hamburger"><i class="fas fa-hamburger me-1"></i> Whopper (670)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Fries" data-calories="440" data-type="fries" data-icon="fas fa-french-fries"><i class="fas fa-french-fries me-1"></i> BK Fries (440)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFreddies" aria-expanded="false" aria-controls="collapseFreddies">
+                <i class="fas fa-hamburger me-2"></i> Freddies
+              </button>
+            </h2>
+            <div id="collapseFreddies" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Lettuce Burger" data-calories="500" data-type="sandwich" data-icon="fas fa-hamburger"><i class="fas fa-hamburger me-1"></i> Lettuce Burger (500)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Fries" data-calories="440" data-type="fries" data-icon="fas fa-french-fries"><i class="fas fa-french-fries me-1"></i> Freddy Fries (440)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDunkin" aria-expanded="false" aria-controls="collapseDunkin">
+                <i class="fas fa-coffee me-2"></i> Dunkin
+              </button>
+            </h2>
+            <div id="collapseDunkin" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Donut" data-calories="240" data-type="donut" data-icon="fas fa-circle"><i class="fas fa-circle me-1"></i> Donut (240)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Biscuit" data-calories="470" data-type="biscuit" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Sausage (470)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Biscuit" data-calories="400" data-type="biscuit" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Biscuit (400)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Wrap" data-calories="210" data-type="wrap" data-icon="fas fa-taco"><i class="fas fa-taco me-1"></i> Wrap (210)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSalsaritas" aria-expanded="false" aria-controls="collapseSalsaritas">
+                <i class="fas fa-pepper-hot me-2"></i> Salsarita's
+              </button>
+            </h2>
+            <div id="collapseSalsaritas" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Quesa" data-calories="590" data-type="quesadilla" data-icon="fas fa-cheese"><i class="fas fa-cheese me-1"></i> Quesa (590)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Bowl" data-calories="800" data-type="bowl" data-icon="fas fa-bowl-food"><i class="fas fa-bowl-food me-1"></i> Bowl (800)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTacoBell" aria-expanded="false" aria-controls="collapseTacoBell">
+                <i class="fas fa-bell me-2"></i> Taco Bell
+              </button>
+            </h2>
+            <div id="collapseTacoBell" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Quesa" data-calories="510" data-type="quesadilla" data-icon="fas fa-cheese"><i class="fas fa-cheese me-1"></i> Quesa (510)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Chalupa" data-calories="360" data-type="taco" data-icon="fas fa-taco"><i class="fas fa-taco me-1"></i> Chalupa (360)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBeverages" aria-expanded="false" aria-controls="collapseBeverages">
+                <i class="fas fa-wine-glass me-2"></i> Beverages
+              </button>
+            </h2>
+            <div id="collapseBeverages" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Soda" data-calories="140" data-type="soda" data-icon="fas fa-glass-water"><i class="fas fa-glass-water me-1"></i> Soda (140)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Corona" data-calories="600" data-type="beer" data-icon="fas fa-beer-mug-empty"><i class="fas fa-beer-mug-empty me-1"></i> Corona (600)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Corona" data-calories="100" data-type="beer" data-icon="fas fa-beer-mug-empty"><i class="fas fa-beer-mug-empty me-1"></i> Corona (100)</button>
+                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Gatorade" data-calories="80" data-type="sports-drink" data-icon="fas fa-bottle-water"><i class="fas fa-bottle-water me-1"></i> Gatorade (80)</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBurnt" aria-expanded="false" aria-controls="collapseBurnt">
+                <i class="fas fa-fire me-2"></i> Calories Burnt
+              </button>
+            </h2>
+            <div id="collapseBurnt" class="accordion-collapse collapse" data-bs-parent="#foodAccordion">
+              <div class="accordion-body">
+                <button type="button" class="btn btn-dark add-calorie-button m-1 animate__animated animate__pulse" data-name="Burnt" data-calories="-600" data-type="burnt" data-icon="fas fa-fire"><i class="fas fa-fire me-1"></i> Burnt (600)</button>
+                <button type="button" class="btn btn-dark add-calorie-button m-1 animate__animated animate__pulse" data-name="Burnt" data-calories="-550" data-type="burnt" data-icon="fas fa-fire"><i class="fas fa-fire me-1"></i> Burnt (550)</button>
+                <button type="button" class="btn btn-dark add-calorie-button m-1 animate__animated animate__pulse" data-name="Burnt" data-calories="-400" data-type="burnt" data-icon="fas fa-fire"><i class="fas fa-fire me-1"></i> Burnt (400)</button>
+                <button type="button" class="btn btn-dark add-calorie-button m-1 animate__animated animate__pulse" data-name="Burnt" data-calories="-300" data-type="burnt" data-icon="fas fa-fire"><i class="fas fa-fire me-1"></i> Burnt (300)</button>
+                <button type="button" class="btn btn-dark add-calorie-button m-1 animate__animated animate__pulse" data-name="Burnt" data-calories="-100" data-type="burnt" data-icon="fas fa-fire"><i class="fas fa-fire me-1"></i> Burnt (100)</button>
+                <button type="button" class="btn btn-dark add-calorie-button m-1 animate__animated animate__pulse" data-name="Burnt" data-calories="-50" data-type="burnt" data-icon="fas fa-fire"><i class="fas fa-fire me-1"></i> Burnt (50)</button>
+                <button type="button" class="btn btn-dark add-calorie-button m-1 animate__animated animate__pulse" data-name="Burnt" data-calories="-20" data-type="burnt" data-icon="fas fa-fire"><i class="fas fa-fire me-1"></i> Burnt (20)</button>
+                <button type="button" class="btn btn-dark add-calorie-button m-1 animate__animated animate__pulse" data-name="Burnt" data-calories="-10" data-type="burnt" data-icon="fas fa-fire"><i class="fas fa-fire me-1"></i> Burnt (10)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly View -->
+    <div id="weekly-view" style="display: none;">
+      <h1 class="text-center mb-4 animate__animated animate__fadeIn">Weekly Calorie Tracker</h1>
+      <div class="row mb-4 justify-content-center">
+        <div class="input-group arrowbuttons col-md-6">
+          <button id="prev-week-button" class="btn btn-primary shadow-sm"><i class="fa-solid fa-arrow-left"></i></button>
+          <input type="text" id="week-input" class="form-control text-center shadow-sm" readonly>
+          <button id="next-week-button" class="btn btn-primary shadow-sm"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+      <div class="chart-container" style="width:300px; height:180px; margin: 0 auto;">
+        <canvas id="weeklyChart"></canvas>
+      </div>
+      <ul id="weekly-list" class="list-group my-3"></ul>
+      <p id="weekly-total" class="fs-5 text-center"></p>
+      <p id="weekly-remaining" class="fs-5 text-center"></p>
+      <p id="weekly-saved" class="fs-5 text-center"></p>
+      <div class="d-grid gap-2 mx-y mt-4">
+        <button class="btn btn-danger mt-2" type="button" id="reset-week-btn">Reset Week</button>
+      </div>
+    </div>
+
+    <!-- Export/Import Buttons Section -->
+    <div class="mt-4 text-center">
+      <button id="export-button" class="btn btn-success m-2"><i class="fas fa-download me-1"></i> Export Data</button>
+      <label for="import-button" class="btn btn-primary m-2"><i class="fas fa-upload me-1"></i> Import Data
+        <input type="file" id="import-button" accept=".json" style="display: none;">
+      </label>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    let dailyChart, weeklyChart;
+    let data = {
+      totalCaloriesUsed: 0,
+      remainingCalories: 1500
+    };
+    let currentDate = new Date();
+    let currentWeekIndex = 0;
+    let foodLog = {};
+    let isDailyView = true;
+
+    // Constants
+    const TOTAL_WEEKLY_CALORIES = 10500; // 1500 * 7
+    const DAILY_MAXIMUMS = Array(7).fill(1500);
+    const DAYS_PER_WEEK = 7;
+    const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+    const MS_PER_WEEK = MS_PER_DAY * DAYS_PER_WEEK;
+    const startDate = new Date('2025-01-06');
+    startDate.setHours(0, 0, 0, 0);
+
+    // Function to get the calorie limit for a day
+    function getCalorieLimit(date) {
+      return 1500;
+    }
+
+    // Function to get the current date string
+    function getDateString(date) {
+      return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        timeZone: 'America/New_York',
+      });
+    }
+
+    // Function to save data to local storage
+    function saveData() {
+      const dateStr = getDateString(currentDate);
+      const foodListElement = document.getElementById('food-list');
+      const foodItems = foodListElement.children;
+
+      foodLog[dateStr] = [];
+
+      Array.from(foodItems).forEach(item => {
+        const name = item.children[0].textContent;
+        const calories = parseInt(item.children[1].textContent);
+        foodLog[dateStr].push({ name, calories });
+      });
+
+      localStorage.setItem('foodLog', JSON.stringify(foodLog));
+      localStorage.setItem('currentDate', dateStr);
+      localStorage.setItem('currentWeekIndex', currentWeekIndex.toString());
+    }
+
+    // Function to export data as JSON
+    function exportData() {
+      const exportData = { foodLog };
+      const dataStr = JSON.stringify(exportData, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'weight_tracker_data.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Function to import data from JSON
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const importedData = JSON.parse(e.target.result);
+          if (importedData.foodLog) {
+            foodLog = importedData.foodLog;
+            localStorage.setItem('foodLog', JSON.stringify(foodLog));
+            updateUI();
+            alert('Data imported successfully!');
+          } else {
+            alert('Invalid data format. Please ensure the file contains foodLog data.');
+          }
+        } catch (error) {
+          console.error('Error importing data:', error);
+          alert('Error importing data. Please ensure the file is a valid JSON.');
+        }
+        event.target.value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    // Function to load data from local storage
+    function loadData() {
+      const storedFoodLog = localStorage.getItem('foodLog');
+      if (storedFoodLog) {
+        try {
+          foodLog = JSON.parse(storedFoodLog);
+        } catch (error) {
+          console.error('Error parsing stored food log:', error);
+          foodLog = {};
+        }
+      } else {
+        foodLog = {};
+      }
+
+      currentDate = new Date();
+      const storedWeekIndex = localStorage.getItem('currentWeekIndex');
+      if (storedWeekIndex) {
+        currentWeekIndex = parseInt(storedWeekIndex);
+      } else {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const dayOfWeek = today.getDay() || 7;
+        const daysSinceMonday = dayOfWeek - 1;
+        const currentMonday = new Date(today.getTime() - daysSinceMonday * MS_PER_DAY);
+        const daysSinceStart = Math.floor((currentMonday - startDate) / MS_PER_DAY);
+        currentWeekIndex = Math.max(0, Math.floor(daysSinceStart / DAYS_PER_WEEK));
+      }
+
+      updateUI();
+    }
+
+    // Function to toggle between daily and weekly views
+    function toggleView() {
+      isDailyView = !isDailyView;
+      document.getElementById('daily-view').style.display = isDailyView ? 'block' : 'none';
+      document.getElementById('weekly-view').style.display = isDailyView ? 'none' : 'block';
+      document.getElementById('toggle-view-button').textContent = isDailyView ? 'Switch to Weekly View' : 'Switch to Daily View';
+      updateUI();
+    }
+
+    // Function to update UI based on current view
+    function updateUI() {
+      if (isDailyView) {
+        updateDailyUI();
+      } else {
+        updateWeeklyUI();
+      }
+    }
+
+    // Function to update daily view UI
+    function updateDailyUI() {
+      updateTotalCalories();
+      updateFoodList();
+      renderDailyChart();
+      displayCurrentDate();
+    }
+
+    // Function to update weekly view UI
+    function updateWeeklyUI() {
+      updateWeeklyList();
+      updateWeeklyTotals();
+      renderWeeklyChart();
+      updateWeekDateRange();
+      updateNavigationButtons();
+    }
+
+    // Daily view functions
+    function updateTotalCalories() {
+      const dateStr = getDateString(currentDate);
+      const totalCalories = foodLog[dateStr] ? foodLog[dateStr].reduce((acc, item) => acc + item.calories, 0) : 0;
+      const calorieLimit = getCalorieLimit(currentDate);
+      const remainingCalories = calorieLimit - totalCalories;
+
+      const totalCaloriesText = document.querySelector('.text-primary');
+      const totalCaloriesBadge = document.getElementById('total-calories');
+      const remainingCaloriesText = document.querySelector('.text-success');
+      const remainingCaloriesBadge = document.getElementById('remaining-calories');
+
+      totalCaloriesBadge.innerText = totalCalories;
+      remainingCaloriesBadge.innerText = remainingCalories;
+
+      totalCaloriesText.style.color = '#2B4A8C';
+      remainingCaloriesText.style.color = remainingCalories < 0 ? '#C0392B' : '#4B5EAA';
+      remainingCaloriesBadge.className = remainingCalories < 0 ? 'badge bg-danger' : 'badge bg-success';
+
+      data = {
+        totalCaloriesUsed: totalCalories,
+        remainingCalories: remainingCalories
+      };
+    }
+
+    function updateFoodList() {
+      const dateStr = getDateString(currentDate);
+      const foodListElement = document.getElementById('food-list');
+      foodListElement.innerHTML = '';
+
+      if (foodLog[dateStr]) {
+        const burntCalories = foodLog[dateStr].filter(entry => entry.calories < 0);
+        const coffeeItems = foodLog[dateStr].filter(entry => entry.name.toLowerCase().includes('coffee') && entry.calories >= 0);
+        const otherCalories = foodLog[dateStr].filter(entry => !entry.name.toLowerCase().includes('coffee') && entry.calories >= 0);
+
+        const createListItem = (entry) => {
+          const listItem = document.createElement('li');
+          listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between');
+
+          const nameSpan = document.createElement('span');
+          nameSpan.contentEditable = 'true';
+          nameSpan.classList.add('form-control');
+          nameSpan.textContent = entry.name;
+
+          nameSpan.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              const newName = nameSpan.textContent;
+              foodLog[dateStr] = foodLog[dateStr].map(item => {
+                if (item.name === entry.name && item.calories === entry.calories) {
+                  item.name = newName;
+                }
+                return item;
+              });
+              updateFoodList();
+              saveData();
+            }
+          });
+
+          const caloriesSpan = document.createElement('span');
+          caloriesSpan.textContent = `${entry.calories}`;
+          if (entry.calories < 0) {
+            caloriesSpan.style.color = '#4B5EAA';
+          }
+
+          const deleteButton = document.createElement('button');
+          deleteButton.classList.add('btn', 'btn-sm', 'btn-danger');
+          deleteButton.innerHTML = '<i class="bi bi-trash"></i>';
+
+          deleteButton.addEventListener('click', () => {
+            foodLog[dateStr] = foodLog[dateStr].filter(item => !(item.name === entry.name && item.calories === entry.calories));
+            updateUI();
+            saveData();
+          });
+
+          listItem.appendChild(nameSpan);
+          listItem.appendChild(caloriesSpan);
+          listItem.appendChild(deleteButton);
+          return listItem;
+        };
+
+        coffeeItems.reverse().forEach(entry => foodListElement.appendChild(createListItem(entry)));
+        otherCalories.forEach(entry => foodListElement.appendChild(createListItem(entry)));
+        burntCalories.forEach(entry => foodListElement.appendChild(createListItem(entry)));
+      }
+    }
+
+    function renderDailyChart() {
+      const ctx = document.getElementById('caloriesChart').getContext('2d');
+      let totalCaloriesUsed = data.totalCaloriesUsed;
+      let remainingCalories = data.remainingCalories;
+      const calorieLimit = getCalorieLimit(currentDate);
+
+      if (totalCaloriesUsed < 0) {
+        totalCaloriesUsed = 0;
+        remainingCalories = calorieLimit;
+      }
+
+      const chartColors = {
+        used: { backgroundColor: '#2B4A8C', borderColor: '#FFFFFF' },
+        remaining: { backgroundColor: '#E6E6E6', borderColor: '#FFFFFF' },
+        overLimit: { backgroundColor: '#C0392B', borderColor: '#FFFFFF' }
+      };
+
+      let chartColorsUsed;
+      if (totalCaloriesUsed >= calorieLimit) {
+        chartColorsUsed = [chartColors.overLimit];
+        totalCaloriesUsed = calorieLimit;
+        remainingCalories = 0;
+      } else {
+        chartColorsUsed = [chartColors.used, chartColors.remaining];
+      }
+
+      if (!dailyChart) {
+        dailyChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['Calories Used', 'Remaining Calories'],
+            datasets: [{
+              data: [totalCaloriesUsed, remainingCalories],
+              backgroundColor: chartColorsUsed.map(c => c.backgroundColor),
+              borderColor: chartColorsUsed.map(c => c.borderColor),
+              borderWidth: 2,
+              cutout: '50%'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    if (context.label === 'Calories Used') {
+                      return `Calories Used: ${data.totalCaloriesUsed}`;
+                    } else if (context.label === 'Remaining Calories') {
+                      return `Remaining Calories: ${data.remainingCalories}`;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        });
+      } else {
+        dailyChart.data.datasets[0].data[0] = totalCaloriesUsed;
+        dailyChart.data.datasets[0].data[1] = remainingCalories;
+        dailyChart.data.datasets[0].backgroundColor = chartColorsUsed.map(c => c.backgroundColor);
+        dailyChart.data.datasets[0].borderColor = chartColorsUsed.map(c => c.borderColor);
+        dailyChart.data.datasets[0].cutout = '50%';
+        dailyChart.update();
+      }
+    }
+
+    function displayCurrentDate() {
+      const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        timeZone: 'America/New_York',
+      };
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      document.getElementById('date-input').value = formatter.format(currentDate);
+    }
+
+    // Weekly view functions
+    function getWeekData(weekIndex) {
+      const weekStart = new Date(startDate.getTime() + weekIndex * MS_PER_WEEK);
+      const weekData = Array(DAYS_PER_WEEK).fill(0);
+      for (let i = 0; i < DAYS_PER_WEEK; i++) {
+        const day = new Date(weekStart.getTime() + i * MS_PER_DAY);
+        const dateStr = getDateString(day);
+        if (foodLog[dateStr]) {
+          weekData[i] = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
+        }
+      }
+      return weekData;
+    }
+
+    function updateWeeklyList() {
+      const weekData = getWeekData(currentWeekIndex);
+      const weeklyListElement = document.getElementById('weekly-list');
+      weeklyListElement.innerHTML = weekData.map((calories, index) => {
+        if (calories === 0) return '';
+        const caloriesSaved = DAILY_MAXIMUMS[index] - calories;
+        const color = caloriesSaved >= 0 ? '#4B5EAA' : '#C0392B';
+        return `
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            ${DAYS_OF_WEEK[index]}: ${calories} cals
+            <span style="color: ${color}">(${Math.abs(caloriesSaved)} cals)</span>
+          </li>
+        `;
+      }).join('');
+    }
+
+    function updateWeeklyTotals() {
+      const weekData = getWeekData(currentWeekIndex);
+      const totalConsumed = weekData.reduce((a, b) => a + b, 0);
+      const remainingCalories = TOTAL_WEEKLY_CALORIES - totalConsumed;
+      let totalSavedCalories = 0;
+      weekData.forEach((entry, index) => {
+        const dailySaved = DAILY_MAXIMUMS[index] - entry;
+        totalSavedCalories += dailySaved;
+      });
+
+      document.getElementById('weekly-total').textContent = `Total Consumed: ${totalConsumed}`;
+      document.getElementById('weekly-remaining').textContent = `Total Remaining: ${remainingCalories}`;
+      document.getElementById('weekly-saved').textContent = `Total Saved: ${totalSavedCalories}`;
+    }
+
+    function renderWeeklyChart() {
+      const ctx = document.getElementById('weeklyChart').getContext('2d');
+      const weekData = getWeekData(currentWeekIndex);
+
+      if (weeklyChart) weeklyChart.destroy();
+      weeklyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: DAYS_OF_WEEK,
+          datasets: [{
+            label: 'Calories Consumed',
+            data: weekData,
+            backgroundColor: weekData.map((entry, index) => entry > DAILY_MAXIMUMS[index] ? 'rgba(192, 57, 43, 0.6)' : 'rgba(43, 74, 140, 0.6)'),
+            borderColor: weekData.map((entry, index) => entry > DAILY_MAXIMUMS[index] ? 'rgba(192, 57, 43, 0.6)' : 'rgba(43, 74, 140, 0.6)'),
+            borderWidth: { top: 2, right: 2, left: 2, bottom: 0 }
+          }]
+        },
+        options: {
+          scales: {
+            y: { max: 3000, beginAtZero: true }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.raw} cals (Limit: ${DAILY_MAXIMUMS[context.dataIndex]})`
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function updateWeekDateRange() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const dayOfWeek = today.getDay() || 7;
+      const daysSinceMonday = dayOfWeek - 1;
+      const baseMonday = new Date(today.getTime() - daysSinceMonday * MS_PER_DAY);
+      const weekStart = new Date(baseMonday.getTime() + (currentWeekIndex - Math.floor((today - startDate) / MS_PER_WEEK)) * MS_PER_WEEK);
+      const weekEnd = new Date(weekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
+      const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}`;
+      document.getElementById('week-input').value = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+    }
+
+    function updateNavigationButtons() {
+      document.getElementById('prev-week-button').disabled = currentWeekIndex === 0;
+      document.getElementById('next-week-button').disabled = false;
+    }
+
+    function resetCurrentWeek() {
+      if (confirm('Are you sure you want to reset this week’s data?')) {
+        const weekStart = new Date(startDate.getTime() + currentWeekIndex * MS_PER_WEEK);
+        for (let i = 0; i < DAYS_PER_WEEK; i++) {
+          const day = new Date(weekStart.getTime() + i * MS_PER_DAY);
+          const dateStr = getDateString(day);
+          delete foodLog[dateStr];
+        }
+        updateUI();
+        saveData();
+      }
+    }
+
+    // Event listeners
+    document.querySelectorAll('.add-calorie-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const dateStr = getDateString(currentDate);
+        const calories = parseInt(button.dataset.calories);
+        const name = button.dataset.name;
+
+        if (!foodLog[dateStr]) {
+          foodLog[dateStr] = [];
+        }
+
+        const existingFoodIndex = foodLog[dateStr].findIndex(entry => entry.name === name);
+        if (existingFoodIndex !== -1) {
+          foodLog[dateStr][existingFoodIndex].calories += calories;
+        } else {
+          foodLog[dateStr].push({ name, calories });
+        }
+
+        updateUI();
+        saveData();
+      });
+    });
+
+    document.getElementById('prev-date-button').addEventListener('click', () => {
+      currentDate.setDate(currentDate.getDate() - 1);
+      updateUI();
+      saveData();
+    });
+
+    document.getElementById('next-date-button').addEventListener('click', () => {
+      currentDate.setDate(currentDate.getDate() + 1);
+      updateUI();
+      saveData();
+    });
+
+    document.getElementById('prev-week-button').addEventListener('click', () => {
+      if (currentWeekIndex > 0) {
+        currentWeekIndex--;
+        updateUI();
+        saveData();
+      }
+    });
+
+    document.getElementById('next-week-button').addEventListener('click', () => {
+      currentWeekIndex++;
+      updateUI();
+      saveData();
+    });
+
+    document.getElementById('food-list').addEventListener('input', () => {
+      saveData();
+    });
+
+    document.getElementById('toggle-view-button').addEventListener('click', toggleView);
+    document.getElementById('export-button').addEventListener('click', exportData);
+    document.getElementById('import-button').addEventListener('change', importData);
+    document.getElementById('reset-week-btn').addEventListener('click', resetCurrentWeek);
+
+    loadData();
+  </script>
+</body>
+</html>
