@@ -70,7 +70,7 @@
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="400" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (400)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="300" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (300)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="200" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (200)</button>
-                <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="100" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (100)</button>
+                <button type="type" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="100" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (100)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="50" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (50)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="20" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (20)</button>
                 <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Food" data-calories="10" data-type="food" data-icon="fas fa-plate-wheat"><i class="fas fa-plate-wheat me-1"></i> Food (10)</button>
@@ -327,7 +327,7 @@
       remainingCalories: 1500
     };
     let currentDate = new Date();
-    let currentWeekIndex = 0;
+    let currentWeekStart = getWeekStart(currentDate);
     let foodLog = {};
     let weightLog = {};
     let isDailyView = true;
@@ -339,8 +339,16 @@
     const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const MS_PER_DAY = 24 * 60 * 60 * 1000;
     const MS_PER_WEEK = MS_PER_DAY * DAYS_PER_WEEK;
-    const startDate = new Date('2025-01-06');
-    startDate.setHours(0, 0, 0, 0);
+
+    // Function to get the Monday of the week containing the given date
+    function getWeekStart(date) {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      const day = d.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+      const daysToMonday = (day + 6) % 7; // Days to subtract to reach Monday
+      d.setDate(d.getDate() - daysToMonday);
+      return d;
+    }
 
     // Function to get the calorie limit for a day
     function getCalorieLimit(date) {
@@ -355,6 +363,15 @@
         day: '2-digit',
         timeZone: 'America/New_York',
       });
+    }
+
+    // Function to check if a date is in the current week
+    function isDateInCurrentWeek(date) {
+      const weekStart = new Date(currentWeekStart);
+      const weekEnd = new Date(weekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      return d >= weekStart && d <= weekEnd;
     }
 
     // Function to save data to local storage
@@ -374,7 +391,7 @@
       localStorage.setItem('foodLog', JSON.stringify(foodLog));
       localStorage.setItem('weightLog', JSON.stringify(weightLog));
       localStorage.setItem('currentDate', dateStr);
-      localStorage.setItem('currentWeekIndex', currentWeekIndex.toString());
+      localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
     }
 
     // Function to export data as JSON
@@ -384,14 +401,12 @@
         const date = new Date(dateStr);
         if (isNaN(date)) return;
         date.setHours(0, 0, 0, 0);
-        const dayOfWeek = date.getDay() || 7;
-        const daysSinceMonday = dayOfWeek - 1;
-        const weekStart = new Date(date.getTime() - daysSinceMonday * MS_PER_DAY);
+        const weekStart = getWeekStart(date);
         const weekStartStr = getDateString(weekStart);
         if (!weekData[weekStartStr]) {
           weekData[weekStartStr] = Array(DAYS_PER_WEEK).fill(0);
         }
-        const dayIndex = daysSinceMonday;
+        const dayIndex = (date.getDay() + 6) % 7; // Monday=0, ..., Sunday=6
         weekData[weekStartStr][dayIndex] = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
       });
 
@@ -460,19 +475,13 @@
         weightLog = {};
       }
 
-      currentDate = new Date();
-      const storedWeekIndex = localStorage.getItem('currentWeekIndex');
-      if (storedWeekIndex) {
-        currentWeekIndex = parseInt(storedWeekIndex);
-      } else {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const dayOfWeek = today.getDay() || 7;
-        const daysSinceMonday = dayOfWeek - 1;
-        const currentMonday = new Date(today.getTime() - daysSinceMonday * MS_PER_DAY);
-        const daysSinceStart = Math.floor((currentMonday - startDate) / MS_PER_DAY);
-        currentWeekIndex = Math.max(0, Math.floor(daysSinceStart / DAYS_PER_WEEK));
-      }
+      const storedDate = localStorage.getItem('currentDate');
+      currentDate = storedDate ? new Date(storedDate) : new Date();
+      currentDate.setHours(0, 0, 0, 0);
+
+      const storedWeekStart = localStorage.getItem('currentWeekStart');
+      currentWeekStart = storedWeekStart ? new Date(storedWeekStart) : getWeekStart(currentDate);
+      currentWeekStart.setHours(0, 0, 0, 0);
 
       updateUI();
     }
@@ -569,6 +578,7 @@
                 return item;
               });
               updateFoodList();
+              if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
               saveData();
             }
           });
@@ -581,11 +591,12 @@
 
           const deleteButton = document.createElement('button');
           deleteButton.classList.add('btn', 'btn-sm', 'btn-danger');
-          deleteButton.innerHTML = '<i class="bi bi-trash"></i>';
+          deleteButton.innerHTML = '<i class="bi-trash"></i>';
 
           deleteButton.addEventListener('click', () => {
             foodLog[dateStr] = foodLog[dateStr].filter(item => !(item.name === entry.name && item.calories === entry.calories));
             updateUI();
+            if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
             saveData();
           });
 
@@ -618,6 +629,7 @@
       weightLog[dateStr] = weight;
       weightInput.value = '';
       updateUI();
+      if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
       saveData();
     }
 
@@ -700,11 +712,10 @@
     }
 
     // Weekly view functions
-    function getWeekData(weekIndex) {
-      const weekStart = new Date(startDate.getTime() + weekIndex * MS_PER_WEEK);
+    function getWeekData() {
       const weekData = Array(DAYS_PER_WEEK).fill(0);
       for (let i = 0; i < DAYS_PER_WEEK; i++) {
-        const day = new Date(weekStart.getTime() + i * MS_PER_DAY);
+        const day = new Date(currentWeekStart.getTime() + i * MS_PER_DAY);
         const dateStr = getDateString(day);
         if (foodLog[dateStr]) {
           weekData[i] = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
@@ -713,11 +724,10 @@
       return weekData;
     }
 
-    function getWeekWeights(weekIndex) {
-      const weekStart = new Date(startDate.getTime() + weekIndex * MS_PER_WEEK);
+    function getWeekWeights() {
       const weekWeights = Array(DAYS_PER_WEEK).fill(null);
       for (let i = 0; i < DAYS_PER_WEEK; i++) {
-        const day = new Date(weekStart.getTime() + i * MS_PER_DAY);
+        const day = new Date(currentWeekStart.getTime() + i * MS_PER_DAY);
         const dateStr = getDateString(day);
         if (weightLog[dateStr]) {
           weekWeights[i] = weightLog[dateStr];
@@ -727,7 +737,7 @@
     }
 
     function updateWeeklyList() {
-      const weekData = getWeekData(currentWeekIndex);
+      const weekData = getWeekData();
       const weeklyListElement = document.getElementById('weekly-list');
       weeklyListElement.innerHTML = weekData.map((calories, index) => {
         if (calories === 0) return '';
@@ -743,7 +753,7 @@
     }
 
     function updateWeeklyWeightList() {
-      const weekWeights = getWeekWeights(currentWeekIndex);
+      const weekWeights = getWeekWeights();
       const weeklyWeightListElement = document.getElementById('weekly-weight-list');
       weeklyWeightListElement.innerHTML = weekWeights.map((weight, index) => {
         if (weight === null) return '';
@@ -756,7 +766,7 @@
     }
 
     function updateWeeklyTotals() {
-      const weekData = getWeekData(currentWeekIndex);
+      const weekData = getWeekData();
       const totalConsumed = weekData.reduce((a, b) => a + b, 0);
       const remainingCalories = TOTAL_WEEKLY_CALORIES - totalConsumed;
       let totalSavedCalories = 0;
@@ -772,7 +782,7 @@
 
     function renderWeeklyChart() {
       const ctx = document.getElementById('weeklyChart').getContext('2d');
-      const weekData = getWeekData(currentWeekIndex);
+      const weekData = getWeekData();
 
       if (weeklyChart) weeklyChart.destroy();
       weeklyChart = new Chart(ctx, {
@@ -803,25 +813,21 @@
     }
 
     function updateWeekDateRange() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const dayOfWeek = today.getDay() || 7;
-      const daysSinceMonday = dayOfWeek - 1;
-      const baseMonday = new Date(today.getTime() - daysSinceMonday * MS_PER_DAY);
-      const weekStart = new Date(baseMonday.getTime() + (currentWeekIndex - Math.floor((today - startDate) / MS_PER_WEEK)) * MS_PER_WEEK);
+      const weekStart = new Date(currentWeekStart);
       const weekEnd = new Date(weekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
       const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}`;
       document.getElementById('week-input').value = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
     }
 
     function updateNavigationButtons() {
-      document.getElementById('prev-week-button').disabled = currentWeekIndex === 0;
+      // Always enable navigation buttons for simplicity
+      document.getElementById('prev-week-button').disabled = false;
       document.getElementById('next-week-button').disabled = false;
     }
 
     function resetCurrentWeek() {
       if (confirm('Are you sure you want to reset this week’s data?')) {
-        const weekStart = new Date(startDate.getTime() + currentWeekIndex * MS_PER_WEEK);
+        const weekStart = new Date(currentWeekStart);
         for (let i = 0; i < DAYS_PER_WEEK; i++) {
           const day = new Date(weekStart.getTime() + i * MS_PER_DAY);
           const dateStr = getDateString(day);
@@ -852,38 +858,40 @@
         }
 
         updateUI();
+        if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
         saveData();
       });
     });
 
     document.getElementById('prev-date-button').addEventListener('click', () => {
       currentDate.setDate(currentDate.getDate() - 1);
+      currentWeekStart = getWeekStart(currentDate);
       updateUI();
       saveData();
     });
 
     document.getElementById('next-date-button').addEventListener('click', () => {
       currentDate.setDate(currentDate.getDate() + 1);
+      currentWeekStart = getWeekStart(currentDate);
       updateUI();
       saveData();
     });
 
     document.getElementById('prev-week-button').addEventListener('click', () => {
-      if (currentWeekIndex > 0) {
-        currentWeekIndex--;
-        updateUI();
-        saveData();
-      }
+      currentWeekStart.setDate(currentWeekStart.getDate() - DAYS_PER_WEEK);
+      updateUI();
+      saveData();
     });
 
     document.getElementById('next-week-button').addEventListener('click', () => {
-      currentWeekIndex++;
+      currentWeekStart.setDate(currentWeekStart.getDate() + DAYS_PER_WEEK);
       updateUI();
       saveData();
     });
 
     document.getElementById('food-list').addEventListener('input', () => {
       saveData();
+      if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
     });
 
     document.getElementById('toggle-view-button').addEventListener('click', toggleView);
