@@ -16,6 +16,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/url-js/2.6.0/url.min.js"></script>
   <style>
     /* Global Styles */
+   
+    /* Global Styles */
     body, html {
       font-family: "Open Sans", sans-serif;
       font-weight: 400;
@@ -207,14 +209,25 @@
       justify-content: center;
       width: 100%;
       margin: 0 auto;
-      padding: 10px 0;
+      padding: 0px 0;
       border: none;
     }
+
+
+.nav-tabs .nav-link.active {
+  border: none;
+  border-color: none !important;;
+}
+
 
     .nav-item {
       margin: 0 10px;
       flex: 0 0 auto;
     }
+
+.nav-item {
+  margin: 0 40px; /* Increases horizontal spacing between tab icons */
+}
 
     .nav-link {
       font-size: 1.2rem;
@@ -274,6 +287,7 @@
       50% { transform: scale(1.05); }
       100% { transform: scale(1); }
     }
+  
   </style>
 </head>
 <body>
