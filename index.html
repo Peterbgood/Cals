@@ -158,6 +158,7 @@
       justify-content: space-between;
       align-items: center;
       cursor: move;
+      touch-action: none; /* Prevent default touch actions like scrolling */
     }
 
     .list-group-item.dragging {
@@ -357,7 +358,7 @@
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Yogurt" data-calories="80" data-type="yogurt" data-icon="fas fa-bowl-food"><i class="fas fa-bowl-food me-1"></i> Yogurt (80)</button>
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Milk" data-calories="150" data-type="milk" data-icon="fas fa-glass-whiskey"><i class="fas fa-glass-whiskey me-1"></i> Milk (150)</button>
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Almond" data-calories="80" data-type="milk" data-icon="fas fa-glass-whiskey"><i class="fas fa-glass-whiskey me-1"></i> Almond (80)</button>
-                  <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Almond" data-calories="30" data-type="milk" data-icon="fas fa-glass-whiskey"><i class="fas fa-glass-whiskey me-1"></i> Almond (30)</button>
+                  <button type="type" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Almond" data-calories="30" data-type="milk" data-icon="fas fa-glass-whiskey"><i class="fas fa-glass-whiskey me-1"></i> Almond (30)</button>
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Cheese" data-calories="80" data-type="cheese" data-icon="fas fa-cheese"><i class="fas fa-cheese me-1"></i> Cheese (80)</button>
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Cheese" data-calories="50" data-type="cheese" data-icon="fas fa-cheese"><i class="fas fa-cheese me-1"></i> Cheese (50)</button>
                 </div>
@@ -470,7 +471,7 @@
                 <div class="accordion-body">
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Donut" data-calories="240" data-type="donut" data-icon="fas fa-circle"><i class="fas fa-circle me-1"></i> Donut (240)</button>
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Biscuit" data-calories="470" data-type="biscuit" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Sausage (470)</button>
-                  <button type="type" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Biscuit" data-calories="400" data-type="biscuit" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Biscuit (400)</button>
+                  <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Biscuit" data-calories="400" data-type="biscuit" data-icon="fas fa-bread-slice"><i class="fas fa-bread-slice me-1"></i> Biscuit (400)</button>
                   <button type="button" class="btn btn-primary add-calorie-button m-1 animate__animated animate__pulse" data-name="Wrap" data-calories="210" data-type="wrap" data-icon="fas fa-taco"><i class="fas fa-taco me-1"></i> Wrap (210)</button>
                 </div>
               </div>
@@ -767,11 +768,14 @@
       }
     }
 
-    // Function to setup drag and drop for food list
+    // Function to setup drag and drop for food list (desktop and mobile)
     function setupDragAndDrop() {
       const foodListElement = document.getElementById('food-list');
       let draggedItem = null;
+      let touchStartY = 0;
+      let touchTarget = null;
 
+      // Desktop drag-and-drop events
       foodListElement.addEventListener('dragstart', (e) => {
         if (e.target.classList.contains('list-group-item')) {
           draggedItem = e.target;
@@ -801,6 +805,60 @@
 
       foodListElement.addEventListener('dragenter', (e) => {
         e.preventDefault();
+      });
+
+      // Mobile touch events
+      foodListElement.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.list-group-item')) {
+          draggedItem = e.target.closest('.list-group-item');
+          draggedItem.classList.add('dragging');
+          touchStartY = e.touches[0].clientY;
+          touchTarget = draggedItem;
+          // Prevent scrolling while dragging
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      foodListElement.addEventListener('touchmove', (e) => {
+        if (!draggedItem) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const touchY = touch.clientY;
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        const targetItem = target ? target.closest('.list-group-item') : null;
+
+        if (targetItem && targetItem !== draggedItem) {
+          const rect = targetItem.getBoundingClientRect();
+          const next = (touchY - rect.top) / (rect.bottom - rect.top) > 0.5;
+          foodListElement.insertBefore(draggedItem, next && targetItem.nextSibling || targetItem);
+        }
+
+        // Visual feedback for dragging
+        draggedItem.style.position = 'relative';
+        draggedItem.style.transform = `translateY(${touchY - touchStartY}px)`;
+      }, { passive: false });
+
+      foodListElement.addEventListener('touchend', () => {
+        if (draggedItem) {
+          draggedItem.classList.remove('dragging');
+          draggedItem.style.position = '';
+          draggedItem.style.transform = '';
+          draggedItem = null;
+          touchTarget = null;
+          updateFoodLogOrder();
+          saveData();
+        }
+      });
+
+      // Prevent default touch behavior on list items to avoid conflicts
+      foodListElement.addEventListener('touchcancel', () => {
+        if (draggedItem) {
+          draggedItem.classList.remove('dragging');
+          draggedItem.style.position = '';
+          draggedItem.style.transform = '';
+          draggedItem = null;
+          touchTarget = null;
+        }
       });
     }
 
@@ -1111,125 +1169,78 @@
     function updateWeekDateRange() {
       const weekStart = new Date(currentWeekStart);
       const weekEnd = new Date(weekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
-      const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}`;
-      document.getElementById('week-input').value = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+      const options = {
+        month: '2-digit',
+        day: '2-digit',
+        timeZone: 'America/New_York',
+      };
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      const weekYear = weekStart.getFullYear();
+      const weekNum = getWeekNumber(weekStart);
+      document.getElementById('week-input').value = `${formatter.format(weekStart)} - ${formatter.format(weekEnd)}, Week ${weekNum}, ${weekYear}`;
     }
 
-    function updateNavigationButtons() {
-      document.getElementById('prev-week-button').disabled = false;
-      document.getElementById('next-week-button').disabled = false;
-    }
-
-    function resetCurrentWeek() {
-      if (confirm('Are you sure you want to reset this week’s calorie data?')) {
-        const weekStart = new Date(currentWeekStart);
-        for (let i = 0; i < DAYS_PER_WEEK; i++) {
-          const day = new Date(weekStart.getTime() + i * MS_PER_DAY);
-          const dateStr = getDateString(day);
-          delete foodLog[dateStr];
-        }
-        updateUI();
-        saveData();
+    function resetWeek() {
+      for (let i = 0; i < DAYS_PER_WEEK; i++) {
+        const day = new Date(currentWeekStart.getTime() + i * MS_PER_DAY);
+        const dateStr = getDateString(day);
+        delete foodLog[dateStr];
       }
+      updateWeeklyUI();
+      if (isDateInCurrentWeek(currentDate)) updateDailyUI();
+      saveData();
     }
 
     // Weight view functions
-    function getThreeMonthWeightData() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const threeMonthsAgo = new Date(today.getTime() - THREE_MONTHS_MS);
-      
-      const weightData = [];
-      Object.keys(weightLog).forEach(dateStr => {
-        const date = new Date(dateStr);
-        if (isNaN(date)) return;
-        date.setHours(0, 0, 0, 0);
-        if (date >= threeMonthsAgo && date <= today) {
-          weightData.push({
-            date: date,
-            weight: weightLog[dateStr]
-          });
-        }
-      });
-
-      // Sort by date
-      weightData.sort((a, b) => a.date - b.date);
-      
-      return {
-        labels: weightData.map(entry => getDateString(entry.date)),
-        weights: weightData.map(entry => entry.weight)
-      };
-    }
-
     function updateWeightList() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const threeMonthsAgo = new Date(today.getTime() - THREE_MONTHS_MS);
-      
-      const weightData = [];
-      Object.keys(weightLog).forEach(dateStr => {
-        const date = new Date(dateStr);
-        if (isNaN(date)) return;
-        date.setHours(0, 0, 0, 0);
-        if (date >= threeMonthsAgo && date <= today) {
-          weightData.push({
-            date: date,
-            weight: weightLog[dateStr]
-          });
-        }
-      });
-
-      // Sort by date in descending order (most recent first)
-      weightData.sort((a, b) => b.date - a.date);
-
       const weightListElement = document.getElementById('weight-list');
       weightListElement.innerHTML = '';
+      const sortedDates = Object.keys(weightLog).sort((a, b) => new Date(b) - new Date(a));
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const threeMonthsAgo = new Date(today.getTime() - THREE_MONTHS_MS);
 
-      // Group by weeks
-      const weeks = {};
-      weightData.forEach(entry => {
-        const weekStart = getWeekStart(entry.date);
-        const weekStartStr = getDateString(weekStart);
-        const weekNumber = getWeekNumber(weekStart);
-        if (!weeks[weekStartStr]) {
-          weeks[weekStartStr] = {
-            weekNumber: weekNumber,
-            days: []
-          };
-        }
-        weeks[weekStartStr].days.push({ date: getDateString(entry.date), weight: entry.weight, rawDate: entry.date });
-      });
-
-      // Sort weeks by week start date in descending order
-      const sortedWeekStarts = Object.keys(weeks).sort((a, b) => new Date(b) - new Date(a));
-
-      sortedWeekStarts.forEach(weekStartStr => {
-        const week = weeks[weekStartStr];
-        const weekStart = new Date(weekStartStr);
-        const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-        weightListElement.innerHTML += `
-          <li class="list-group-item week-divider">Week ${week.weekNumber} (${formatDate(weekStart)})</li>
-        `;
-        // Sort days within the week in descending order
-        week.days.sort((a, b) => b.rawDate - a.rawDate);
-        week.days.forEach(day => {
-          const dayIndex = (new Date(day.date).getDay() + 6) % 7; // Monday=0, ..., Sunday=6
-          weightListElement.innerHTML += `
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              ${DAYS_OF_WEEK[dayIndex]} ${day.date}: ${day.weight} lbs
-            </li>
+      sortedDates.forEach(dateStr => {
+        const date = new Date(dateStr);
+        if (isNaN(date)) return;
+        date.setHours(0, 0, 0, 0);
+        if (date >= threeMonthsAgo && date <= today) {
+          const weight = weightLog[dateStr];
+          const li = document.createElement('li');
+          li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+          li.innerHTML = `
+            ${dateStr}: ${weight} lbs
+            <button class="btn btn-sm btn-danger"><i class="bi-trash"></i></button>
           `;
-        });
+          li.querySelector('button').addEventListener('click', () => {
+            delete weightLog[dateStr];
+            updateWeightUI();
+            if (dateStr === getDateString(currentDate)) updateDailyUI();
+            saveData();
+          });
+          weightListElement.appendChild(li);
+        }
       });
     }
 
     function renderWeightChart() {
       const ctx = document.getElementById('weightChart').getContext('2d');
-      const { labels, weights } = getThreeMonthWeightData();
+      const sortedDates = Object.keys(weightLog).sort((a, b) => new Date(a) - new Date(b));
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const threeMonthsAgo = new Date(today.getTime() - THREE_MONTHS_MS);
+      const labels = [];
+      const weights = [];
 
-      const minWeight = weights.length > 0 ? Math.min(...weights) : 100;
-      const maxWeight = weights.length > 0 ? Math.max(...weights) : 200;
-      const padding = (maxWeight - minWeight) * 0.1 || 10;
+      sortedDates.forEach(dateStr => {
+        const date = new Date(dateStr);
+        if (isNaN(date)) return;
+        date.setHours(0, 0, 0, 0);
+        if (date >= threeMonthsAgo && date <= today) {
+          labels.push(dateStr);
+          weights.push(weightLog[dateStr]);
+        }
+      });
 
       if (weightChart) weightChart.destroy();
       weightChart = new Chart(ctx, {
@@ -1239,12 +1250,10 @@
           datasets: [{
             label: 'Weight (lbs)',
             data: weights,
-            borderColor: 'rgba(75, 94, 170, 1)',
-            backgroundColor: 'rgba(75, 94, 170, 0.2)',
-            fill: false,
-            tension: 0.1,
-            pointRadius: 4,
-            pointHoverRadius: 6
+            borderColor: '#2B4A8C',
+            backgroundColor: 'rgba(43, 74, 140, 0.2)',
+            fill: true,
+            tension: 0.4
           }]
         },
         options: {
@@ -1252,113 +1261,110 @@
           maintainAspectRatio: false,
           scales: {
             x: {
-              title: {
-                display: true,
-                text: 'Date'
-              },
               ticks: {
-                maxTicksLimit: 8,
-                autoSkip: true,
-                maxRotation: 45,
-                minRotation: 0
+                maxTicksLimit: 10
               }
             },
             y: {
-              title: {
-                display: true,
-                text: 'Weight (lbs)'
-              },
-              min: minWeight - padding,
-              max: maxWeight + padding,
-              beginAtZero: false
-            }
-          },
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: (context) => `${context.raw} lbs`
-              }
-            },
-            legend: {
-              display: true
+              beginAtZero: false,
+              suggestedMin: Math.min(...weights) - 10,
+              suggestedMax: Math.max(...weights) + 10
             }
           }
         }
       });
     }
 
+    // Navigation button updates
+    function updateNavigationButtons() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const currentWeekEnd = new Date(currentWeekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
+      const nextWeekButton = document.getElementById('next-week-button');
+      nextWeekButton.disabled = currentWeekEnd >= today;
+    }
+
     // Event listeners
-    document.querySelectorAll('.add-calorie-button').forEach(button => {
-      button.addEventListener('click', () => {
-        const dateStr = getDateString(currentDate);
-        const calories = parseInt(button.dataset.calories);
-        const name = button.dataset.name;
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
 
-        if (!foodLog[dateStr]) {
-          foodLog[dateStr] = [];
-        }
-
-        const existingFoodIndex = foodLog[dateStr].findIndex(entry => entry.name === name);
-        if (existingFoodIndex !== -1) {
-          foodLog[dateStr][existingFoodIndex].calories += calories;
-        } else {
-          foodLog[dateStr].push({ name, calories });
-        }
-
-        updateUI();
+      // Daily view navigation
+      document.getElementById('prev-date-button').addEventListener('click', () => {
+        currentDate.setDate(currentDate.getDate() - 1);
+        updateDailyUI();
         if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
         saveData();
       });
-    });
 
-    document.getElementById('prev-date-button').addEventListener('click', () => {
-      currentDate.setDate(currentDate.getDate() - 1);
-      currentWeekStart = getWeekStart(currentDate);
-      updateUI();
-      saveData();
-    });
+      document.getElementById('next-date-button').addEventListener('click', () => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (currentDate.getTime() < today.getTime()) {
+          currentDate.setDate(currentDate.getDate() + 1);
+          updateDailyUI();
+          if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
+          saveData();
+        }
+      });
 
-    document.getElementById('next-date-button').addEventListener('click', () => {
-      currentDate.setDate(currentDate.getDate() + 1);
-      currentWeekStart = getWeekStart(currentDate);
-      updateUI();
-      saveData();
-    });
+      // Weekly view navigation
+      document.getElementById('prev-week-button').addEventListener('click', () => {
+        currentWeekStart.setDate(currentWeekStart.getDate() - DAYS_PER_WEEK);
+        updateWeeklyUI();
+        saveData();
+      });
 
-    document.getElementById('prev-week-button').addEventListener('click', () => {
-      currentWeekStart.setDate(currentWeekStart.getDate() - DAYS_PER_WEEK);
-      updateUI();
-      saveData();
-    });
+      document.getElementById('next-week-button').addEventListener('click', () => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const nextWeekStart = new Date(currentWeekStart.getTime() + MS_PER_WEEK);
+        if (nextWeekStart <= today) {
+          currentWeekStart.setDate(currentWeekStart.getDate() + DAYS_PER_WEEK);
+          updateWeeklyUI();
+          saveData();
+        }
+      });
 
-    document.getElementById('next-week-button').addEventListener('click', () => {
-      currentWeekStart.setDate(currentWeekStart.getDate() + DAYS_PER_WEEK);
-      updateUI();
-      saveData();
-    });
+      // Add weight button
+      document.getElementById('add-weight-btn').addEventListener('click', addWeight);
 
-    document.getElementById('food-list').addEventListener('input', () => {
-      saveData();
-      if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
-    });
+      // Add calorie buttons
+      document.querySelectorAll('.add-calorie-button').forEach(button => {
+        button.addEventListener('click', () => {
+          const dateStr = getDateString(currentDate);
+          if (!foodLog[dateStr]) foodLog[dateStr] = [];
+          const name = button.dataset.name;
+          const calories = parseInt(button.dataset.calories);
+          foodLog[dateStr].push({ name, calories });
+          updateDailyUI();
+          if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
+          saveData();
+        });
+      });
 
-    document.getElementById('export-button').addEventListener('click', exportData);
-    document.getElementById('import-button').addEventListener('change', importData);
-    document.getElementById('reset-week-btn').addEventListener('click', resetCurrentWeek);
-    document.getElementById('add-weight-btn').addEventListener('click', addWeight);
-    document.getElementById('weight-input').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') addWeight();
-    });
+      // Reset week button
+      document.getElementById('reset-week-btn').addEventListener('click', resetWeek);
 
-    // Tab change event listeners
-    document.querySelectorAll('#trackerTabs .nav-link').forEach(tab => {
-      tab.addEventListener('shown.bs.tab', (e) => {
-        currentView = e.target.id.split('-')[0];
-        updateUI();
+      // Export and import buttons
+      document.getElementById('export-button').addEventListener('click', exportData);
+      document.getElementById('import-button').addEventListener('change', importData);
+
+      // Tab navigation
+      document.getElementById('daily-tab').addEventListener('click', () => {
+        currentView = 'daily';
+        updateDailyUI();
+      });
+
+      document.getElementById('weekly-tab').addEventListener('click', () => {
+        currentView = 'weekly';
+        updateWeeklyUI();
+      });
+
+      document.getElementById('weight-tab').addEventListener('click', () => {
+        currentView = 'weight';
+        updateWeightUI();
       });
     });
-
-    loadData();
   </script>
 </body>
 </html>
