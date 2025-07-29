@@ -57,18 +57,6 @@
         "calories": 10,
         "type": "food",
         "icon": "fas fa-plate-wheat"
-      },
-      {
-        "name": "Tea",
-        "calories": 5,
-        "type": "tea",
-        "icon": "fas fa-mug-hot"
-      },
-      {
-        "name": "Salad",
-        "calories": 150,
-        "type": "salad",
-        "icon": "fas fa-leaf"
       }
     ]
   },
@@ -78,148 +66,28 @@
     "collapseId": "collapseFruits",
     "items": [
       {
-        "name": "1 medium banana",
-        "calories": 90,
+        "name": "Banana",
+        "calories": 100,
         "type": "banana",
         "icon": "fas fa-leaf"
       },
       {
-        "name": "1 medium peach",
-        "calories": 60,
+        "name": "Peach",
+        "calories": 70,
         "type": "peach",
         "icon": "fas fa-leaf"
       },
       {
-        "name": "1 medium avocado",
-        "calories": 230,
+        "name": "Avocado",
+        "calories": 250,
         "type": "avocado",
         "icon": "fas fa-leaf"
       },
       {
-        "name": "1 medium apple",
+        "name": "Apple",
         "calories": 95,
         "type": "apple",
         "icon": "fas fa-apple-alt"
-      },
-      {
-        "name": "1 medium orange",
-        "calories": 62,
-        "type": "orange",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup strawberries",
-        "calories": 50,
-        "type": "strawberry",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup blueberries",
-        "calories": 85,
-        "type": "blueberry",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup mango chunks",
-        "calories": 100,
-        "type": "mango",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup pineapple chunks",
-        "calories": 82,
-        "type": "pineapple",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup grapes (about 15 grapes)",
-        "calories": 60,
-        "type": "grapes",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup watermelon cubes",
-        "calories": 46,
-        "type": "watermelon",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 medium kiwi",
-        "calories": 42,
-        "type": "kiwi",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 medium pear",
-        "calories": 100,
-        "type": "pear",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup cherries (about 10 cherries)",
-        "calories": 77,
-        "type": "cherry",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 medium pomegranate",
-        "calories": 105,
-        "type": "pomegranate",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup raspberries",
-        "calories": 65,
-        "type": "raspberry",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup blackberries",
-        "calories": 62,
-        "type": "blackberry",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 cup cantaloupe cubes",
-        "calories": 54,
-        "type": "cantaloupe",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 medium grapefruit",
-        "calories": 52,
-        "type": "grapefruit",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 medium plum",
-        "calories": 30,
-        "type": "plum",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 medium apricot",
-        "calories": 17,
-        "type": "apricot",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 medium lemon",
-        "calories": 17,
-        "type": "lemon",
-        "icon": "fas fa-lemon"
-      },
-      {
-        "name": "1 medium tangerine",
-        "calories": 47,
-        "type": "tangerine",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "1 medium nectarine",
-        "calories": 60,
-        "type": "nectarine",
-        "icon": "fas fa-leaf"
       }
     ]
   },
@@ -247,22 +115,28 @@
         "icon": "fas fa-glass-whiskey"
       },
       {
-        "name": "Almond Milk",
+        "name": "Almond",
+        "calories": 80,
+        "type": "milk",
+        "icon": "fas fa-glass-whiskey"
+      },
+      {
+        "name": "Almond",
         "calories": 30,
         "type": "milk",
         "icon": "fas fa-glass-whiskey"
       },
       {
-        "name": "Cheddar Cheese",
-        "calories": 110,
+        "name": "Cheese",
+        "calories": 80,
         "type": "cheese",
         "icon": "fas fa-cheese"
       },
       {
-        "name": "Greek Yogurt",
-        "calories": 100,
-        "type": "yogurt",
-        "icon": "fas fa-bowl-food"
+        "name": "Cheese",
+        "calories": 50,
+        "type": "cheese",
+        "icon": "fas fa-cheese"
       }
     ]
   },
@@ -272,28 +146,28 @@
     "collapseId": "collapseGrains",
     "items": [
       {
-        "name": "Whole Wheat Bread",
+        "name": "Whole",
         "calories": 110,
         "type": "bread",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "White Bread",
+        "name": "Bread",
         "calories": 70,
         "type": "bread",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Rye Bread",
-        "calories": 83,
+        "name": "Bread",
+        "calories": 35,
         "type": "bread",
         "icon": "fas fa-bread-slice"
       },
       {
         "name": "Oat Meal",
-        "calories": 150,
-        "type": "oatmeal",
-        "icon": "fas fa-bowl-food"
+        "calories": 300,
+        "type": "bread",
+        "icon": "fa-solid fa-bowl-food"
       }
     ]
   },
@@ -316,7 +190,7 @@
       },
       {
         "name": "Beans",
-        "calories": 110,
+        "calories": 440,
         "type": "beans",
         "icon": "fas fa-seedling"
       },
@@ -346,19 +220,19 @@
       },
       {
         "name": "Oreo",
-        "calories": 160,
+        "calories": 340,
         "type": "dessert",
         "icon": "fas fa-cookie"
       },
       {
-        "name": "Andes Mint",
+        "name": "Andes",
         "calories": 25,
         "type": "chocolate",
         "icon": "fas fa-candy-cane"
       },
       {
-        "name": "Hershey's Bar",
-        "calories": 210,
+        "name": "Hersheys",
+        "calories": 15,
         "type": "chocolate",
         "icon": "fas fa-square"
       }
@@ -370,148 +244,52 @@
     "collapseId": "collapseChickfila",
     "items": [
       {
-        "name": "Deluxe Sandwich",
+        "name": "Deluxe",
         "calories": 490,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "Chicken Sandwich",
+        "name": "Sandwich",
         "calories": 440,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "Chicken Strips (4-count)",
+        "name": "Strips",
         "calories": 410,
         "type": "chicken",
         "icon": "fas fa-drumstick-bite"
       },
       {
-        "name": "Chicken Biscuit",
+        "name": "Biscuit",
         "calories": 460,
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Waffle Fries (Medium)",
-        "calories": 420,
+        "name": "Fries",
+        "calories": 440,
         "type": "fries",
         "icon": "fas fa-french-fries"
       },
       {
-        "name": "Zesty Buffalo Sauce",
+        "name": "Zesty",
         "calories": 25,
         "type": "sauce",
         "icon": "fas fa-pepper-hot"
       },
       {
-        "name": "Vanilla Milkshake",
-        "calories": 580,
+        "name": "Shake",
+        "calories": 560,
         "type": "shake",
         "icon": "fas fa-ice-cream"
       },
       {
-        "name": "Lemonade (Medium)",
-        "calories": 300,
-        "type": "drink",
-        "icon": "fas fa-lemon"
-      },
-      {
-        "name": "Grilled Chicken Club",
-        "calories": 520,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Grilled Nuggets (12-count)",
-        "calories": 200,
-        "type": "chicken",
-        "icon": "fas fa-drumstick-bite"
-      },
-      {
-        "name": "Cool Wrap",
-        "calories": 350,
-        "type": "wrap",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Market Salad with Grilled Chicken",
+        "name": "Lemon",
         "calories": 320,
-        "type": "salad",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "Cobb Salad with Nuggets",
-        "calories": 890,
-        "type": "salad",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "Icedream Cup",
-        "calories": 260,
-        "type": "dessert",
-        "icon": "fas fa-ice-cream"
-      },
-      {
-        "name": "Chocolate Chunk Cookie",
-        "calories": 370,
-        "type": "dessert",
-        "icon": "fas fa-cookie"
-      },
-      {
-        "name": "Frosted Coffee",
-        "calories": 260,
-        "type": "coffee",
-        "icon": "fas fa-mug-hot"
-      },
-      {
-        "name": "Hash Brown Scramble Burrito",
-        "calories": 650,
-        "type": "burrito",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Egg White Grill",
-        "calories": 300,
-        "type": "sandwich",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Chick-fil-A Sauce",
-        "calories": 140,
-        "type": "sauce",
-        "icon": "fas fa-pepper-hot"
-      },
-      {
-        "name": "Sweet Iced Tea (Medium)",
-        "calories": 170,
-        "type": "drink",
-        "icon": "fas fa-glass-whiskey"
-      },
-      {
-        "name": "Hashbrowns",
-        "calories": 270,
-        "type": "breakfast",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Spicy Grilled Deluxe",
-        "calories": 520,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Kale Crunch Side",
-        "calories": 170,
-        "type": "salad",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "Cookies & Cream Milkshake",
-        "calories": 630,
         "type": "shake",
-        "icon": "fas fa-ice-cream"
+        "icon": "fas fa-lemon"
       }
     ]
   },
@@ -522,183 +300,33 @@
     "items": [
       {
         "name": "Big Mac",
-        "calories": 590,
+        "calories": 550,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "French Fries (Medium)",
-        "calories": 340,
+        "name": "Fries",
+        "calories": 440,
         "type": "fries",
         "icon": "fas fa-french-fries"
       },
       {
-        "name": "Quarter Pounder with Cheese",
+        "name": "Quarter",
         "calories": 520,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "Egg McMuffin",
-        "calories": 310,
+        "name": "McMuffin",
+        "calories": 480,
         "type": "sandwich",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Chicken McNuggets (10-piece)",
+        "name": "Nuggets",
         "calories": 410,
         "type": "chicken",
         "icon": "fas fa-drumstick-bite"
-      },
-      {
-        "name": "Cheeseburger",
-        "calories": 300,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "McChicken",
-        "calories": 400,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Filet-O-Fish",
-        "calories": 390,
-        "type": "sandwich",
-        "icon": "fas fa-fish"
-      },
-      {
-        "name": "Apple Pie",
-        "calories": 230,
-        "type": "dessert",
-        "icon": "fas fa-cookie"
-      },
-      {
-        "name": "McFlurry with Oreo",
-        "calories": 510,
-        "type": "dessert",
-        "icon": "fas fa-ice-cream"
-      },
-      {
-        "name": "Soft Serve Cone",
-        "calories": 200,
-        "type": "dessert",
-        "icon": "fas fa-ice-cream"
-      },
-      {
-        "name": "Chocolate Shake (Medium)",
-        "calories": 650,
-        "type": "shake",
-        "icon": "fas fa-ice-cream"
-      },
-      {
-        "name": "Vanilla Shake (Medium)",
-        "calories": 600,
-        "type": "shake",
-        "icon": "fas fa-ice-cream"
-      },
-      {
-        "name": "Sausage Burrito",
-        "calories": 300,
-        "type": "burrito",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Hash Browns",
-        "calories": 150,
-        "type": "breakfast",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Sausage McMuffin",
-        "calories": 400,
-        "type": "sandwich",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "McDouble",
-        "calories": 400,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Chicken McNuggets (6-piece)",
-        "calories": 250,
-        "type": "chicken",
-        "icon": "fas fa-drumstick-bite"
-      },
-      {
-        "name": "Sweet Tea (Medium)",
-        "calories": 130,
-        "type": "drink",
-        "icon": "fas fa-glass-whiskey"
-      },
-      {
-        "name": "Coca-Cola (Medium)",
-        "calories": 200,
-        "type": "drink",
-        "icon": "fas fa-glass-whiskey"
-      },
-      {
-        "name": "Hot Coffee (Medium)",
-        "calories": 140,
-        "type": "coffee",
-        "icon": "fas fa-mug-hot"
-      },
-      {
-        "name": "Iced Coffee (Medium)",
-        "calories": 180,
-        "type": "coffee",
-        "icon": "fas fa-mug-hot"
-      },
-      {
-        "name": "BBQ Sauce",
-        "calories": 50,
-        "type": "sauce",
-        "icon": "fas fa-pepper-hot"
-      },
-      {
-        "name": "Ranch Sauce",
-        "calories": 110,
-        "type": "sauce",
-        "icon": "fas fa-pepper-hot"
-      },
-      {
-        "name": "Breakfast Bagel",
-        "calories": 550,
-        "type": "sandwich",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "McGriddle",
-        "calories": 430,
-        "type": "sandwich",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Side Salad",
-        "calories": 20,
-        "type": "salad",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "Apple Slices",
-        "calories": 15,
-        "type": "fruit",
-        "icon": "fas fa-apple-alt"
-      },
-      {
-        "name": "Hotcakes",
-        "calories": 590,
-        "type": "breakfast",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Sausage Biscuit",
-        "calories": 460,
-        "type": "biscuit",
-        "icon": "fas fa-bread-slice"
       }
     ]
   },
@@ -714,52 +342,10 @@
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "French Fries (Medium)",
-        "calories": 380,
+        "name": "Fries",
+        "calories": 440,
         "type": "fries",
         "icon": "fas fa-french-fries"
-      },
-      {
-        "name": "Cheeseburger",
-        "calories": 300,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Double Whopper",
-        "calories": 900,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Chicken Nuggets (8-piece)",
-        "calories": 390,
-        "type": "chicken",
-        "icon": "fas fa-drumstick-bite"
-      },
-      {
-        "name": "Impossible Whopper",
-        "calories": 630,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Onion Rings (Medium)",
-        "calories": 410,
-        "type": "side",
-        "icon": "fas fa-circle"
-      },
-      {
-        "name": "Hershey's Sundae Pie",
-        "calories": 310,
-        "type": "dessert",
-        "icon": "fas fa-cookie"
-      },
-      {
-        "name": "Soft Drink (Medium)",
-        "calories": 200,
-        "type": "drink",
-        "icon": "fas fa-glass-whiskey"
       }
     ]
   },
@@ -775,32 +361,8 @@
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "French Fries (Medium)",
+        "name": "Fries",
         "calories": 440,
-        "type": "fries",
-        "icon": "fas fa-french-fries"
-      },
-      {
-        "name": "Freddy's Original Double",
-        "calories": 680,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Frozen Custard (Single)",
-        "calories": 400,
-        "type": "dessert",
-        "icon": "fas fa-ice-cream"
-      },
-      {
-        "name": "Chicken Tenders (3-piece)",
-        "calories": 360,
-        "type": "chicken",
-        "icon": "fas fa-drumstick-bite"
-      },
-      {
-        "name": "Chili Cheese Fries",
-        "calories": 600,
         "type": "fries",
         "icon": "fas fa-french-fries"
       }
@@ -812,76 +374,28 @@
     "collapseId": "collapseDunkin",
     "items": [
       {
-        "name": "Glazed Donut",
+        "name": "Donut",
         "calories": 240,
         "type": "donut",
         "icon": "fas fa-circle"
       },
       {
-        "name": "Sausage Biscuit",
+        "name": "Biscuit",
         "calories": 470,
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Egg and Cheese Biscuit",
+        "name": "Biscuit",
         "calories": 400,
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Wake-Up Wrap",
+        "name": "Wrap",
         "calories": 210,
         "type": "wrap",
         "icon": "fas fa-taco"
-      },
-      {
-        "name": "Chocolate Frosted Donut",
-        "calories": 260,
-        "type": "donut",
-        "icon": "fas fa-circle"
-      },
-      {
-        "name": "Iced Coffee (Medium)",
-        "calories": 180,
-        "type": "coffee",
-        "icon": "fas fa-mug-hot"
-      },
-      {
-        "name": "Frozen Chocolate (Medium)",
-        "calories": 900,
-        "type": "shake",
-        "icon": "fas fa-ice-cream"
-      },
-      {
-        "name": "Boston Kreme Donut",
-        "calories": 300,
-        "type": "donut",
-        "icon": "fas fa-circle"
-      },
-      {
-        "name": "Bagel with Cream Cheese",
-        "calories": 360,
-        "type": "bagel",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Munchkins (10-piece)",
-        "calories": 700,
-        "type": "donut",
-        "icon": "fas fa-circle"
-      },
-      {
-        "name": "Hash Browns",
-        "calories": 140,
-        "type": "breakfast",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Hot Latte (Medium)",
-        "calories": 250,
-        "type": "coffee",
-        "icon": "fas fa-mug-hot"
       }
     ]
   },
@@ -891,40 +405,16 @@
     "collapseId": "collapseSalsaritas",
     "items": [
       {
-        "name": "Chicken Quesadilla",
+        "name": "Quesa",
         "calories": 590,
         "type": "quesadilla",
         "icon": "fas fa-cheese"
       },
       {
-        "name": "Burrito Bowl",
+        "name": "Bowl",
         "calories": 800,
         "type": "bowl",
         "icon": "fas fa-bowl-food"
-      },
-      {
-        "name": "Chicken Burrito",
-        "calories": 780,
-        "type": "burrito",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Steak Taco",
-        "calories": 220,
-        "type": "taco",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Chips and Salsa",
-        "calories": 250,
-        "type": "side",
-        "icon": "fas fa-cheese"
-      },
-      {
-        "name": "Veggie Burrito",
-        "calories": 650,
-        "type": "burrito",
-        "icon": "fas fa-taco"
       }
     ]
   },
@@ -934,136 +424,16 @@
     "collapseId": "collapseTacoBell",
     "items": [
       {
-        "name": "Chicken Quesadilla",
+        "name": "Quesa",
         "calories": 510,
         "type": "quesadilla",
         "icon": "fas fa-cheese"
       },
       {
-        "name": "Beef Chalupa Supreme",
+        "name": "Chalupa",
         "calories": 360,
         "type": "taco",
         "icon": "fas fa-taco"
-      },
-      {
-        "name": "Crunchy Taco",
-        "calories": 170,
-        "type": "taco",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Soft Taco",
-        "calories": 200,
-        "type": "taco",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Burrito Supreme",
-        "calories": 400,
-        "type": "burrito",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Mexican Pizza",
-        "calories": 550,
-        "type": "pizza",
-        "icon": "fas fa-pizza-slice"
-      },
-      {
-        "name": "Cheesy Gordita Crunch",
-        "calories": 500,
-        "type": "taco",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Nachos BellGrande",
-        "calories": 740,
-        "type": "nachos",
-        "icon": "fas fa-cheese"
-      },
-      {
-        "name": "Crunchwrap Supreme",
-        "calories": 530,
-        "type": "wrap",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Beefy 5-Layer Burrito",
-        "calories": 490,
-        "type": "burrito",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Cinnamon Twists",
-        "calories": 170,
-        "type": "dessert",
-        "icon": "fas fa-cookie"
-      },
-      {
-        "name": "Soft Taco Supreme",
-        "calories": 230,
-        "type": "taco",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Chicken Chipotle Melt",
-        "calories": 190,
-        "type": "taco",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Bean Burrito",
-        "calories": 350,
-        "type": "burrito",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Taco Party Pack (12 tacos)",
-        "calories": 2040,
-        "type": "taco",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Cheese Roll-Up",
-        "calories": 180,
-        "type": "wrap",
-        "icon": "fas fa-cheese"
-      },
-      {
-        "name": "Fiesta Veggie Burrito",
-        "calories": 520,
-        "type": "burrito",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Spicy Potato Soft Taco",
-        "calories": 240,
-        "type": "taco",
-        "icon": "fas fa-taco"
-      },
-      {
-        "name": "Chips and Nacho Cheese",
-        "calories": 220,
-        "type": "nachos",
-        "icon": "fas fa-cheese"
-      },
-      {
-        "name": "Baja Blast (Medium)",
-        "calories": 220,
-        "type": "drink",
-        "icon": "fas fa-glass-whiskey"
-      },
-      {
-        "name": "Mild Sauce",
-        "calories": 10,
-        "type": "sauce",
-        "icon": "fas fa-pepper-hot"
-      },
-      {
-        "name": "Hot Sauce",
-        "calories": 10,
-        "type": "sauce",
-        "icon": "fas fa-pepper-hot"
       }
     ]
   }
