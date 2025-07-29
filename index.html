@@ -750,7 +750,8 @@
           const dayIndex = (new Date(day.date).getDay() + 6) % 7; // Monday=0, ..., Sunday=6
           weightListElement.innerHTML += `
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              ${DAYS_OF_WEEK[dayIndex]} ${day.date}: ${day.weight} lbs
+              ${DAYS_OF_WEEK[dayIndex]}
+              <span style="text-align: right;">${day.weight} lbs</span>
             </li>
           `;
         });
