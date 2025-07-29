@@ -177,7 +177,7 @@
     "collapseId": "collapseOther",
     "items": [
       {
-        "name": "Bacon",
+        "name": "Bac",
         "calories": 440,
         "type": "bacon",
         "icon": "fas fa-bacon"
@@ -189,7 +189,7 @@
         "icon": "fas fa-hotdog"
       },
       {
-        "name": "Beans",
+        "name": "Bean",
         "calories": 440,
         "type": "beans",
         "icon": "fas fa-seedling"
@@ -286,7 +286,7 @@
         "icon": "fas fa-ice-cream"
       },
       {
-        "name": "Lemon",
+        "name": "Lem",
         "calories": 320,
         "type": "shake",
         "icon": "fas fa-lemon"
@@ -317,13 +317,13 @@
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "McMuf",
+        "name": "Muf",
         "calories": 480,
         "type": "sandwich",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Nugge",
+        "name": "Nugs",
         "calories": 410,
         "type": "chicken",
         "icon": "fas fa-drumstick-bite"
@@ -405,7 +405,7 @@
     "collapseId": "collapseSalsaritas",
     "items": [
       {
-        "name": "Quesa",
+        "name": "Ques",
         "calories": 590,
         "type": "quesadilla",
         "icon": "fas fa-cheese"
