@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Weight Tracker</title>
-	<link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,13 +46,10 @@
         <div class="mt-2 fw-bold fs-3 text-center text-success">
           Remaining Calories: <span id="remaining-calories" class="badge bg-success">1500</span>
         </div>
-
-        <!-- Calorie Buttons Section -->
         <div class="mt-5 btn-cal">
           <div class="accordion" id="foodAccordion"></div>
         </div>
       </div>
-
       <!-- Weekly View -->
       <div class="tab-pane fade" id="weekly-view" role="tabpanel" aria-labelledby="weekly-tab">
         <h1 class="text-center mb-4 animate__animated animate__fadeIn">Weekly Calorie Tracker</h1>
@@ -74,7 +71,6 @@
           <button class="btn btn-danger mt-2" type="button" id="reset-week-btn">Reset Week</button>
         </div>
       </div>
-
       <!-- Weight View -->
       <div class="tab-pane fade" id="weight-view" role="tabpanel" aria-labelledby="weight-tab">
         <h1 class="text-center mb-4 animate__animated animate__fadeIn">Weight Tracker</h1>
@@ -85,16 +81,12 @@
         <ul id="weight-list" class="list-group my-3"></ul>
       </div>
     </div>
-
-    <!-- Export/Import Buttons Section -->
     <div class="mt-4 text-center">
       <button id="export-button" class="btn btn-success m-2"><i class="fas fa-download me-1"></i> Export Data</button>
       <label for="import-button" class="btn btn-primary m-2"><i class="fas fa-upload me-1"></i> Import Data
         <input type="file" id="import-button" accept=".json" style="display: none;">
       </label>
     </div>
-
-    <!-- Navigation Tabs -->
     <div class="nav-container fixed-bottom">
       <ul class="nav nav-tabs" id="trackerTabs" role="tablist">
         <li class="nav-item" role="presentation">
@@ -109,7 +101,6 @@
       </ul>
     </div>
   </div>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="accordion.js"></script>
   <script>
@@ -123,9 +114,7 @@
     let foodLog = {};
     let weightLog = {};
     let currentView = 'daily';
-
-    // Constants
-    const TOTAL_WEEKLY_CALORIES = 10500; // 1500 * 7
+    const TOTAL_WEEKLY_CALORIES = 10500;
     const DAILY_MAXIMUMS = Array(7).fill(1500);
     const DAYS_PER_WEEK = 7;
     const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -133,17 +122,15 @@
     const MS_PER_WEEK = MS_PER_DAY * DAYS_PER_WEEK;
     const THREE_MONTHS_MS = 90 * MS_PER_DAY;
 
-    // Function to get the Monday of the week containing the given date
     function getWeekStart(date) {
       const d = new Date(date);
       d.setHours(0, 0, 0, 0);
-      const day = d.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
-      const daysToMonday = (day + 6) % 7; // Days to subtract to reach Monday
+      const day = d.getDay();
+      const daysToMonday = (day + 6) % 7;
       d.setDate(d.getDate() - daysToMonday);
       return d;
     }
 
-    // Function to get the week number of the year
     function getWeekNumber(date) {
       const d = new Date(date);
       d.setHours(0, 0, 0, 0);
@@ -152,12 +139,10 @@
       return 1 + Math.round(((d.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
     }
 
-    // Function to get the calorie limit for a day
     function getCalorieLimit(date) {
       return 1500;
     }
 
-    // Function to get the current date string
     function getDateString(date) {
       return date.toLocaleString('en-US', {
         year: 'numeric',
@@ -167,7 +152,6 @@
       });
     }
 
-    // Function to check if a date is in the current week
     function isDateInCurrentWeek(date) {
       const weekStart = new Date(currentWeekStart);
       const weekEnd = new Date(weekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
@@ -176,14 +160,12 @@
       return d >= weekStart && d <= weekEnd;
     }
 
-    // Function to save data to local storage
     function saveData() {
       const dateStr = getDateString(currentDate);
       const foodListElement = document.getElementById('food-list');
       const foodItems = foodListElement.children;
 
       foodLog[dateStr] = [];
-
       Array.from(foodItems).forEach(item => {
         const name = item.children[0].textContent;
         const calories = parseInt(item.children[1].textContent);
@@ -196,7 +178,6 @@
       localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
     }
 
-    // Function to export data as JSON
     function exportData() {
       const weekData = {};
       Object.keys(foodLog).forEach(dateStr => {
@@ -208,7 +189,7 @@
         if (!weekData[weekStartStr]) {
           weekData[weekStartStr] = Array(DAYS_PER_WEEK).fill(0);
         }
-        const dayIndex = (date.getDay() + 6) % 7; // Monday=0, ..., Sunday=6
+        const dayIndex = (date.getDay() + 6) % 7;
         weekData[weekStartStr][dayIndex] = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
       });
 
@@ -223,7 +204,6 @@
       URL.revokeObjectURL(url);
     }
 
-    // Function to import data from JSON
     function importData(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -251,7 +231,6 @@
       reader.readAsText(file);
     }
 
-    // Function to load data from local storage
     function loadData() {
       const storedFoodLog = localStorage.getItem('foodLog');
       if (storedFoodLog) {
@@ -277,20 +256,15 @@
         weightLog = {};
       }
 
-      // Always set to today's date on page load
       currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
-
       currentWeekStart = getWeekStart(currentDate);
       currentWeekStart.setHours(0, 0, 0, 0);
-
-      // Set initial view to daily
       currentView = 'daily';
       updateUI();
       setupDragAndDrop();
     }
 
-    // Function to update UI based on current view
     function updateUI() {
       if (currentView === 'daily') {
         updateDailyUI();
@@ -301,7 +275,6 @@
       }
     }
 
-    // Function to setup drag and drop for food list
     function setupDragAndDrop() {
       const foodListElement = document.getElementById('food-list');
       let draggedItem = null;
@@ -338,7 +311,6 @@
       });
     }
 
-    // Function to update food log order after drag and drop
     function updateFoodLogOrder() {
       const dateStr = getDateString(currentDate);
       const foodListElement = document.getElementById('food-list');
@@ -355,7 +327,6 @@
       if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
     }
 
-    // Function to update daily view UI
     function updateDailyUI() {
       updateTotalCalories();
       updateFoodList();
@@ -364,7 +335,6 @@
       displayCurrentDate();
     }
 
-    // Function to update weekly view UI
     function updateWeeklyUI() {
       updateWeeklyList();
       updateWeeklyTotals();
@@ -373,13 +343,11 @@
       updateNavigationButtons();
     }
 
-    // Function to update weight view UI
     function updateWeightUI() {
       updateWeightList();
       renderWeightChart();
     }
 
-    // Daily view functions
     function updateTotalCalories() {
       const dateStr = getDateString(currentDate);
       const totalCalories = foodLog[dateStr] ? foodLog[dateStr].reduce((acc, item) => acc + item.calories, 0) : 0;
@@ -410,8 +378,25 @@
       foodListElement.innerHTML = '';
 
       if (foodLog[dateStr]) {
-        const coffeeItems = foodLog[dateStr].filter(entry => entry.name.toLowerCase().includes('coffee'));
-        const otherCalories = foodLog[dateStr].filter(entry => !entry.name.toLowerCase().includes('coffee'));
+        // Aggregate food items by name, summing calories
+        const aggregatedFoods = {};
+        foodLog[dateStr].forEach(entry => {
+          const name = entry.name;
+          if (!aggregatedFoods[name]) {
+            aggregatedFoods[name] = { name, calories: 0 };
+          }
+          aggregatedFoods[name].calories += entry.calories;
+        });
+
+        const coffeeItems = [];
+        const otherCalories = [];
+        Object.values(aggregatedFoods).forEach(entry => {
+          if (entry.name.toLowerCase().includes('coffee')) {
+            coffeeItems.push(entry);
+          } else {
+            otherCalories.push(entry);
+          }
+        });
 
         const createListItem = (entry) => {
           const listItem = document.createElement('li');
@@ -427,8 +412,9 @@
             if (e.key === 'Enter') {
               e.preventDefault();
               const newName = nameSpan.textContent;
+              // Update all entries with the old name to the new name
               foodLog[dateStr] = foodLog[dateStr].map(item => {
-                if (item.name === entry.name && item.calories === entry.calories) {
+                if (item.name === entry.name) {
                   item.name = newName;
                 }
                 return item;
@@ -447,7 +433,8 @@
           deleteButton.innerHTML = '<i class="bi-trash"></i>';
 
           deleteButton.addEventListener('click', () => {
-            foodLog[dateStr] = foodLog[dateStr].filter(item => !(item.name === entry.name && item.calories === entry.calories));
+            // Remove all entries with this name
+            foodLog[dateStr] = foodLog[dateStr].filter(item => item.name !== entry.name);
             updateUI();
             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
             saveData();
@@ -564,7 +551,6 @@
       document.getElementById('date-input').value = formatter.format(currentDate);
     }
 
-    // Weekly view functions
     function getWeekData() {
       const weekData = Array(DAYS_PER_WEEK).fill(0);
       for (let i = 0; i < DAYS_PER_WEEK; i++) {
@@ -667,7 +653,6 @@
       }
     }
 
-    // Weight view functions
     function getThreeMonthWeightData() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -686,7 +671,6 @@
         }
       });
 
-      // Sort by date
       weightData.sort((a, b) => a.date - b.date);
       
       return {
@@ -713,13 +697,11 @@
         }
       });
 
-      // Sort by date in descending order (most recent first)
       weightData.sort((a, b) => b.date - a.date);
 
       const weightListElement = document.getElementById('weight-list');
       weightListElement.innerHTML = '';
 
-      // Group by weeks
       const weeks = {};
       weightData.forEach(entry => {
         const weekStart = getWeekStart(entry.date);
@@ -734,7 +716,6 @@
         weeks[weekStartStr].days.push({ date: getDateString(entry.date), weight: entry.weight, rawDate: entry.date });
       });
 
-      // Sort weeks by week start date in descending order
       const sortedWeekStarts = Object.keys(weeks).sort((a, b) => new Date(b) - new Date(a));
 
       sortedWeekStarts.forEach(weekStartStr => {
@@ -744,10 +725,9 @@
         weightListElement.innerHTML += `
           <li class="list-group-item week-divider">Week ${week.weekNumber} (${formatDate(weekStart)})</li>
         `;
-        // Sort days within the week in descending order
         week.days.sort((a, b) => b.rawDate - a.rawDate);
         week.days.forEach(day => {
-          const dayIndex = (new Date(day.date).getDay() + 6) % 7; // Monday=0, ..., Sunday=6
+          const dayIndex = (new Date(day.date).getDay() + 6) % 7;
           weightListElement.innerHTML += `
             <li class="list-group-item d-flex justify-content-between align-items-center">
               ${DAYS_OF_WEEK[dayIndex]}
@@ -822,7 +802,6 @@
       });
     }
 
-    // Event listeners
     document.getElementById('prev-date-button').addEventListener('click', () => {
       currentDate.setDate(currentDate.getDate() - 1);
       currentWeekStart = getWeekStart(currentDate);
@@ -862,7 +841,6 @@
       if (e.key === 'Enter') addWeight();
     });
 
-    // Tab change event listeners
     document.querySelectorAll('#trackerTabs .nav-link').forEach(tab => {
       tab.addEventListener('shown.bs.tab', (e) => {
         currentView = e.target.id.split('-')[0];
