@@ -66,7 +66,7 @@
     "collapseId": "collapseFruits",
     "items": [
       {
-        "name": "Banana",
+        "name": "Ban",
         "calories": 100,
         "type": "banana",
         "icon": "fas fa-leaf"
@@ -78,7 +78,7 @@
         "icon": "fas fa-leaf"
       },
       {
-        "name": "Avocado",
+        "name": "Avoca",
         "calories": 250,
         "type": "avocado",
         "icon": "fas fa-leaf"
@@ -103,7 +103,7 @@
         "icon": "fas fa-egg"
       },
       {
-        "name": "Yogurt",
+        "name": "Yogur",
         "calories": 80,
         "type": "yogurt",
         "icon": "fas fa-bowl-food"
@@ -115,25 +115,25 @@
         "icon": "fas fa-glass-whiskey"
       },
       {
-        "name": "Almond",
+        "name": "Almon",
         "calories": 80,
         "type": "milk",
         "icon": "fas fa-glass-whiskey"
       },
       {
-        "name": "Almond",
+        "name": "Almon",
         "calories": 30,
         "type": "milk",
         "icon": "fas fa-glass-whiskey"
       },
       {
-        "name": "Cheese",
+        "name": "Chees",
         "calories": 80,
         "type": "cheese",
         "icon": "fas fa-cheese"
       },
       {
-        "name": "Cheese",
+        "name": "Chees",
         "calories": 50,
         "type": "cheese",
         "icon": "fas fa-cheese"
@@ -164,7 +164,7 @@
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Oat Meal",
+        "name": "Oat",
         "calories": 300,
         "type": "bread",
         "icon": "fa-solid fa-bowl-food"
@@ -177,13 +177,13 @@
     "collapseId": "collapseOther",
     "items": [
       {
-        "name": "Bacon Bowl",
+        "name": "Bacon",
         "calories": 440,
         "type": "bacon",
         "icon": "fas fa-bacon"
       },
       {
-        "name": "Sausage Bowl",
+        "name": "Sausa",
         "calories": 360,
         "type": "sausage",
         "icon": "fas fa-hotdog"
@@ -201,13 +201,13 @@
         "icon": "fas fa-drumstick-bite"
       },
       {
-        "name": "Peanut",
+        "name": "Peanu",
         "calories": 100,
         "type": "peanut",
         "icon": "fas fa-seedling"
       },
       {
-        "name": "Popsicle",
+        "name": "Pop",
         "calories": 40,
         "type": "popsicle",
         "icon": "fas fa-ice-cream"
@@ -231,7 +231,7 @@
         "icon": "fas fa-candy-cane"
       },
       {
-        "name": "Hersheys",
+        "name": "Hersh",
         "calories": 15,
         "type": "chocolate",
         "icon": "fas fa-square"
@@ -244,25 +244,25 @@
     "collapseId": "collapseChickfila",
     "items": [
       {
-        "name": "Deluxe",
+        "name": "Delux",
         "calories": 490,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "Sandwich",
+        "name": "Sand",
         "calories": 440,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "Strips",
+        "name": "Strip",
         "calories": 410,
         "type": "chicken",
         "icon": "fas fa-drumstick-bite"
       },
       {
-        "name": "Biscuit",
+        "name": "Bisc",
         "calories": 460,
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
@@ -299,7 +299,7 @@
     "collapseId": "collapseMcDonalds",
     "items": [
       {
-        "name": "Big Mac",
+        "name": "Big",
         "calories": 550,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
@@ -311,19 +311,19 @@
         "icon": "fas fa-french-fries"
       },
       {
-        "name": "Quarter",
+        "name": "Quart",
         "calories": 520,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "McMuffin",
+        "name": "McMuf",
         "calories": 480,
         "type": "sandwich",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Nuggets",
+        "name": "Nugge",
         "calories": 410,
         "type": "chicken",
         "icon": "fas fa-drumstick-bite"
@@ -336,7 +336,7 @@
     "collapseId": "collapseBurgerKing",
     "items": [
       {
-        "name": "Whopper",
+        "name": "Whop",
         "calories": 670,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
@@ -355,7 +355,7 @@
     "collapseId": "collapseFreddies",
     "items": [
       {
-        "name": "Lettuce Burger",
+        "name": "Lett",
         "calories": 500,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
@@ -380,13 +380,13 @@
         "icon": "fas fa-circle"
       },
       {
-        "name": "Biscuit",
+        "name": "Bisc",
         "calories": 470,
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Biscuit",
+        "name": "Bisc",
         "calories": 400,
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
@@ -430,7 +430,7 @@
         "icon": "fas fa-cheese"
       },
       {
-        "name": "Chalupa",
+        "name": "Chalu",
         "calories": 360,
         "type": "taco",
         "icon": "fas fa-taco"
