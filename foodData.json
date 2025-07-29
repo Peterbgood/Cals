@@ -382,19 +382,19 @@
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "Chicken Strips",
+        "name": "Chicken Strips (4-count)",
         "calories": 410,
         "type": "chicken",
         "icon": "fas fa-drumstick-bite"
       },
       {
-        "name": "Biscuit",
+        "name": "Chicken Biscuit",
         "calories": 460,
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Waffle Fries",
+        "name": "Waffle Fries (Medium)",
         "calories": 420,
         "type": "fries",
         "icon": "fas fa-french-fries"
@@ -406,16 +406,112 @@
         "icon": "fas fa-pepper-hot"
       },
       {
-        "name": "Milkshake",
+        "name": "Vanilla Milkshake",
         "calories": 580,
         "type": "shake",
         "icon": "fas fa-ice-cream"
       },
       {
-        "name": "Lemonade",
+        "name": "Lemonade (Medium)",
         "calories": 300,
         "type": "drink",
         "icon": "fas fa-lemon"
+      },
+      {
+        "name": "Grilled Chicken Club",
+        "calories": 520,
+        "type": "sandwich",
+        "icon": "fas fa-hamburger"
+      },
+      {
+        "name": "Grilled Nuggets (12-count)",
+        "calories": 200,
+        "type": "chicken",
+        "icon": "fas fa-drumstick-bite"
+      },
+      {
+        "name": "Cool Wrap",
+        "calories": 350,
+        "type": "wrap",
+        "icon": "fas fa-taco"
+      },
+      {
+        "name": "Market Salad with Grilled Chicken",
+        "calories": 320,
+        "type": "salad",
+        "icon": "fas fa-leaf"
+      },
+      {
+        "name": "Cobb Salad with Nuggets",
+        "calories": 890,
+        "type": "salad",
+        "icon": "fas fa-leaf"
+      },
+      {
+        "name": "Icedream Cup",
+        "calories": 260,
+        "type": "dessert",
+        "icon": "fas fa-ice-cream"
+      },
+      {
+        "name": "Chocolate Chunk Cookie",
+        "calories": 370,
+        "type": "dessert",
+        "icon": "fas fa-cookie"
+      },
+      {
+        "name": "Frosted Coffee",
+        "calories": 260,
+        "type": "coffee",
+        "icon": "fas fa-mug-hot"
+      },
+      {
+        "name": "Hash Brown Scramble Burrito",
+        "calories": 650,
+        "type": "burrito",
+        "icon": "fas fa-taco"
+      },
+      {
+        "name": "Egg White Grill",
+        "calories": 300,
+        "type": "sandwich",
+        "icon": "fas fa-bread-slice"
+      },
+      {
+        "name": "Chick-fil-A Sauce",
+        "calories": 140,
+        "type": "sauce",
+        "icon": "fas fa-pepper-hot"
+      },
+      {
+        "name": "Sweet Iced Tea (Medium)",
+        "calories": 170,
+        "type": "drink",
+        "icon": "fas fa-glass-whiskey"
+      },
+      {
+        "name": "Hashbrowns",
+        "calories": 270,
+        "type": "breakfast",
+        "icon": "fas fa-bread-slice"
+      },
+      {
+        "name": "Spicy Grilled Deluxe",
+        "calories": 520,
+        "type": "sandwich",
+        "icon": "fas fa-hamburger"
+      },
+      {
+        "name": "Kale Crunch Side",
+        "calories": 170,
+        "type": "salad",
+        "icon": "fas fa-leaf"
+      },
+      {
+        "name": "Cookies & Cream Milkshake",
+        "calories": 630,
+        "type": "shake",
+        "icon": "fas fa-ice-cream"
       }
     ]
   },
@@ -628,6 +724,42 @@
         "calories": 300,
         "type": "sandwich",
         "icon": "fas fa-hamburger"
+      },
+      {
+        "name": "Double Whopper",
+        "calories": 900,
+        "type": "sandwich",
+        "icon": "fas fa-hamburger"
+      },
+      {
+        "name": "Chicken Nuggets (8-piece)",
+        "calories": 390,
+        "type": "chicken",
+        "icon": "fas fa-drumstick-bite"
+      },
+      {
+        "name": "Impossible Whopper",
+        "calories": 630,
+        "type": "sandwich",
+        "icon": "fas fa-hamburger"
+      },
+      {
+        "name": "Onion Rings (Medium)",
+        "calories": 410,
+        "type": "side",
+        "icon": "fas fa-circle"
+      },
+      {
+        "name": "Hershey's Sundae Pie",
+        "calories": 310,
+        "type": "dessert",
+        "icon": "fas fa-cookie"
+      },
+      {
+        "name": "Soft Drink (Medium)",
+        "calories": 200,
+        "type": "drink",
+        "icon": "fas fa-glass-whiskey"
       }
     ]
   },
@@ -643,8 +775,32 @@
         "icon": "fas fa-hamburger"
       },
       {
-        "name": "Fries",
+        "name": "French Fries (Medium)",
         "calories": 440,
+        "type": "fries",
+        "icon": "fas fa-french-fries"
+      },
+      {
+        "name": "Freddy's Original Double",
+        "calories": 680,
+        "type": "sandwich",
+        "icon": "fas fa-hamburger"
+      },
+      {
+        "name": "Frozen Custard (Single)",
+        "calories": 400,
+        "type": "dessert",
+        "icon": "fas fa-ice-cream"
+      },
+      {
+        "name": "Chicken Tenders (3-piece)",
+        "calories": 360,
+        "type": "chicken",
+        "icon": "fas fa-drumstick-bite"
+      },
+      {
+        "name": "Chili Cheese Fries",
+        "calories": 600,
         "type": "fries",
         "icon": "fas fa-french-fries"
       }
@@ -656,28 +812,76 @@
     "collapseId": "collapseDunkin",
     "items": [
       {
-        "name": "Donut",
+        "name": "Glazed Donut",
         "calories": 240,
         "type": "donut",
         "icon": "fas fa-circle"
       },
       {
-        "name": "Biscuit",
+        "name": "Sausage Biscuit",
         "calories": 470,
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Biscuit",
+        "name": "Egg and Cheese Biscuit",
         "calories": 400,
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
       },
       {
-        "name": "Wrap",
+        "name": "Wake-Up Wrap",
         "calories": 210,
         "type": "wrap",
         "icon": "fas fa-taco"
+      },
+      {
+        "name": "Chocolate Frosted Donut",
+        "calories": 260,
+        "type": "donut",
+        "icon": "fas fa-circle"
+      },
+      {
+        "name": "Iced Coffee (Medium)",
+        "calories": 180,
+        "type": "coffee",
+        "icon": "fas fa-mug-hot"
+      },
+      {
+        "name": "Frozen Chocolate (Medium)",
+        "calories": 900,
+        "type": "shake",
+        "icon": "fas fa-ice-cream"
+      },
+      {
+        "name": "Boston Kreme Donut",
+        "calories": 300,
+        "type": "donut",
+        "icon": "fas fa-circle"
+      },
+      {
+        "name": "Bagel with Cream Cheese",
+        "calories": 360,
+        "type": "bagel",
+        "icon": "fas fa-bread-slice"
+      },
+      {
+        "name": "Munchkins (10-piece)",
+        "calories": 700,
+        "type": "donut",
+        "icon": "fas fa-circle"
+      },
+      {
+        "name": "Hash Browns",
+        "calories": 140,
+        "type": "breakfast",
+        "icon": "fas fa-bread-slice"
+      },
+      {
+        "name": "Hot Latte (Medium)",
+        "calories": 250,
+        "type": "coffee",
+        "icon": "fas fa-mug-hot"
       }
     ]
   },
@@ -687,7 +891,7 @@
     "collapseId": "collapseSalsaritas",
     "items": [
       {
-        "name": "Quesadilla",
+        "name": "Chicken Quesadilla",
         "calories": 590,
         "type": "quesadilla",
         "icon": "fas fa-cheese"
@@ -697,6 +901,30 @@
         "calories": 800,
         "type": "bowl",
         "icon": "fas fa-bowl-food"
+      },
+      {
+        "name": "Chicken Burrito",
+        "calories": 780,
+        "type": "burrito",
+        "icon": "fas fa-taco"
+      },
+      {
+        "name": "Steak Taco",
+        "calories": 220,
+        "type": "taco",
+        "icon": "fas fa-taco"
+      },
+      {
+        "name": "Chips and Salsa",
+        "calories": 250,
+        "type": "side",
+        "icon": "fas fa-cheese"
+      },
+      {
+        "name": "Veggie Burrito",
+        "calories": 650,
+        "type": "burrito",
+        "icon": "fas fa-taco"
       }
     ]
   },
