@@ -373,8 +373,8 @@
         }
 
         function updateWeightUI() {
-            updateWeightList();
             updateWeightMinMax();
+            updateWeightList();
             renderWeightChart();
         }
 
@@ -513,14 +513,20 @@
 
             const colorTransparentRed = 'rgba(255, 99, 132, 0.5)';
             const colorTransparentGreen = 'rgba(75, 192, 192, 0.5)';
+            const colorSolidRed = 'rgba(255, 99, 132, 1)';
+            const colorSolidGreen = 'rgba(75, 192, 192, 1)';
 
             let chartColorsUsed;
-            if (totalCaloriesUsed > calorieLimit) {
+            let borderColorsUsed;
+
+            if (totalCaloriesUsed >= calorieLimit) {
                 chartColorsUsed = [colorTransparentRed];
+                borderColorsUsed = [colorSolidRed];
                 totalCaloriesUsed = calorieLimit;
                 remainingCalories = 0;
             } else {
                 chartColorsUsed = [colorTransparentGreen, 'rgba(200, 200, 200, 0.5)'];
+                borderColorsUsed = [colorSolidGreen, 'rgba(200, 200, 200, 1)'];
             }
 
             if (!dailyChart) {
@@ -531,7 +537,7 @@
                         datasets: [{
                             data: [totalCaloriesUsed, remainingCalories],
                             backgroundColor: chartColorsUsed,
-                            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(200, 200, 200, 1)'],
+                            borderColor: borderColorsUsed,
                             borderWidth: 2,
                             cutout: '50%'
                         }]
@@ -558,7 +564,7 @@
                 dailyChart.data.datasets[0].data[0] = totalCaloriesUsed;
                 dailyChart.data.datasets[0].data[1] = remainingCalories;
                 dailyChart.data.datasets[0].backgroundColor = chartColorsUsed;
-                dailyChart.data.datasets[0].borderColor = ['rgba(75, 192, 192, 1)', 'rgba(200, 200, 200, 1)'];
+                dailyChart.data.datasets[0].borderColor = borderColorsUsed;
                 dailyChart.data.datasets[0].cutout = '50%';
                 dailyChart.update();
             }
@@ -630,6 +636,10 @@
             const backgroundColors = weekData.map(calories => calories > 1500 ? colorTransparentRed : colorTransparentGreen);
             const borderColors = weekData.map(calories => calories > 1500 ? colorSolidRed : colorSolidGreen);
             
+            // Calculate a dynamic max value for the y-axis
+            const maxCalories = Math.max(...weekData, 1500); // Ensure it's at least 1500
+            const yAxisMax = Math.ceil(maxCalories / 500) * 500; // Round up to the nearest 500
+
             if (weeklyChart) weeklyChart.destroy();
             weeklyChart = new Chart(ctx, {
                 type: 'bar',
@@ -647,7 +657,10 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: { max: 3000, beginAtZero: true }
+                        y: {
+                            beginAtZero: true,
+                            max: yAxisMax,
+                        }
                     },
                     plugins: {
                         tooltip: {
