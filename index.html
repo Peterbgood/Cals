@@ -79,6 +79,20 @@
             </div>
             <div class="tab-pane fade" id="weight-view" role="tabpanel" aria-labelledby="weight-tab">
                 <h1 class="text-center mb-4 animate__animated animate__fadeIn">Weight Tracker</h1>
+                <div class="d-flex justify-content-center gap-3 mb-4">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Lowest Weight</h5>
+                            <p id="lowest-weight-display" class="card-text fs-4 fw-bold">--</p>
+                        </div>
+                    </div>
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Highest Weight</h5>
+                            <p id="highest-weight-display" class="card-text fs-4 fw-bold">--</p>
+                        </div>
+                    </div>
+                </div>
                 <h2 class="text-center mt-4 mb-3">Weight Trend (Last 3 Months)</h2>
                 <div class="chart-container">
                     <canvas id="weightChart"></canvas>
@@ -353,7 +367,6 @@
             updateNavigationButtons();
         }
 
-        // New function for the Weekly Totals view
         function updateWeeklyTotalsUI() {
             updateWeeklyTotalsList();
             renderWeeklyTotalsChart();
@@ -361,6 +374,7 @@
 
         function updateWeightUI() {
             updateWeightList();
+            updateWeightMinMax();
             renderWeightChart();
         }
 
@@ -394,7 +408,6 @@
             foodListElement.innerHTML = '';
 
             if (foodLog[dateStr]) {
-                // Aggregate food items by name, summing calories
                 const aggregatedFoods = {};
                 foodLog[dateStr].forEach(entry => {
                     const name = entry.name;
@@ -428,7 +441,6 @@
                         if (e.key === 'Enter') {
                             e.preventDefault();
                             const newName = nameSpan.textContent;
-                            // Update all entries with the old name to the new name
                             foodLog[dateStr] = foodLog[dateStr].map(item => {
                                 if (item.name === entry.name) {
                                     item.name = newName;
@@ -449,7 +461,6 @@
                     deleteButton.innerHTML = '<i class="bi-trash"></i>';
 
                     deleteButton.addEventListener('click', () => {
-                        // Remove all entries with this name
                         foodLog[dateStr] = foodLog[dateStr].filter(item => item.name !== entry.name);
                         updateUI();
                         if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
@@ -500,19 +511,16 @@
                 remainingCalories = calorieLimit;
             }
 
-            const chartColors = {
-                used: { backgroundColor: '#2B4A8C', borderColor: '#FFFFFF' },
-                remaining: { backgroundColor: '#E6E6E6', borderColor: '#FFFFFF' },
-                overLimit: { backgroundColor: '#C0392B', borderColor: '#FFFFFF' }
-            };
+            const colorTransparentRed = 'rgba(255, 99, 132, 0.5)';
+            const colorTransparentGreen = 'rgba(75, 192, 192, 0.5)';
 
             let chartColorsUsed;
-            if (totalCaloriesUsed >= calorieLimit) {
-                chartColorsUsed = [chartColors.overLimit];
+            if (totalCaloriesUsed > calorieLimit) {
+                chartColorsUsed = [colorTransparentRed];
                 totalCaloriesUsed = calorieLimit;
                 remainingCalories = 0;
             } else {
-                chartColorsUsed = [chartColors.used, chartColors.remaining];
+                chartColorsUsed = [colorTransparentGreen, 'rgba(200, 200, 200, 0.5)'];
             }
 
             if (!dailyChart) {
@@ -522,8 +530,8 @@
                         labels: ['Calories Used', 'Remaining Calories'],
                         datasets: [{
                             data: [totalCaloriesUsed, remainingCalories],
-                            backgroundColor: chartColorsUsed.map(c => c.backgroundColor),
-                            borderColor: chartColorsUsed.map(c => c.borderColor),
+                            backgroundColor: chartColorsUsed,
+                            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(200, 200, 200, 1)'],
                             borderWidth: 2,
                             cutout: '50%'
                         }]
@@ -549,8 +557,8 @@
             } else {
                 dailyChart.data.datasets[0].data[0] = totalCaloriesUsed;
                 dailyChart.data.datasets[0].data[1] = remainingCalories;
-                dailyChart.data.datasets[0].backgroundColor = chartColorsUsed.map(c => c.backgroundColor);
-                dailyChart.data.datasets[0].borderColor = chartColorsUsed.map(c => c.borderColor);
+                dailyChart.data.datasets[0].backgroundColor = chartColorsUsed;
+                dailyChart.data.datasets[0].borderColor = ['rgba(75, 192, 192, 1)', 'rgba(200, 200, 200, 1)'];
                 dailyChart.data.datasets[0].cutout = '50%';
                 dailyChart.update();
             }
@@ -614,6 +622,14 @@
             const ctx = document.getElementById('weeklyChart').getContext('2d');
             const weekData = getWeekData();
 
+            const colorTransparentRed = 'rgba(255, 99, 132, 0.5)';
+            const colorTransparentGreen = 'rgba(75, 192, 192, 0.5)';
+            const colorSolidRed = 'rgba(255, 99, 132, 1)';
+            const colorSolidGreen = 'rgba(75, 192, 192, 1)';
+
+            const backgroundColors = weekData.map(calories => calories > 1500 ? colorTransparentRed : colorTransparentGreen);
+            const borderColors = weekData.map(calories => calories > 1500 ? colorSolidRed : colorSolidGreen);
+            
             if (weeklyChart) weeklyChart.destroy();
             weeklyChart = new Chart(ctx, {
                 type: 'bar',
@@ -622,9 +638,9 @@
                     datasets: [{
                         label: 'Calories Consumed',
                         data: weekData,
-                        backgroundColor: weekData.map((entry, index) => entry > DAILY_MAXIMUMS[index] ? 'rgba(192, 57, 43, 0.6)' : 'rgba(43, 74, 140, 0.6)'),
-                        borderColor: weekData.map((entry, index) => entry > DAILY_MAXIMUMS[index] ? 'rgba(192, 57, 43, 0.6)' : 'rgba(43, 74, 140, 0.6)'),
-                        borderWidth: { top: 2, right: 2, left: 2, bottom: 0 }
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 1
                     }]
                 },
                 options: {
@@ -669,7 +685,6 @@
             }
         }
 
-        // New functions for the Weekly Totals view
         function getWeeklyTotalsData() {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
@@ -732,8 +747,16 @@
             const ctx = document.getElementById('weeklyTotalsChart').getContext('2d');
             const { labels, totals } = getWeeklyTotalsData();
 
+            const colorTransparentRed = 'rgba(255, 99, 132, 0.5)';
+            const colorTransparentGreen = 'rgba(75, 192, 192, 0.5)';
+            const colorSolidRed = 'rgba(255, 99, 132, 1)';
+            const colorSolidGreen = 'rgba(75, 192, 192, 1)';
+
+            const backgroundColors = totals.map(total => total > TOTAL_WEEKLY_CALORIES ? colorTransparentRed : colorTransparentGreen);
+            const borderColors = totals.map(total => total > TOTAL_WEEKLY_CALORIES ? colorSolidRed : colorSolidGreen);
+
             const minTotal = totals.length > 0 ? Math.min(...totals) : 0;
-            const maxTotal = totals.length > 0 ? Math.max(...totals) : 12000;
+            const maxTotal = totals.length > 0 ? Math.max(...totals) : TOTAL_WEEKLY_CALORIES + 1500;
             const padding = (maxTotal - minTotal) * 0.1 || 1000;
 
             if (weeklyTotalsChart) weeklyTotalsChart.destroy();
@@ -744,8 +767,8 @@
                     datasets: [{
                         label: 'Weekly Calories Consumed',
                         data: totals,
-                        backgroundColor: 'rgba(43, 74, 140, 0.6)',
-                        borderColor: 'rgba(43, 74, 140, 1)',
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
                         borderWidth: 1
                     }]
                 },
@@ -813,6 +836,20 @@
                 labels: weightData.map(entry => getDateString(entry.date)),
                 weights: weightData.map(entry => entry.weight)
             };
+        }
+        
+        function updateWeightMinMax() {
+            const allWeights = Object.values(weightLog);
+            let lowestWeight = '--';
+            let highestWeight = '--';
+
+            if (allWeights.length > 0) {
+                lowestWeight = Math.min(...allWeights);
+                highestWeight = Math.max(...allWeights);
+            }
+
+            document.getElementById('lowest-weight-display').textContent = lowestWeight !== '--' ? `${lowestWeight} lbs` : '--';
+            document.getElementById('highest-weight-display').textContent = highestWeight !== '--' ? `${highestWeight} lbs` : '--';
         }
 
         function updateWeightList() {

@@ -206,7 +206,7 @@ body, html {
     }
 
 .nav-item {
-  margin: 0 40px; /* Increases horizontal spacing between tab icons */
+  margin: 0 20px; /* Increases horizontal spacing between tab icons */
 }
 
     .nav-link {
