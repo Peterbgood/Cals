@@ -1,3 +1,20 @@
+/* Other CSS rules... */
+
+/* --- Weekly Totals List Styling --- */
+#weekly-totals-list .list-group-item {
+  /* This ensures the content is aligned at the ends of the list item */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#weekly-totals-list .list-group-item span {
+  /* This makes sure the text stays on one line */
+  white-space: nowrap;
+}
+
+/* --- The rest of your stylesheet... */
+
 body, html {
     font-family: "Open Sans", sans-serif;
     font-weight: 400;
@@ -147,9 +164,7 @@ h1 {
     background: #E6E6E6;
 }
 
-/* Corrected CSS for food list items */
 .list-group-item span:first-child {
-    flex-grow: 1; /* Allow the name to take up available space */
     margin-right: 15px;
     text-transform: capitalize;
     text-align: left;
@@ -158,11 +173,8 @@ h1 {
 }
 
 .list-group-item span:nth-child(2) {
-    /* Changed flex-basis to auto to allow for longer numbers */
-    flex: 0 0 auto; 
-    text-align: right;
-    /* Added to prevent the text from wrapping */
-    white-space: nowrap; 
+    flex: 0 0 60px;
+    text-align: center;
 }
 
 .list-group-item .btn-danger {
@@ -197,14 +209,15 @@ h1 {
     border: none;
 }
 
+
 .nav-tabs .nav-link.active {
     border: none;
     border-color: none !important;
 }
 
+
 .nav-item {
-    margin: 0 20px; /* Increases horizontal spacing between tab icons */
-    flex: 0 0 auto;
+    margin: 0 0px; /* Increases horizontal spacing between tab icons */
 }
 
 .nav-link {
