@@ -1,270 +1,267 @@
 body, html {
-      font-family: "Open Sans", sans-serif;
-      font-weight: 400;
-      color: #333333;
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    color: #333333;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
 
-    h1 {
-      color: #2B4A8C;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
+h1 {
+    color: #2B4A8C;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
 
-    .arrowbuttons .btn-primary {
-      background: #2B4A8C !important;
-      color: #FFFFFF !important;
-      border: 2px solid #2B4A8C !important;
-      border-radius: 8px;
-      padding: 10px 20px;
-      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    }
+.arrowbuttons .btn-primary {
+    background: #2B4A8C !important;
+    color: #FFFFFF !important;
+    border: 2px solid #2B4A8C !important;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
 
-    .arrowbuttons .btn-primary:hover {
-      background: #3B5BA5 !important;
-      color: #FFFFFF !important;
-    }
+.arrowbuttons .btn-primary:hover {
+    background: #3B5BA5 !important;
+    color: #FFFFFF !important;
+}
 
-    .week-divider {
-      background: #E6E6E6 !important;
-      color: #333333 !important;
-      text-align: center !important;
-      width: 100%;
-      display: block !important;
-      padding: 10px;
-    }
+.week-divider {
+    background: #E6E6E6 !important;
+    color: #333333 !important;
+    text-align: center !important;
+    width: 100%;
+    display: block !important;
+    padding: 10px;
+}
 
-    /* Accordion Headers */
-    .btn-cal .accordion-button {
-      background-color: #FFFFFF;
-      color: #333333;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-    }
+/* Accordion Headers */
+.btn-cal .accordion-button {
+    background-color: #FFFFFF;
+    color: #333333;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
 
-    .btn-cal .accordion-button:not(.collapsed) {
-      background: #2B4A8C;
-      color: #FFFFFF;
-    }
+.btn-cal .accordion-button:not(.collapsed) {
+    background: #2B4A8C;
+    color: #FFFFFF;
+}
 
-    .btn-cal .accordion-button:focus {
-      box-shadow: none;
-    }
+.btn-cal .accordion-button:focus {
+    box-shadow: none;
+}
 
-    /* Buttons */
+/* Buttons */
+.add-calorie-button {
+    font-size: 0.875rem;
+    width: 100%;
+    margin-bottom: 1rem;
+    background: #2B4A8C !important;
+    color: #FFFFFF !important;
+    border: 2px solid #2B4A8C !important;
+    border-radius: 8px;
+    padding: 10px 2px;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.add-calorie-button:hover {
+    background: #3B5BA5 !important;
+    color: #FFFFFF !important;
+    transform: translateY(-2px);
+}
+
+@media (min-width: 390px) {
     .add-calorie-button {
-      font-size: 0.875rem;
-      width: 100%;
-      margin-bottom: 1rem;
-      background: #2B4A8C !important;
-      color: #FFFFFF !important;
-      border: 2px solid #2B4A8C !important;
-      border-radius: 8px;
-      padding: 10px 2px;
-      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    }
-
-    .add-calorie-button:hover {
-      background: #3B5BA5 !important;
-      color: #FFFFFF !important;
-      transform: translateY(-2px);
-    }
-
-    @media (min-width: 390px) {
-      .add-calorie-button {
         width: calc(45% - 0rem);
-      }
     }
+}
 
-    .btn-cal {
-      text-align: center;
-    }
+.btn-cal {
+    text-align: center;
+}
 
-    .btn-primary {
-      background: #2B4A8C !important;
-      color: #FFFFFF !important;
-      border: 2px solid #2B4A8C !important;
-      border-radius: 8px;
-      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    }
+.btn-primary {
+    background: #2B4A8C !important;
+    color: #FFFFFF !important;
+    border: 2px solid #2B4A8C !important;
+    border-radius: 8px;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
 
-    .btn-primary:hover {
-      background: #3B5BA5 !important;
-      color: #FFFFFF !important;
-    }
+.btn-primary:hover {
+    background: #3B5BA5 !important;
+    color: #FFFFFF !important;
+}
 
-    /* Total and Remaining Calories Containers and Badges */
-    .text-primary {
-      color: #2B4A8C !important;
-      margin-bottom: 1rem;
-    }
+/* Total and Remaining Calories Containers and Badges */
+.text-primary {
+    color: #2B4A8C !important;
+    margin-bottom: 1rem;
+}
 
-    .text-success {
-      color: #4B5EAA !important;
-      margin-top: 1rem;
-    }
+.text-success {
+    color: #4B5EAA !important;
+    margin-top: 1rem;
+}
 
-    .badge.bg-primary {
-      background: #2B4A8C !important;
-      color: #FFFFFF !important;
-      padding: 5px 10px;
-      border-radius: 8px;
-    }
+.badge.bg-primary {
+    background: #2B4A8C !important;
+    color: #FFFFFF !important;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
 
-    .badge.bg-success {
-      background: #E6E6E6 !important;
-      color: #333333 !important;
-      padding: 5px 10px;
-      border-radius: 8px;
-    }
+.badge.bg-success {
+    background: #E6E6E6 !important;
+    color: #333333 !important;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
 
-    .badge.bg-danger {
-      background: #C0392B !important;
-      color: #FFFFFF !important;
-      padding: 5px 10px;
-      border-radius: 8px;
-    }
+.badge.bg-danger {
+    background: #C0392B !important;
+    color: #FFFFFF !important;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
 
-    /* Food List Styling */
-    #food-list {
-      padding: 0;
-    }
+/* Food List Styling */
+#food-list {
+    padding: 0;
+}
 
-    .list-group-item {
-      background: #FFFFFF;
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: move;
-    }
+.list-group-item {
+    background: #FFFFFF;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+}
 
-    .list-group-item.dragging {
-      opacity: 0.5;
-      background: #E6E6E6;
-    }
+.list-group-item.dragging {
+    opacity: 0.5;
+    background: #E6E6E6;
+}
 
-    .list-group-item span:first-child {
-      margin-right: 15px;
-      text-transform: capitalize;
-      text-align: left;
-      display: flex;
-      align-items: center;
-    }
+/* Corrected CSS for food list items */
+.list-group-item span:first-child {
+    flex-grow: 1; /* Allow the name to take up available space */
+    margin-right: 15px;
+    text-transform: capitalize;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
 
-    .list-group-item span:nth-child(2) {
-      flex: 0 0 60px;
-      text-align: center;
-    }
+.list-group-item span:nth-child(2) {
+    /* Changed flex-basis to auto to allow for longer numbers */
+    flex: 0 0 auto; 
+    text-align: right;
+    /* Added to prevent the text from wrapping */
+    white-space: nowrap; 
+}
 
-    .list-group-item .btn-danger {
-      flex: 0 0 auto;
-      margin-left: 15px;
-    }
+.list-group-item .btn-danger {
+    flex: 0 0 auto;
+    margin-left: 15px;
+}
 
-    #food-list .form-control {
-      padding: 5px;
-      width: fit-content;
-      display: inline-block;
-      border: none;
-    }
+#food-list .form-control {
+    padding: 5px;
+    width: fit-content;
+    display: inline-block;
+    border: none;
+}
 
-    /* Navigation */
-    .nav-container {
-    
-      bottom: 0;
-      width: 100%;
-      padding: 0;
-      text-align: center;
-      z-index: 10;
-      background-color: #FFFFFF;
-      margin: 0 !important;
-    }
+/* Navigation */
+.nav-container {
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    z-index: 10;
+    background-color: #FFFFFF;
+    margin: 0 !important;
+}
 
-    .nav-tabs {
-      flex-direction: row;
-      justify-content: center;
-      width: 100%;
-      margin: 0 auto;
-     padding-bottom: 5px;
-      border: none;
-    }
-
+.nav-tabs {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 5px;
+    border: none;
+}
 
 .nav-tabs .nav-link.active {
-  border: none;
-  border-color: none !important;;
+    border: none;
+    border-color: none !important;
 }
-
-
-    .nav-item {
-      margin: 0 10px;
-      flex: 0 0 auto;
-    }
 
 .nav-item {
-  margin: 0 20px; /* Increases horizontal spacing between tab icons */
+    margin: 0 20px; /* Increases horizontal spacing between tab icons */
+    flex: 0 0 auto;
 }
 
-    .nav-link {
-      font-size: 1.2rem;
-      color: #2B4A8C;
-      padding: 10px;
-      text-align: center;
-      border: none;
-      border-radius: 0;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
+.nav-link {
+    font-size: 1.2rem;
+    color: #2B4A8C;
+    padding: 10px;
+    text-align: center;
+    border: none;
+    border-radius: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-    .nav-link.active {
-      background-color: #E6E6E6;
-      color: #4B5EAA;
-      font-weight: 600;
-    }
+.nav-link.active {
+    background-color: #E6E6E6;
+    color: #4B5EAA;
+    font-weight: 600;
+}
 
-    .nav-link:hover {
-      background-color: #F5F5F5;
-      color: #2B4A8C;
-    }
+.nav-link:hover {
+    background-color: #F5F5F5;
+    color: #2B4A8C;
+}
 
-    /* Layout */
-    .container {
-      padding-bottom: 80px;
-    }
+/* Layout */
+.container {
+    padding-bottom: 80px;
+}
 
+.chart-container {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#weightChart {
+    max-height: 300px;
+}
+
+@media (max-width: 576px) {
     .chart-container {
-      width: 100% !important;
-      max-width: 100%;
-      height: auto;
-      margin: 0 auto;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    #weightChart {
-      max-height: 300px;
-    }
-
-    @media (max-width: 576px) {
-      .chart-container {
         padding: 10px;
-      }
-      #weightChart {
+    }
+    #weightChart {
         max-height: 250px;
-      }
     }
+}
 
-    /* Animations */
-    .add-calorie-button:active {
-      animation: pulse 0.5s;
-    }
+/* Animations */
+.add-calorie-button:active {
+    animation: pulse 0.5s;
+}
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-  
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}

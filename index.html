@@ -745,11 +745,9 @@
 
             weeks.reverse().forEach(week => {
                 const weekNumber = getWeekNumber(week.weekStart);
-                const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-                const weekEnd = new Date(week.weekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
                 weeklyTotalsListElement.innerHTML += `
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Week ${weekNumber} (${formatDate(week.weekStart)} - ${formatDate(weekEnd)})
+                        <span>Week ${weekNumber}</span>
                         <span>${week.total} cals</span>
                     </li>
                 `;
