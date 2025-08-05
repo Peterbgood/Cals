@@ -217,7 +217,7 @@ h1 {
 
 
 .nav-item {
-    margin: 0 0px; /* Increases horizontal spacing between tab icons */
+    margin: 0 20px; /* Increases horizontal spacing between tab icons */
 }
 
 .nav-link {
