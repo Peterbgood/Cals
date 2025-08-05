@@ -187,6 +187,7 @@ h1 {
     width: fit-content;
     display: inline-block;
     border: none;
+    text-align: left;
 }
 
 /* Navigation */

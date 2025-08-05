@@ -15,6 +15,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/url-js/2.6.0/url.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -189,8 +190,8 @@
 
             foodLog[dateStr] = [];
             Array.from(foodItems).forEach(item => {
-                const name = item.children[0].textContent;
-                const calories = parseInt(item.children[1].textContent);
+                const name = item.querySelector('.food-name').textContent;
+                const calories = parseInt(item.querySelector('.calories').textContent);
                 foodLog[dateStr].push({ name, calories });
             });
 
@@ -301,37 +302,21 @@
 
         function setupDragAndDrop() {
             const foodListElement = document.getElementById('food-list');
-            let draggedItem = null;
-
-            foodListElement.addEventListener('dragstart', (e) => {
-                if (e.target.classList.contains('list-group-item')) {
-                    draggedItem = e.target;
-                    draggedItem.classList.add('dragging');
-                    e.dataTransfer.effectAllowed = 'move';
-                }
-            });
-
-            foodListElement.addEventListener('dragend', (e) => {
-                if (draggedItem) {
-                    draggedItem.classList.remove('dragging');
-                    draggedItem = null;
+            new Sortable(foodListElement, {
+                animation: 150,
+                handle: '.drag-handle',
+                touchStartThreshold: 10,
+                onEnd: () => {
                     updateFoodLogOrder();
                     saveData();
+                },
+                onStart: (evt) => {
+                    const item = evt.item;
+                    const nameSpan = item.querySelector('.food-name');
+                    if (nameSpan === document.activeElement) {
+                        nameSpan.blur();
+                    }
                 }
-            });
-
-            foodListElement.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                const target = e.target.closest('.list-group-item');
-                if (target && target !== draggedItem) {
-                    const rect = target.getBoundingClientRect();
-                    const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
-                    foodListElement.insertBefore(draggedItem, next && target.nextSibling || target);
-                }
-            });
-
-            foodListElement.addEventListener('dragenter', (e) => {
-                e.preventDefault();
             });
         }
 
@@ -342,8 +327,8 @@
             foodLog[dateStr] = [];
 
             Array.from(foodItems).forEach(item => {
-                const name = item.children[0].textContent;
-                const calories = parseInt(item.children[1].textContent);
+                const name = item.querySelector('.food-name').textContent;
+                const calories = parseInt(item.querySelector('.calories').textContent);
                 foodLog[dateStr].push({ name, calories });
             });
 
@@ -429,31 +414,59 @@
 
                 const createListItem = (entry) => {
                     const listItem = document.createElement('li');
-                    listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between');
+                    listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
                     listItem.setAttribute('draggable', 'true');
 
+                    const dragHandle = document.createElement('span');
+                    dragHandle.classList.add('drag-handle', 'me-2');
+                    dragHandle.innerHTML = '<i class="fas fa-grip-vertical"></i>';
+                    dragHandle.style.cursor = 'grab';
+
                     const nameSpan = document.createElement('span');
+                    nameSpan.classList.add('food-name', 'form-control', 'flex-grow-1');
                     nameSpan.contentEditable = 'true';
-                    nameSpan.classList.add('form-control');
                     nameSpan.textContent = entry.name;
 
                     nameSpan.addEventListener('keypress', (e) => {
                         if (e.key === 'Enter') {
                             e.preventDefault();
-                            const newName = nameSpan.textContent;
+                            const newName = nameSpan.textContent.trim();
+                            if (newName) {
+                                foodLog[dateStr] = foodLog[dateStr].map(item => {
+                                    if (item.name === entry.name) {
+                                        return { ...item, name: newName };
+                                    }
+                                    return item;
+                                });
+                                updateFoodList();
+                                if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
+                                saveData();
+                            } else {
+                                nameSpan.textContent = entry.name;
+                            }
+                            nameSpan.blur();
+                        }
+                    });
+
+                    nameSpan.addEventListener('blur', () => {
+                        const newName = nameSpan.textContent.trim();
+                        if (newName && newName !== entry.name) {
                             foodLog[dateStr] = foodLog[dateStr].map(item => {
                                 if (item.name === entry.name) {
-                                    item.name = newName;
+                                    return { ...item, name: newName };
                                 }
                                 return item;
                             });
                             updateFoodList();
                             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
                             saveData();
+                        } else if (!newName) {
+                            nameSpan.textContent = entry.name;
                         }
                     });
 
                     const caloriesSpan = document.createElement('span');
+                    caloriesSpan.classList.add('calories', 'mx-2');
                     caloriesSpan.textContent = `${entry.calories}`;
 
                     const deleteButton = document.createElement('button');
@@ -467,6 +480,7 @@
                         saveData();
                     });
 
+                    listItem.appendChild(dragHandle);
                     listItem.appendChild(nameSpan);
                     listItem.appendChild(caloriesSpan);
                     listItem.appendChild(deleteButton);
@@ -636,9 +650,8 @@
             const backgroundColors = weekData.map(calories => calories > 1500 ? colorTransparentRed : colorTransparentGreen);
             const borderColors = weekData.map(calories => calories > 1500 ? colorSolidRed : colorSolidGreen);
             
-            // Calculate a dynamic max value for the y-axis
-            const maxCalories = Math.max(...weekData, 1500); // Ensure it's at least 1500
-            const yAxisMax = Math.ceil(maxCalories / 500) * 500; // Round up to the nearest 500
+            const maxCalories = Math.max(...weekData, 1500);
+            const yAxisMax = Math.ceil(maxCalories / 500) * 500;
 
             if (weeklyChart) weeklyChart.destroy();
             weeklyChart = new Chart(ctx, {
@@ -753,7 +766,7 @@
                 `;
             });
         }
-        
+
         function renderWeeklyTotalsChart() {
             const ctx = document.getElementById('weeklyTotalsChart').getContext('2d');
             const { labels, totals } = getWeeklyTotalsData();
@@ -848,7 +861,7 @@
                 weights: weightData.map(entry => entry.weight)
             };
         }
-        
+
         function updateWeightMinMax() {
             const allWeights = Object.values(weightLog);
             let lowestWeight = '--';
