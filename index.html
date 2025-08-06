@@ -549,9 +549,9 @@
         function updateWeeklyCaloriesMinMax() {
             const currentWeekStartStr = getDateString(currentWeekStart);
             const weeklyTotals = getWeeklyTotalsData().totals;
-            const weeklyLabels = getWeeklyTotalsData().labels;
+            const weeklyWeeks = getWeeklyTotalsData().weeks;
             const filteredTotals = weeklyTotals.filter((_, index) => {
-                const weekStartStr = getDateString(new Date(weeklyLabels[index].split('/').reverse().join('-')));
+                const weekStartStr = getDateString(weeklyWeeks[index].weekStart);
                 return weekStartStr !== currentWeekStartStr;
             });
 
