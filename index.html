@@ -52,6 +52,20 @@
             </div>
             <div class="tab-pane fade" id="weekly-view" role="tabpanel" aria-labelledby="weekly-tab">
                 <h1 class="text-center mb-4 animate__animated animate__fadeIn">Weekly Calorie Tracker</h1>
+                <div class="d-flex justify-content-center gap-3 mb-4">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Lowest Daily Calories</h5>
+                            <p id="lowest-daily-calories" class="card-text fs-4 fw-bold">--</p>
+                        </div>
+                    </div>
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Highest Daily Calories</h5>
+                            <p id="highest-daily-calories" class="card-text fs-4 fw-bold">--</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="row mb-4 justify-content-center">
                     <div class="input-group arrowbuttons col-md-6">
                         <button id="prev-week-button" class="btn btn-primary shadow-sm"><i class="fa-solid fa-arrow-left"></i></button>
@@ -72,6 +86,20 @@
             </div>
             <div class="tab-pane fade" id="weekly-totals-view" role="tabpanel" aria-labelledby="weekly-totals-tab">
                 <h1 class="text-center mb-4 animate__animated animate__fadeIn">Weekly Totals Trend</h1>
+                <div class="d-flex justify-content-center gap-3 mb-4">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Lowest Weekly Calories</h5>
+                            <p id="lowest-weekly-calories" class="card-text fs-4 fw-bold">--</p>
+                        </div>
+                    </div>
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Highest Weekly Calories</h5>
+                            <p id="highest-weekly-calories" class="card-text fs-4 fw-bold">--</p>
+                        </div>
+                    </div>
+                </div>
                 <h2 class="text-center mt-4 mb-3">Last 3 Months</h2>
                 <div class="chart-container">
                     <canvas id="weeklyTotalsChart"></canvas>
@@ -347,6 +375,7 @@
         function updateWeeklyUI() {
             updateWeeklyList();
             updateWeeklyTotals();
+            updateDailyCaloriesMinMax();
             renderWeeklyChart();
             updateWeekDateRange();
             updateNavigationButtons();
@@ -354,6 +383,7 @@
 
         function updateWeeklyTotalsUI() {
             updateWeeklyTotalsList();
+            updateWeeklyCaloriesMinMax();
             renderWeeklyTotalsChart();
         }
 
@@ -496,6 +526,37 @@
             const dateStr = getDateString(currentDate);
             const weightBadge = document.getElementById('current-weight');
             weightBadge.textContent = weightLog[dateStr] ? `${weightLog[dateStr]} lbs` : 'Not recorded';
+        }
+
+        function updateDailyCaloriesMinMax() {
+            const dailyCalories = Object.keys(foodLog).map(dateStr => {
+                return foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
+            });
+
+            let lowestCalories = '--';
+            let highestCalories = '--';
+
+            if (dailyCalories.length > 0) {
+                lowestCalories = Math.min(...dailyCalories);
+                highestCalories = Math.max(...dailyCalories);
+            }
+
+            document.getElementById('lowest-daily-calories').textContent = lowestCalories !== '--' ? `${lowestCalories} cals` : '--';
+            document.getElementById('highest-daily-calories').textContent = highestCalories !== '--' ? `${highestCalories} cals` : '--';
+        }
+
+        function updateWeeklyCaloriesMinMax() {
+            const weeklyTotals = getWeeklyTotalsData().totals;
+            let lowestWeeklyCalories = '--';
+            let highestWeeklyCalories = '--';
+
+            if (weeklyTotals.length > 0) {
+                lowestWeeklyCalories = Math.min(...weeklyTotals);
+                highestWeeklyCalories = Math.max(...weeklyTotals);
+            }
+
+            document.getElementById('lowest-weekly-calories').textContent = lowestWeeklyCalories !== '--' ? `${lowestWeeklyCalories} cals` : '--';
+            document.getElementById('highest-weekly-calories').textContent = highestWeeklyCalories !== '--' ? `${highestWeeklyCalories} cals` : '--';
         }
 
         function addWeight() {
