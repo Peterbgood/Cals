@@ -529,9 +529,10 @@
         }
 
         function updateDailyCaloriesMinMax() {
-            const dailyCalories = Object.keys(foodLog).map(dateStr => {
-                return foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
-            });
+            const currentDateStr = getDateString(currentDate);
+            const dailyCalories = Object.keys(foodLog)
+                .filter(dateStr => dateStr !== currentDateStr)
+                .map(dateStr => foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0));
 
             let lowestCalories = '--';
             let highestCalories = '--';
@@ -546,13 +547,20 @@
         }
 
         function updateWeeklyCaloriesMinMax() {
+            const currentWeekStartStr = getDateString(currentWeekStart);
             const weeklyTotals = getWeeklyTotalsData().totals;
+            const weeklyLabels = getWeeklyTotalsData().labels;
+            const filteredTotals = weeklyTotals.filter((_, index) => {
+                const weekStartStr = getDateString(new Date(weeklyLabels[index].split('/').reverse().join('-')));
+                return weekStartStr !== currentWeekStartStr;
+            });
+
             let lowestWeeklyCalories = '--';
             let highestWeeklyCalories = '--';
 
-            if (weeklyTotals.length > 0) {
-                lowestWeeklyCalories = Math.min(...weeklyTotals);
-                highestWeeklyCalories = Math.max(...weeklyTotals);
+            if (filteredTotals.length > 0) {
+                lowestWeeklyCalories = Math.min(...filteredTotals);
+                highestWeeklyCalories = Math.max(...filteredTotals);
             }
 
             document.getElementById('lowest-weekly-calories').textContent = lowestWeeklyCalories !== '--' ? `${lowestWeeklyCalories} cals` : '--';
