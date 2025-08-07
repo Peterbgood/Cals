@@ -256,6 +256,18 @@
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
       },
+       {
+        "name": "12 Nugs",
+        "calories": 380,
+        "type": "chicken",
+        "icon": "fas fa-drumstick-bite"
+      },
+      {
+        "name": "8 Nugs",
+        "calories": 250,
+        "type": "chicken",
+        "icon": "fas fa-drumstick-bite"
+      },
       {
         "name": "Fries",
         "calories": 440,
