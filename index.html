@@ -57,12 +57,14 @@
                         <div class="card-body">
                             <h5 class="card-title">Lowest Daily Calories</h5>
                             <p id="lowest-daily-calories" class="card-text fs-4 fw-bold">--</p>
+                            <p id="lowest-daily-calories-date" class="card-text small text-muted"></p>
                         </div>
                     </div>
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Highest Daily Calories</h5>
                             <p id="highest-daily-calories" class="card-text fs-4 fw-bold">--</p>
+                            <p id="highest-daily-calories-date" class="card-text small text-muted"></p>
                         </div>
                     </div>
                 </div>
@@ -91,12 +93,14 @@
                         <div class="card-body">
                             <h5 class="card-title">Lowest Weekly Calories</h5>
                             <p id="lowest-weekly-calories" class="card-text fs-4 fw-bold">--</p>
+                            <p id="lowest-weekly-calories-date" class="card-text small text-muted"></p>
                         </div>
                     </div>
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Highest Weekly Calories</h5>
                             <p id="highest-weekly-calories" class="card-text fs-4 fw-bold">--</p>
+                            <p id="highest-weekly-calories-date" class="card-text small text-muted"></p>
                         </div>
                     </div>
                 </div>
@@ -113,12 +117,14 @@
                         <div class="card-body">
                             <h5 class="card-title">Lowest Weight</h5>
                             <p id="lowest-weight-display" class="card-text fs-4 fw-bold">--</p>
+                            <p id="lowest-weight-date" class="card-text small text-muted"></p>
                         </div>
                     </div>
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Highest Weight</h5>
                             <p id="highest-weight-display" class="card-text fs-4 fw-bold">--</p>
+                            <p id="highest-weight-date" class="card-text small text-muted"></p>
                         </div>
                     </div>
                 </div>
@@ -530,41 +536,81 @@
 
         function updateDailyCaloriesMinMax() {
             const currentDateStr = getDateString(currentDate);
-            const dailyCalories = Object.keys(foodLog)
-                .filter(dateStr => dateStr !== currentDateStr)
-                .map(dateStr => foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0));
+            let lowestCalories = Number.MAX_VALUE;
+            let highestCalories = 0;
+            let lowestCaloriesDate = '';
+            let highestCaloriesDate = '';
 
-            let lowestCalories = '--';
-            let highestCalories = '--';
+            Object.keys(foodLog).forEach(dateStr => {
+                if (dateStr !== currentDateStr) {
+                    const calories = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
+                    if (calories < lowestCalories) {
+                        lowestCalories = calories;
+                        lowestCaloriesDate = dateStr;
+                    }
+                    if (calories > highestCalories) {
+                        highestCalories = calories;
+                        highestCaloriesDate = dateStr;
+                    }
+                }
+            });
 
-            if (dailyCalories.length > 0) {
-                lowestCalories = Math.min(...dailyCalories);
-                highestCalories = Math.max(...dailyCalories);
-            }
-
-            document.getElementById('lowest-daily-calories').textContent = lowestCalories !== '--' ? `${lowestCalories} cals` : '--';
-            document.getElementById('highest-daily-calories').textContent = highestCalories !== '--' ? `${highestCalories} cals` : '--';
+            document.getElementById('lowest-daily-calories').textContent = lowestCalories !== Number.MAX_VALUE ? `${lowestCalories} cals` : '--';
+            document.getElementById('lowest-daily-calories-date').textContent = lowestCalories !== Number.MAX_VALUE ? `${lowestCaloriesDate}` : '';
+            document.getElementById('highest-daily-calories').textContent = highestCalories !== 0 ? `${highestCalories} cals` : '--';
+            document.getElementById('highest-daily-calories-date').textContent = highestCalories !== 0 ? `${highestCaloriesDate}` : '';
         }
 
         function updateWeeklyCaloriesMinMax() {
             const currentWeekStartStr = getDateString(currentWeekStart);
-            const weeklyTotals = getWeeklyTotalsData().totals;
-            const weeklyWeeks = getWeeklyTotalsData().weeks;
-            const filteredTotals = weeklyTotals.filter((_, index) => {
-                const weekStartStr = getDateString(weeklyWeeks[index].weekStart);
-                return weekStartStr !== currentWeekStartStr;
+            const { totals, weeks } = getWeeklyTotalsData();
+            let lowestWeeklyCalories = Number.MAX_VALUE;
+            let highestWeeklyCalories = 0;
+            let lowestWeekDate = '';
+            let highestWeekDate = '';
+
+            totals.forEach((total, index) => {
+                const weekStartStr = getDateString(weeks[index].weekStart);
+                if (weekStartStr !== currentWeekStartStr) {
+                    if (total < lowestWeeklyCalories) {
+                        lowestWeeklyCalories = total;
+                        lowestWeekDate = weekStartStr;
+                    }
+                    if (total > highestWeeklyCalories) {
+                        highestWeeklyCalories = total;
+                        highestWeekDate = weekStartStr;
+                    }
+                }
             });
 
-            let lowestWeeklyCalories = '--';
-            let highestWeeklyCalories = '--';
+            document.getElementById('lowest-weekly-calories').textContent = lowestWeeklyCalories !== Number.MAX_VALUE ? `${lowestWeeklyCalories} cals` : '--';
+            document.getElementById('lowest-weekly-calories-date').textContent = lowestWeeklyCalories !== Number.MAX_VALUE ? `${lowestWeekDate}` : '';
+            document.getElementById('highest-weekly-calories').textContent = highestWeeklyCalories !== 0 ? `${highestWeeklyCalories} cals` : '--';
+            document.getElementById('highest-weekly-calories-date').textContent = highestWeeklyCalories !== 0 ? `${highestWeekDate}` : '';
+        }
 
-            if (filteredTotals.length > 0) {
-                lowestWeeklyCalories = Math.min(...filteredTotals);
-                highestWeeklyCalories = Math.max(...filteredTotals);
-            }
+        function updateWeightMinMax() {
+            let lowestWeight = Number.MAX_VALUE;
+            let highestWeight = 0;
+            let lowestWeightDate = '';
+            let highestWeightDate = '';
 
-            document.getElementById('lowest-weekly-calories').textContent = lowestWeeklyCalories !== '--' ? `${lowestWeeklyCalories} cals` : '--';
-            document.getElementById('highest-weekly-calories').textContent = highestWeeklyCalories !== '--' ? `${highestWeeklyCalories} cals` : '--';
+            Object.keys(weightLog).forEach(dateStr => {
+                const weight = weightLog[dateStr];
+                if (weight < lowestWeight) {
+                    lowestWeight = weight;
+                    lowestWeightDate = dateStr;
+                }
+                if (weight > highestWeight) {
+                    highestWeight = weight;
+                    highestWeightDate = dateStr;
+                }
+            });
+
+            document.getElementById('lowest-weight-display').textContent = lowestWeight !== Number.MAX_VALUE ? `${lowestWeight} lbs` : '--';
+            document.getElementById('lowest-weight-date').textContent = lowestWeight !== Number.MAX_VALUE ? `${lowestWeightDate}` : '';
+            document.getElementById('highest-weight-display').textContent = highestWeight !== 0 ? `${highestWeight} lbs` : '--';
+            document.getElementById('highest-weight-date').textContent = highestWeight !== 0 ? `${highestWeightDate}` : '';
         }
 
         function addWeight() {
@@ -848,10 +894,6 @@
             const backgroundColors = totals.map(total => total > TOTAL_WEEKLY_CALORIES ? colorTransparentRed : colorTransparentGreen);
             const borderColors = totals.map(total => total > TOTAL_WEEKLY_CALORIES ? colorSolidRed : colorSolidGreen);
 
-            const minTotal = totals.length > 0 ? Math.min(...totals) : 0;
-            const maxTotal = totals.length > 0 ? Math.max(...totals) : TOTAL_WEEKLY_CALORIES + 1500;
-            const padding = (maxTotal - minTotal) * 0.1 || 1000;
-
             if (weeklyTotalsChart) weeklyTotalsChart.destroy();
             weeklyTotalsChart = new Chart(ctx, {
                 type: 'bar',
@@ -871,12 +913,11 @@
                     scales: {
                         y: {
                             beginAtZero: true,
+                            max: 15000,
                             title: {
                                 display: true,
                                 text: 'Total Calories'
-                            },
-                            min: Math.max(0, minTotal - padding),
-                            max: maxTotal + padding
+                            }
                         },
                         x: {
                             title: {
@@ -929,20 +970,6 @@
                 labels: weightData.map(entry => getDateString(entry.date)),
                 weights: weightData.map(entry => entry.weight)
             };
-        }
-
-        function updateWeightMinMax() {
-            const allWeights = Object.values(weightLog);
-            let lowestWeight = '--';
-            let highestWeight = '--';
-
-            if (allWeights.length > 0) {
-                lowestWeight = Math.min(...allWeights);
-                highestWeight = Math.max(...allWeights);
-            }
-
-            document.getElementById('lowest-weight-display').textContent = lowestWeight !== '--' ? `${lowestWeight} lbs` : '--';
-            document.getElementById('highest-weight-display').textContent = highestWeight !== '--' ? `${highestWeight} lbs` : '--';
         }
 
         function updateWeightList() {
@@ -1022,7 +1049,7 @@
                         data: weights,
                         borderColor: 'rgba(75, 94, 170, 1)',
                         backgroundColor: 'rgba(75, 94, 170, 0.2)',
-                        fill: false,
+                        fill: true,
                         tension: 0.1,
                         pointRadius: 4,
                         pointHoverRadius: 6
