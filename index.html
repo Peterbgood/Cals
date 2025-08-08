@@ -56,13 +56,15 @@
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Lowest Daily Calories</h5>
-                            <p id="lowest-daily-calories" class="card-text fs-4 fw-bold">--</p>
+                            <p id="lowest-daily-calories" class="card-text fs-4 fw-bold mb-0">--</p>
+                            <small id="lowest-daily-calories-date" class="text-muted"></small>
                         </div>
                     </div>
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Highest Daily Calories</h5>
-                            <p id="highest-daily-calories" class="card-text fs-4 fw-bold">--</p>
+                            <p id="highest-daily-calories" class="card-text fs-4 fw-bold mb-0">--</p>
+                            <small id="highest-daily-calories-date" class="text-muted"></small>
                         </div>
                     </div>
                 </div>
@@ -90,13 +92,15 @@
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Lowest Weekly Calories</h5>
-                            <p id="lowest-weekly-calories" class="card-text fs-4 fw-bold">--</p>
+                            <p id="lowest-weekly-calories" class="card-text fs-4 fw-bold mb-0">--</p>
+                            <small id="lowest-weekly-calories-date" class="text-muted"></small>
                         </div>
                     </div>
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Highest Weekly Calories</h5>
-                            <p id="highest-weekly-calories" class="card-text fs-4 fw-bold">--</p>
+                            <p id="highest-weekly-calories" class="card-text fs-4 fw-bold mb-0">--</p>
+                            <small id="highest-weekly-calories-date" class="text-muted"></small>
                         </div>
                     </div>
                 </div>
@@ -112,13 +116,15 @@
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Lowest Weight</h5>
-                            <p id="lowest-weight-display" class="card-text fs-4 fw-bold">--</p>
+                            <p id="lowest-weight-display" class="card-text fs-4 fw-bold mb-0">--</p>
+                            <small id="lowest-weight-date" class="text-muted"></small>
                         </div>
                     </div>
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Highest Weight</h5>
-                            <p id="highest-weight-display" class="card-text fs-4 fw-bold">--</p>
+                            <p id="highest-weight-display" class="card-text fs-4 fw-bold mb-0">--</p>
+                            <small id="highest-weight-date" class="text-muted"></small>
                         </div>
                     </div>
                 </div>
@@ -166,11 +172,9 @@
         let weightLog = {};
         let currentView = 'daily';
         const TOTAL_WEEKLY_CALORIES = 10500;
-        const DAILY_MAXIMUMS = Array(7).fill(1500);
         const DAYS_PER_WEEK = 7;
         const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         const MS_PER_DAY = 24 * 60 * 60 * 1000;
-        const MS_PER_WEEK = MS_PER_DAY * DAYS_PER_WEEK;
         const THREE_MONTHS_MS = 90 * MS_PER_DAY;
 
         function getWeekStart(date) {
@@ -180,14 +184,6 @@
             const daysToMonday = (day + 6) % 7;
             d.setDate(d.getDate() - daysToMonday);
             return d;
-        }
-
-        function getWeekNumber(date) {
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
-            const week1 = new Date(d.getFullYear(), 0, 4);
-            return 1 + Math.round(((d.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
         }
 
         function getCalorieLimit(date) {
@@ -212,40 +208,13 @@
         }
 
         function saveData() {
-            const dateStr = getDateString(currentDate);
-            const foodListElement = document.getElementById('food-list');
-            const foodItems = foodListElement.children;
-
-            foodLog[dateStr] = [];
-            Array.from(foodItems).forEach(item => {
-                const name = item.querySelector('.food-name').textContent;
-                const calories = parseInt(item.querySelector('.calories').textContent);
-                foodLog[dateStr].push({ name, calories });
-            });
-
             localStorage.setItem('foodLog', JSON.stringify(foodLog));
             localStorage.setItem('weightLog', JSON.stringify(weightLog));
-            localStorage.setItem('currentDate', dateStr);
-            localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
         }
 
         function exportData() {
-            const weekData = {};
-            Object.keys(foodLog).forEach(dateStr => {
-                const date = new Date(dateStr);
-                if (isNaN(date)) return;
-                date.setHours(0, 0, 0, 0);
-                const weekStart = getWeekStart(date);
-                const weekStartStr = getDateString(weekStart);
-                if (!weekData[weekStartStr]) {
-                    weekData[weekStartStr] = Array(DAYS_PER_WEEK).fill(0);
-                }
-                const dayIndex = (date.getDay() + 6) % 7;
-                weekData[weekStartStr][dayIndex] = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
-            });
-
-            const exportData = { foodLog, weightLog, weekData };
-            const dataStr = JSON.stringify(exportData, null, 2);
+            const exportPackage = { foodLog, weightLog };
+            const dataStr = JSON.stringify(exportPackage, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -266,16 +235,15 @@
                     if (importedData.foodLog && importedData.weightLog) {
                         foodLog = importedData.foodLog;
                         weightLog = importedData.weightLog;
-                        localStorage.setItem('foodLog', JSON.stringify(foodLog));
-                        localStorage.setItem('weightLog', JSON.stringify(weightLog));
+                        saveData();
                         updateUI();
                         alert('Data imported successfully!');
                     } else {
-                        alert('Invalid data format. Please ensure the file contains foodLog and weightLog data.');
+                        alert('Invalid data format.');
                     }
                 } catch (error) {
                     console.error('Error importing data:', error);
-                    alert('Error importing data. Please ensure the file is a valid JSON.');
+                    alert('Error importing data.');
                 }
                 event.target.value = '';
             };
@@ -284,34 +252,14 @@
 
         function loadData() {
             const storedFoodLog = localStorage.getItem('foodLog');
-            if (storedFoodLog) {
-                try {
-                    foodLog = JSON.parse(storedFoodLog);
-                } catch (error) {
-                    console.error('Error parsing stored food log:', error);
-                    foodLog = {};
-                }
-            } else {
-                foodLog = {};
-            }
+            if (storedFoodLog) foodLog = JSON.parse(storedFoodLog);
 
             const storedWeightLog = localStorage.getItem('weightLog');
-            if (storedWeightLog) {
-                try {
-                    weightLog = JSON.parse(storedWeightLog);
-                } catch (error) {
-                    console.error('Error parsing stored weight log:', error);
-                    weightLog = {};
-                }
-            } else {
-                weightLog = {};
-            }
+            if (storedWeightLog) weightLog = JSON.parse(storedWeightLog);
 
             currentDate = new Date();
             currentDate.setHours(0, 0, 0, 0);
             currentWeekStart = getWeekStart(currentDate);
-            currentWeekStart.setHours(0, 0, 0, 0);
-            currentView = 'daily';
             updateUI();
             setupDragAndDrop();
         }
@@ -327,39 +275,30 @@
                 updateWeightUI();
             }
         }
-
+        
         function setupDragAndDrop() {
             const foodListElement = document.getElementById('food-list');
             new Sortable(foodListElement, {
                 animation: 150,
                 handle: '.drag-handle',
-                touchStartThreshold: 10,
                 onEnd: () => {
                     updateFoodLogOrder();
                     saveData();
                 },
-                onStart: (evt) => {
-                    const item = evt.item;
-                    const nameSpan = item.querySelector('.food-name');
-                    if (nameSpan === document.activeElement) {
-                        nameSpan.blur();
-                    }
-                }
             });
         }
-
+        
         function updateFoodLogOrder() {
             const dateStr = getDateString(currentDate);
             const foodListElement = document.getElementById('food-list');
-            const foodItems = foodListElement.children;
-            foodLog[dateStr] = [];
-
-            Array.from(foodItems).forEach(item => {
+            const newOrderedLog = [];
+            
+            Array.from(foodListElement.children).forEach(item => {
                 const name = item.querySelector('.food-name').textContent;
                 const calories = parseInt(item.querySelector('.calories').textContent);
-                foodLog[dateStr].push({ name, calories });
+                newOrderedLog.push({ name, calories });
             });
-
+            foodLog[dateStr] = newOrderedLog;
             updateDailyUI();
             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
         }
@@ -373,12 +312,11 @@
         }
 
         function updateWeeklyUI() {
+            updateWeekDateRange();
             updateWeeklyList();
             updateWeeklyTotals();
             updateDailyCaloriesMinMax();
             renderWeeklyChart();
-            updateWeekDateRange();
-            updateNavigationButtons();
         }
 
         function updateWeeklyTotalsUI() {
@@ -388,8 +326,8 @@
         }
 
         function updateWeightUI() {
-            updateWeightMinMax();
             updateWeightList();
+            updateWeightMinMax();
             renderWeightChart();
         }
 
@@ -399,22 +337,13 @@
             const calorieLimit = getCalorieLimit(currentDate);
             const remainingCalories = calorieLimit - totalCalories;
 
-            const totalCaloriesText = document.querySelector('.text-primary');
-            const totalCaloriesBadge = document.getElementById('total-calories');
-            const remainingCaloriesBadge = document.getElementById('remaining-calories');
-            const remainingCaloriesText = document.querySelector('.text-success');
-
-            totalCaloriesBadge.innerText = totalCalories;
-            remainingCaloriesBadge.innerText = remainingCalories;
-
-            totalCaloriesText.style.color = '#2B4A8C';
-            remainingCaloriesText.style.color = remainingCalories < 0 ? '#C0392B' : '#4B5EAA';
-            remainingCaloriesBadge.className = remainingCalories < 0 ? 'badge bg-danger' : 'badge bg-success';
-
-            data = {
-                totalCaloriesUsed: totalCalories,
-                remainingCalories: remainingCalories
-            };
+            document.getElementById('total-calories').innerText = totalCalories;
+            const remainingBadge = document.getElementById('remaining-calories');
+            remainingBadge.innerText = remainingCalories;
+            remainingBadge.className = remainingCalories < 0 ? 'badge bg-danger' : 'badge bg-success';
+            
+            data.totalCaloriesUsed = totalCalories;
+            data.remainingCalories = remainingCalories;
         }
 
         function updateFoodList() {
@@ -423,699 +352,372 @@
             foodListElement.innerHTML = '';
 
             if (foodLog[dateStr]) {
-                const aggregatedFoods = {};
-                foodLog[dateStr].forEach(entry => {
-                    const name = entry.name;
-                    if (!aggregatedFoods[name]) {
-                        aggregatedFoods[name] = { name, calories: 0 };
-                    }
-                    aggregatedFoods[name].calories += entry.calories;
-                });
-
-                const coffeeItems = [];
-                const otherCalories = [];
-                Object.values(aggregatedFoods).forEach(entry => {
-                    if (entry.name.toLowerCase().includes('coffee')) {
-                        coffeeItems.push(entry);
-                    } else {
-                        otherCalories.push(entry);
-                    }
-                });
-
-                const createListItem = (entry) => {
+                foodLog[dateStr].forEach((entry, index) => {
                     const listItem = document.createElement('li');
-                    listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-                    listItem.setAttribute('draggable', 'true');
-
-                    const dragHandle = document.createElement('span');
-                    dragHandle.classList.add('drag-handle', 'me-2');
-                    dragHandle.innerHTML = '<i class="fas fa-grip-vertical"></i>';
-                    dragHandle.style.cursor = 'grab';
-
-                    const nameSpan = document.createElement('span');
-                    nameSpan.classList.add('food-name', 'form-control', 'flex-grow-1');
-                    nameSpan.contentEditable = 'true';
-                    nameSpan.textContent = entry.name;
-
-                    nameSpan.addEventListener('keypress', (e) => {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            const newName = nameSpan.textContent.trim();
-                            if (newName) {
-                                foodLog[dateStr] = foodLog[dateStr].map(item => {
-                                    if (item.name === entry.name) {
-                                        return { ...item, name: newName };
-                                    }
-                                    return item;
-                                });
-                                updateFoodList();
-                                if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
-                                saveData();
-                            } else {
-                                nameSpan.textContent = entry.name;
-                            }
-                            nameSpan.blur();
-                        }
-                    });
-
-                    nameSpan.addEventListener('blur', () => {
-                        const newName = nameSpan.textContent.trim();
-                        if (newName && newName !== entry.name) {
-                            foodLog[dateStr] = foodLog[dateStr].map(item => {
-                                if (item.name === entry.name) {
-                                    return { ...item, name: newName };
-                                }
-                                return item;
-                            });
-                            updateFoodList();
-                            if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
-                            saveData();
-                        } else if (!newName) {
-                            nameSpan.textContent = entry.name;
-                        }
-                    });
-
-                    const caloriesSpan = document.createElement('span');
-                    caloriesSpan.classList.add('calories', 'mx-2');
-                    caloriesSpan.textContent = `${entry.calories}`;
-
-                    const deleteButton = document.createElement('button');
-                    deleteButton.classList.add('btn', 'btn-sm', 'btn-danger');
-                    deleteButton.innerHTML = '<i class="bi-trash"></i>';
-
-                    deleteButton.addEventListener('click', () => {
-                        foodLog[dateStr] = foodLog[dateStr].filter(item => item.name !== entry.name);
-                        updateUI();
-                        if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
-                        saveData();
-                    });
-
-                    listItem.appendChild(dragHandle);
-                    listItem.appendChild(nameSpan);
-                    listItem.appendChild(caloriesSpan);
-                    listItem.appendChild(deleteButton);
-                    return listItem;
-                };
-
-                coffeeItems.reverse().forEach(entry => foodListElement.appendChild(createListItem(entry)));
-                otherCalories.forEach(entry => foodListElement.appendChild(createListItem(entry)));
+                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    listItem.innerHTML = `
+                        <span class="drag-handle me-2" style="cursor: grab;"><i class="fas fa-grip-vertical"></i></span>
+                        <span class="food-name flex-grow-1">${entry.name}</span>
+                        <span class="calories mx-2">${entry.calories}</span>
+                        <button class="btn btn-sm btn-danger delete-btn" data-index="${index}"><i class="bi-trash"></i></button>
+                    `;
+                    foodListElement.appendChild(listItem);
+                });
             }
+             document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const indexToDelete = parseInt(e.currentTarget.getAttribute('data-index'));
+                    const currentDayStr = getDateString(currentDate);
+                    foodLog[currentDayStr].splice(indexToDelete, 1);
+                    updateUI();
+                    if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
+                    saveData();
+                });
+            });
         }
-
+        
         function updateWeightDisplay() {
             const dateStr = getDateString(currentDate);
             const weightBadge = document.getElementById('current-weight');
             weightBadge.textContent = weightLog[dateStr] ? `${weightLog[dateStr]} lbs` : 'Not recorded';
         }
 
-        function updateDailyCaloriesMinMax() {
-            const currentDateStr = getDateString(currentDate);
-            const dailyCalories = Object.keys(foodLog)
-                .filter(dateStr => dateStr !== currentDateStr)
-                .map(dateStr => foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0));
-
-            let lowestCalories = '--';
-            let highestCalories = '--';
-
-            if (dailyCalories.length > 0) {
-                lowestCalories = Math.min(...dailyCalories);
-                highestCalories = Math.max(...dailyCalories);
-            }
-
-            document.getElementById('lowest-daily-calories').textContent = lowestCalories !== '--' ? `${lowestCalories} cals` : '--';
-            document.getElementById('highest-daily-calories').textContent = highestCalories !== '--' ? `${highestCalories} cals` : '--';
-        }
-
-        function updateWeeklyCaloriesMinMax() {
-            const currentWeekStartStr = getDateString(currentWeekStart);
-            const weeklyTotals = getWeeklyTotalsData().totals;
-            const weeklyWeeks = getWeeklyTotalsData().weeks;
-            const filteredTotals = weeklyTotals.filter((_, index) => {
-                const weekStartStr = getDateString(weeklyWeeks[index].weekStart);
-                return weekStartStr !== currentWeekStartStr;
-            });
-
-            let lowestWeeklyCalories = '--';
-            let highestWeeklyCalories = '--';
-
-            if (filteredTotals.length > 0) {
-                lowestWeeklyCalories = Math.min(...filteredTotals);
-                highestWeeklyCalories = Math.max(...filteredTotals);
-            }
-
-            document.getElementById('lowest-weekly-calories').textContent = lowestWeeklyCalories !== '--' ? `${lowestWeeklyCalories} cals` : '--';
-            document.getElementById('highest-weekly-calories').textContent = highestWeeklyCalories !== '--' ? `${highestWeeklyCalories} cals` : '--';
-        }
-
         function addWeight() {
             const weightInput = document.getElementById('weight-input');
             const weight = parseFloat(weightInput.value);
-            if (isNaN(weight) || weight <= 0) {
+            if (!isNaN(weight) && weight > 0) {
+                const dateStr = getDateString(currentDate);
+                weightLog[dateStr] = weight;
+                weightInput.value = '';
+                updateUI();
+                if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
+                updateWeightUI();
+                saveData();
+            } else {
                 alert('Please enter a valid positive weight.');
-                return;
-            }
-            const dateStr = getDateString(currentDate);
-            weightLog[dateStr] = weight;
-            weightInput.value = '';
-            updateUI();
-            if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
-            updateWeightUI();
-            saveData();
-        }
-
-        function renderDailyChart() {
-            const ctx = document.getElementById('caloriesChart').getContext('2d');
-            let totalCaloriesUsed = data.totalCaloriesUsed;
-            let remainingCalories = data.remainingCalories;
-            const calorieLimit = getCalorieLimit(currentDate);
-
-            if (totalCaloriesUsed < 0) {
-                totalCaloriesUsed = 0;
-                remainingCalories = calorieLimit;
-            }
-
-            const colorTransparentRed = 'rgba(255, 99, 132, 0.5)';
-            const colorTransparentGreen = 'rgba(75, 192, 192, 0.5)';
-            const colorSolidRed = 'rgba(255, 99, 132, 1)';
-            const colorSolidGreen = 'rgba(75, 192, 192, 1)';
-
-            let chartColorsUsed;
-            let borderColorsUsed;
-
-            if (totalCaloriesUsed >= calorieLimit) {
-                chartColorsUsed = [colorTransparentRed];
-                borderColorsUsed = [colorSolidRed];
-                totalCaloriesUsed = calorieLimit;
-                remainingCalories = 0;
-            } else {
-                chartColorsUsed = [colorTransparentGreen, 'rgba(200, 200, 200, 0.5)'];
-                borderColorsUsed = [colorSolidGreen, 'rgba(200, 200, 200, 1)'];
-            }
-
-            if (!dailyChart) {
-                dailyChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Calories Used', 'Remaining Calories'],
-                        datasets: [{
-                            data: [totalCaloriesUsed, remainingCalories],
-                            backgroundColor: chartColorsUsed,
-                            borderColor: borderColorsUsed,
-                            borderWidth: 2,
-                            cutout: '50%'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function (context) {
-                                        if (context.label === 'Calories Used') {
-                                            return `Calories Used: ${data.totalCaloriesUsed}`;
-                                        } else if (context.label === 'Remaining Calories') {
-                                            return `Remaining Calories: ${data.remainingCalories}`;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            } else {
-                dailyChart.data.datasets[0].data[0] = totalCaloriesUsed;
-                dailyChart.data.datasets[0].data[1] = remainingCalories;
-                dailyChart.data.datasets[0].backgroundColor = chartColorsUsed;
-                dailyChart.data.datasets[0].borderColor = borderColorsUsed;
-                dailyChart.data.datasets[0].cutout = '50%';
-                dailyChart.update();
             }
         }
 
         function displayCurrentDate() {
-            const options = {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                timeZone: 'America/New_York',
-            };
-            const formatter = new Intl.DateTimeFormat('en-US', options);
-            document.getElementById('date-input').value = formatter.format(currentDate);
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('date-input').value = currentDate.toLocaleDateString('en-US', options);
         }
 
-        function getWeekData() {
-            const weekData = Array(DAYS_PER_WEEK).fill(0);
-            for (let i = 0; i < DAYS_PER_WEEK; i++) {
-                const day = new Date(currentWeekStart.getTime() + i * MS_PER_DAY);
-                const dateStr = getDateString(day);
-                if (foodLog[dateStr]) {
-                    weekData[i] = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
-                }
+        function changeDate(offset) {
+            currentDate.setDate(currentDate.getDate() + offset);
+            const newWeekStart = getWeekStart(currentDate);
+            if (newWeekStart.getTime() !== currentWeekStart.getTime()) {
+                currentWeekStart = newWeekStart;
+                if (currentView === 'weekly') updateWeeklyUI();
             }
-            return weekData;
+            updateDailyUI();
+            saveData();
         }
 
-        function updateWeeklyList() {
-            const weekData = getWeekData();
-            const weeklyListElement = document.getElementById('weekly-list');
-            weeklyListElement.innerHTML = weekData.map((calories, index) => {
-                if (calories === 0) return '';
-                const caloriesSaved = DAILY_MAXIMUMS[index] - calories;
-                const color = caloriesSaved >= 0 ? '#4B5EAA' : '#C0392B';
-                return `
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        ${DAYS_OF_WEEK[index]}: ${calories} cals
-                        <span style="color: ${color}">(${Math.abs(caloriesSaved)} cals)</span>
-                    </li>
-                `;
-            }).join('');
-        }
-
-        function updateWeeklyTotals() {
-            const weekData = getWeekData();
-            const totalConsumed = weekData.reduce((a, b) => a + b, 0);
-            const remainingCalories = TOTAL_WEEKLY_CALORIES - totalConsumed;
-            let totalSavedCalories = 0;
-            weekData.forEach((entry, index) => {
-                const dailySaved = DAILY_MAXIMUMS[index] - entry;
-                totalSavedCalories += dailySaved;
-            });
-
-            document.getElementById('weekly-total').textContent = `Total Consumed: ${totalConsumed}`;
-            document.getElementById('weekly-remaining').textContent = `Total Remaining: ${remainingCalories}`;
-            document.getElementById('weekly-saved').textContent = `Total Saved: ${totalSavedCalories}`;
-        }
-
-        function renderWeeklyChart() {
-            const ctx = document.getElementById('weeklyChart').getContext('2d');
-            const weekData = getWeekData();
-
-            const colorTransparentRed = 'rgba(255, 99, 132, 0.5)';
-            const colorTransparentGreen = 'rgba(75, 192, 192, 0.5)';
-            const colorSolidRed = 'rgba(255, 99, 132, 1)';
-            const colorSolidGreen = 'rgba(75, 192, 192, 1)';
-
-            const backgroundColors = weekData.map(calories => calories > 1500 ? colorTransparentRed : colorTransparentGreen);
-            const borderColors = weekData.map(calories => calories > 1500 ? colorSolidRed : colorSolidGreen);
-            
-            const maxCalories = Math.max(...weekData, 1500);
-            const yAxisMax = Math.ceil(maxCalories / 500) * 500;
-
-            if (weeklyChart) weeklyChart.destroy();
-            weeklyChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: DAYS_OF_WEEK,
-                    datasets: [{
-                        label: 'Calories Consumed',
-                        data: weekData,
-                        backgroundColor: backgroundColors,
-                        borderColor: borderColors,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: yAxisMax,
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => `${context.raw} cals (Limit: ${DAILY_MAXIMUMS[context.dataIndex]})`
-                            }
-                        }
-                    }
-                }
-            });
+        function changeWeek(offset) {
+            currentWeekStart.setDate(currentWeekStart.getDate() + offset * DAYS_PER_WEEK);
+            updateWeeklyUI();
+            saveData();
         }
 
         function updateWeekDateRange() {
-            const weekStart = new Date(currentWeekStart);
-            const weekEnd = new Date(weekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
-            const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}`;
-            document.getElementById('week-input').value = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+            const weekEnd = new Date(currentWeekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
+            const options = { month: 'short', day: 'numeric' };
+            document.getElementById('week-input').value = `${currentWeekStart.toLocaleDateString('en-US', options)} - ${weekEnd.toLocaleDateString('en-US', options)}`;
         }
 
-        function updateNavigationButtons() {
-            document.getElementById('prev-week-button').disabled = false;
-            document.getElementById('next-week-button').disabled = false;
+        function getWeeklyData() {
+            const weekData = [];
+            for (let i = 0; i < DAYS_PER_WEEK; i++) {
+                const date = new Date(currentWeekStart.getTime() + i * MS_PER_DAY);
+                const dateStr = getDateString(date);
+                const totalCalories = foodLog[dateStr] ? foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0) : null;
+                weekData.push({ date: date, calories: totalCalories });
+            }
+            return weekData;
         }
+        
+        function updateDailyCaloriesMinMax() {
+            const weeklyData = getWeeklyData();
+            const validDays = weeklyData.filter(day => day.calories !== null && day.calories > 0);
 
-        function resetCurrentWeek() {
-            if (confirm('Are you sure you want to reset this week’s calorie data?')) {
-                const weekStart = new Date(currentWeekStart);
-                for (let i = 0; i < DAYS_PER_WEEK; i++) {
-                    const day = new Date(weekStart.getTime() + i * MS_PER_DAY);
-                    const dateStr = getDateString(day);
-                    delete foodLog[dateStr];
+            const lowestCalEl = document.getElementById('lowest-daily-calories');
+            const highestCalEl = document.getElementById('highest-daily-calories');
+            const lowestDateEl = document.getElementById('lowest-daily-calories-date');
+            const highestDateEl = document.getElementById('highest-daily-calories-date');
+
+            lowestCalEl.textContent = '--';
+            highestCalEl.textContent = '--';
+            lowestDateEl.textContent = '';
+            highestDateEl.textContent = '';
+
+            if (validDays.length > 0) {
+                const minDay = validDays.reduce((min, day) => day.calories < min.calories ? day : min);
+                const maxDay = validDays.reduce((max, day) => day.calories > max.calories ? day : max);
+
+                lowestCalEl.textContent = `${minDay.calories} cals`;
+                lowestDateEl.textContent = getDateString(minDay.date);
+
+                highestCalEl.textContent = `${maxDay.calories} cals`;
+                highestDateEl.textContent = getDateString(maxDay.date);
+            }
+        }
+        
+        function getWeeklyTotalsData() {
+            const weeklyData = {};
+            const threeMonthsAgo = new Date().getTime() - THREE_MONTHS_MS;
+            Object.keys(foodLog).forEach(dateStr => {
+                const date = new Date(dateStr);
+                if (isNaN(date) || date.getTime() < threeMonthsAgo) return;
+                const weekStart = getWeekStart(date);
+                const weekStartStr = getDateString(weekStart);
+                if (!weeklyData[weekStartStr]) {
+                    weeklyData[weekStartStr] = { total: 0, weekStart: weekStart };
                 }
-                updateUI();
-                saveData();
+                weeklyData[weekStartStr].total += foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
+            });
+            const sortedWeeks = Object.values(weeklyData).sort((a, b) => a.weekStart - b.weekStart);
+            const labels = sortedWeeks.map(week => `Week of ${getDateString(week.weekStart)}`);
+            const totals = sortedWeeks.map(week => week.total);
+            return { labels, totals, weeks: sortedWeeks };
+        }
+
+        function updateWeeklyCaloriesMinMax() {
+            const { weeks } = getWeeklyTotalsData();
+            const validWeeks = weeks.filter(week => week.total > 0);
+            const lowestCalEl = document.getElementById('lowest-weekly-calories');
+            const highestCalEl = document.getElementById('highest-weekly-calories');
+            const lowestDateEl = document.getElementById('lowest-weekly-calories-date');
+            const highestDateEl = document.getElementById('highest-weekly-calories-date');
+
+            lowestCalEl.textContent = '--';
+            highestCalEl.textContent = '--';
+            lowestDateEl.textContent = '';
+            highestDateEl.textContent = '';
+
+            if (validWeeks.length > 0) {
+                const minWeek = validWeeks.reduce((min, week) => week.total < min.total ? week : min);
+                const maxWeek = validWeeks.reduce((max, week) => week.total > max.total ? week : max);
+                lowestCalEl.textContent = `${minWeek.total} cals`;
+                lowestDateEl.textContent = `Week of ${getDateString(minWeek.weekStart)}`;
+                highestCalEl.textContent = `${maxWeek.total} cals`;
+                highestDateEl.textContent = `Week of ${getDateString(maxWeek.weekStart)}`;
             }
         }
 
-        function getWeeklyTotalsData() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const threeMonthsAgo = new Date(today.getTime() - THREE_MONTHS_MS);
+        function updateWeightMinMax() {
+            const weightEntries = Object.entries(weightLog)
+                .map(([dateStr, weight]) => ({ date: dateStr, weight: parseFloat(weight) }))
+                .filter(entry => !isNaN(entry.weight));
 
-            const weeklyTotals = {};
-            Object.keys(foodLog).forEach(dateStr => {
-                const date = new Date(dateStr);
-                if (isNaN(date)) return;
-                date.setHours(0, 0, 0, 0);
+            const lowestWeightEl = document.getElementById('lowest-weight-display');
+            const highestWeightEl = document.getElementById('highest-weight-display');
+            const lowestDateEl = document.getElementById('lowest-weight-date');
+            const highestDateEl = document.getElementById('highest-weight-date');
 
-                if (date >= threeMonthsAgo && date <= today) {
-                    const weekStart = getWeekStart(date);
-                    const weekStartStr = getDateString(weekStart);
-                    const calories = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
+            lowestWeightEl.textContent = '--';
+            highestWeightEl.textContent = '--';
+            lowestDateEl.textContent = '';
+            highestDateEl.textContent = '';
 
-                    if (!weeklyTotals[weekStartStr]) {
-                        weeklyTotals[weekStartStr] = 0;
-                    }
-                    weeklyTotals[weekStartStr] += calories;
-                }
+            if (weightEntries.length > 0) {
+                const minEntry = weightEntries.reduce((min, entry) => entry.weight < min.weight ? entry : min);
+                const maxEntry = weightEntries.reduce((max, entry) => entry.weight > max.weight ? entry : max);
+                lowestWeightEl.textContent = `${minEntry.weight.toFixed(1)} lbs`;
+                lowestDateEl.textContent = minEntry.date;
+                highestWeightEl.textContent = `${maxEntry.weight.toFixed(1)} lbs`;
+                highestDateEl.textContent = maxEntry.date;
+            }
+        }
+
+        function updateWeeklyList() {
+            const listEl = document.getElementById('weekly-list');
+            listEl.innerHTML = '';
+            getWeeklyData().forEach((day, index) => {
+                const calorieText = day.calories !== null ? `${day.calories}` : 'No data';
+                listEl.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>${DAYS_OF_WEEK[index]}</span>
+                    <span class="badge bg-primary rounded-pill">${calorieText}</span></li>`;
             });
-
-            const sortedWeeks = Object.keys(weeklyTotals).sort((a, b) => new Date(a) - new Date(b));
-
-            return {
-                labels: sortedWeeks.map(dateStr => {
-                    const date = new Date(dateStr);
-                    return `${date.getMonth() + 1}/${date.getDate()}`;
-                }),
-                totals: sortedWeeks.map(dateStr => weeklyTotals[dateStr]),
-                weeks: sortedWeeks.map(dateStr => {
-                    return {
-                        weekStart: new Date(dateStr),
-                        total: weeklyTotals[dateStr]
-                    };
-                })
-            };
+        }
+        
+        function updateWeeklyTotals() {
+            const total = getWeeklyData().reduce((sum, day) => sum + (day.calories || 0), 0);
+            document.getElementById('weekly-total').textContent = `Total This Week: ${total.toLocaleString()} cals`;
+            document.getElementById('weekly-remaining').textContent = `Remaining This Week: ${(TOTAL_WEEKLY_CALORIES - total).toLocaleString()} cals`;
         }
 
         function updateWeeklyTotalsList() {
             const { weeks } = getWeeklyTotalsData();
-            const weeklyTotalsListElement = document.getElementById('weekly-totals-list');
-            weeklyTotalsListElement.innerHTML = '';
-
-            weeks.reverse().forEach(week => {
-                const weekNumber = getWeekNumber(week.weekStart);
-                weeklyTotalsListElement.innerHTML += `
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Week ${weekNumber}</span>
-                        <span>${week.total} cals</span>
-                    </li>
-                `;
+            const listEl = document.getElementById('weekly-totals-list');
+            listEl.innerHTML = '';
+            weeks.forEach(week => {
+                listEl.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Week of ${getDateString(week.weekStart)}</span>
+                    <span class="badge bg-info rounded-pill">${week.total.toLocaleString()} cals</span></li>`;
+            });
+        }
+        
+        function updateWeightList() {
+            const listEl = document.getElementById('weight-list');
+            listEl.innerHTML = '';
+            Object.entries(weightLog)
+                .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA))
+                .forEach(([dateStr, weight]) => {
+                listEl.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>${dateStr}</span>
+                    <span class="badge bg-secondary rounded-pill">${weight} lbs</span></li>`;
             });
         }
 
+        function renderDailyChart() {
+            const ctx = document.getElementById('caloriesChart').getContext('2d');
+            const totalUsed = Math.max(0, data.totalCaloriesUsed);
+            const remaining = Math.max(0, data.remainingCalories);
+            const isOver = data.totalCaloriesUsed > getCalorieLimit(currentDate);
+
+            if (dailyChart) {
+                dailyChart.data.datasets[0].data = isOver ? [totalUsed] : [totalUsed, remaining];
+                dailyChart.data.datasets[0].backgroundColor = isOver ? ['rgba(255, 99, 132, 0.5)'] : ['rgba(75, 192, 192, 0.5)', 'rgba(200, 200, 200, 0.5)'];
+                dailyChart.update();
+            } else {
+                dailyChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Used', 'Remaining'],
+                        datasets: [{
+                            data: [totalUsed, remaining],
+                            backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(200, 200, 200, 0.5)'],
+                            cutout: '50%'
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+        }
+
+        function renderWeeklyChart() {
+            const ctx = document.getElementById('weeklyChart').getContext('2d');
+            const chartData = getWeeklyData().map(day => day.calories === null ? 0 : day.calories);
+            const backgroundColors = chartData.map(calories =>
+                calories > 1500 ? 'rgba(255, 99, 132, 0.6)' : 'rgba(54, 162, 235, 0.6)'
+            );
+
+            if (weeklyChart) {
+                weeklyChart.data.datasets[0].data = chartData;
+                weeklyChart.data.datasets[0].backgroundColor = backgroundColors;
+                weeklyChart.update();
+            } else {
+                weeklyChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+                        datasets: [{
+                            data: chartData,
+                            backgroundColor: backgroundColors
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+        }
+        
         function renderWeeklyTotalsChart() {
-            const ctx = document.getElementById('weeklyTotalsChart').getContext('2d');
             const { labels, totals } = getWeeklyTotalsData();
+            const ctx = document.getElementById('weeklyTotalsChart').getContext('2d');
+            const backgroundColors = totals.map(total =>
+                total > 10500 ? 'rgba(255, 99, 132, 0.6)' : 'rgba(75, 192, 192, 0.6)'
+            );
 
-            const colorTransparentRed = 'rgba(255, 99, 132, 0.5)';
-            const colorTransparentGreen = 'rgba(75, 192, 192, 0.5)';
-            const colorSolidRed = 'rgba(255, 99, 132, 1)';
-            const colorSolidGreen = 'rgba(75, 192, 192, 1)';
-
-            const backgroundColors = totals.map(total => total > TOTAL_WEEKLY_CALORIES ? colorTransparentRed : colorTransparentGreen);
-            const borderColors = totals.map(total => total > TOTAL_WEEKLY_CALORIES ? colorSolidRed : colorSolidGreen);
-
-            const minTotal = totals.length > 0 ? Math.min(...totals) : 0;
-            const maxTotal = totals.length > 0 ? Math.max(...totals) : TOTAL_WEEKLY_CALORIES + 1500;
-            const padding = (maxTotal - minTotal) * 0.1 || 1000;
-
-            if (weeklyTotalsChart) weeklyTotalsChart.destroy();
+            if (weeklyTotalsChart) {
+                weeklyTotalsChart.destroy();
+            }
+            
             weeklyTotalsChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Weekly Calories Consumed',
+                        label: 'Total Weekly Calories',
                         data: totals,
-                        backgroundColor: backgroundColors,
-                        borderColor: borderColors,
-                        borderWidth: 1
+                        backgroundColor: backgroundColors
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Total Calories'
-                            },
-                            min: Math.max(0, minTotal - padding),
-                            max: maxTotal + padding
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Week (Start Date)'
-                            },
-                            ticks: {
-                                maxTicksLimit: 8,
-                                autoSkip: true,
-                                maxRotation: 45,
-                                minRotation: 0
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => `${context.raw} cals`
-                            }
+                            min: 0,
+                            max: 15000
                         }
                     }
                 }
             });
         }
+        
+        function getWeightChartData() {
+             const threeMonthsAgo = new Date().getTime() - THREE_MONTHS_MS;
+             const filteredEntries = Object.entries(weightLog)
+                .map(([dateStr, weight]) => ({ date: new Date(dateStr), weight }))
+                .filter(entry => entry.date.getTime() >= threeMonthsAgo)
+                .sort((a, b) => a.date - b.date);
 
-        function getThreeMonthWeightData() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const threeMonthsAgo = new Date(today.getTime() - THREE_MONTHS_MS);
-            
-            const weightData = [];
-            Object.keys(weightLog).forEach(dateStr => {
-                const date = new Date(dateStr);
-                if (isNaN(date)) return;
-                date.setHours(0, 0, 0, 0);
-                if (date >= threeMonthsAgo && date <= today) {
-                    weightData.push({
-                        date: date,
-                        weight: weightLog[dateStr]
-                    });
-                }
-            });
-
-            weightData.sort((a, b) => a.date - b.date);
-            
-            return {
-                labels: weightData.map(entry => getDateString(entry.date)),
-                weights: weightData.map(entry => entry.weight)
-            };
-        }
-
-        function updateWeightMinMax() {
-            const allWeights = Object.values(weightLog);
-            let lowestWeight = '--';
-            let highestWeight = '--';
-
-            if (allWeights.length > 0) {
-                lowestWeight = Math.min(...allWeights);
-                highestWeight = Math.max(...allWeights);
-            }
-
-            document.getElementById('lowest-weight-display').textContent = lowestWeight !== '--' ? `${lowestWeight} lbs` : '--';
-            document.getElementById('highest-weight-display').textContent = highestWeight !== '--' ? `${highestWeight} lbs` : '--';
-        }
-
-        function updateWeightList() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const threeMonthsAgo = new Date(today.getTime() - THREE_MONTHS_MS);
-            
-            const weightData = [];
-            Object.keys(weightLog).forEach(dateStr => {
-                const date = new Date(dateStr);
-                if (isNaN(date)) return;
-                date.setHours(0, 0, 0, 0);
-                if (date >= threeMonthsAgo && date <= today) {
-                    weightData.push({
-                        date: date,
-                        weight: weightLog[dateStr]
-                    });
-                }
-            });
-
-            weightData.sort((a, b) => b.date - a.date);
-
-            const weightListElement = document.getElementById('weight-list');
-            weightListElement.innerHTML = '';
-
-            const weeks = {};
-            weightData.forEach(entry => {
-                const weekStart = getWeekStart(entry.date);
-                const weekStartStr = getDateString(weekStart);
-                const weekNumber = getWeekNumber(weekStart);
-                if (!weeks[weekStartStr]) {
-                    weeks[weekStartStr] = {
-                        weekNumber: weekNumber,
-                        days: []
-                    };
-                }
-                weeks[weekStartStr].days.push({ date: getDateString(entry.date), weight: entry.weight, rawDate: entry.date });
-            });
-
-            const sortedWeekStarts = Object.keys(weeks).sort((a, b) => new Date(b) - new Date(a));
-
-            sortedWeekStarts.forEach(weekStartStr => {
-                const week = weeks[weekStartStr];
-                const weekStart = new Date(weekStartStr);
-                const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-                weightListElement.innerHTML += `
-                    <li class="list-group-item week-divider">Week ${week.weekNumber} (${formatDate(weekStart)})</li>
-                `;
-                week.days.sort((a, b) => b.rawDate - a.rawDate);
-                week.days.forEach(day => {
-                    const dayIndex = (new Date(day.date).getDay() + 6) % 7;
-                    weightListElement.innerHTML += `
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            ${DAYS_OF_WEEK[dayIndex]}
-                            <span style="text-align: right;">${day.weight} lbs</span>
-                        </li>
-                    `;
-                });
-            });
+            const labels = filteredEntries.map(entry => getDateString(entry.date));
+            const data = filteredEntries.map(entry => entry.weight);
+            return { labels, data };
         }
 
         function renderWeightChart() {
+            const { labels, data } = getWeightChartData();
             const ctx = document.getElementById('weightChart').getContext('2d');
-            const { labels, weights } = getThreeMonthWeightData();
-
-            const minWeight = weights.length > 0 ? Math.min(...weights) : 100;
-            const maxWeight = weights.length > 0 ? Math.max(...weights) : 200;
-            const padding = (maxWeight - minWeight) * 0.1 || 10;
-
-            if (weightChart) weightChart.destroy();
-            weightChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Weight (lbs)',
-                        data: weights,
-                        borderColor: 'rgba(75, 94, 170, 1)',
-                        backgroundColor: 'rgba(75, 94, 170, 0.2)',
-                        fill: false,
-                        tension: 0.1,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            },
-                            ticks: {
-                                maxTicksLimit: 8,
-                                autoSkip: true,
-                                maxRotation: 45,
-                                minRotation: 0
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Weight (lbs)'
-                            },
-                            min: minWeight - padding,
-                            max: maxWeight + padding,
-                            beginAtZero: false
-                        }
+            if (weightChart) {
+                weightChart.data.labels = labels;
+                weightChart.data.datasets[0].data = data;
+                weightChart.update();
+            } else {
+                weightChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Weight (lbs)',
+                            data: data,
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            fill: true,
+                            tension: 0.1
+                        }]
                     },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => `${context.raw} lbs`
-                            }
-                        },
-                        legend: {
-                            display: true
-                        }
-                    }
-                }
-            });
+                    options: { responsive: true, plugins: { legend: { display: false } } }
+                });
+            }
         }
 
-        document.getElementById('prev-date-button').addEventListener('click', () => {
-            currentDate.setDate(currentDate.getDate() - 1);
-            currentWeekStart = getWeekStart(currentDate);
-            updateUI();
-            saveData();
-        });
-
-        document.getElementById('next-date-button').addEventListener('click', () => {
-            currentDate.setDate(currentDate.getDate() + 1);
-            currentWeekStart = getWeekStart(currentDate);
-            updateUI();
-            saveData();
-        });
-
-        document.getElementById('prev-week-button').addEventListener('click', () => {
-            currentWeekStart.setDate(currentWeekStart.getDate() - DAYS_PER_WEEK);
-            updateUI();
-            saveData();
-        });
-
-        document.getElementById('next-week-button').addEventListener('click', () => {
-            currentWeekStart.setDate(currentWeekStart.getDate() + DAYS_PER_WEEK);
-            updateUI();
-            saveData();
-        });
-
-        document.getElementById('food-list').addEventListener('input', () => {
-            saveData();
-            if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
-        });
-
-        document.getElementById('add-weight-btn').addEventListener('click', () => {
-            addWeight();
-        });
-
+        // Event Listeners
+        document.getElementById('prev-date-button').addEventListener('click', () => changeDate(-1));
+        document.getElementById('next-date-button').addEventListener('click', () => changeDate(1));
+        document.getElementById('prev-week-button').addEventListener('click', () => changeWeek(-1));
+        document.getElementById('next-week-button').addEventListener('click', () => changeWeek(1));
+        document.getElementById('add-weight-btn').addEventListener('click', addWeight);
         document.getElementById('export-button').addEventListener('click', exportData);
         document.getElementById('import-button').addEventListener('change', importData);
 
-        const tabs = document.querySelectorAll('.nav-link');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetId = tab.getAttribute('data-bs-target').substring(1);
-                currentView = targetId.split('-')[0] === 'weekly' && targetId.includes('totals') ? 'weekly-totals' : targetId.split('-')[0];
+        document.querySelectorAll('#trackerTabs .nav-link').forEach(tab => {
+            tab.addEventListener('shown.bs.tab', (event) => {
+                const targetId = event.target.getAttribute('data-bs-target').substring(1);
+                currentView = targetId.replace('-view', '');
                 updateUI();
             });
         });
 
-        document.addEventListener('DOMContentLoaded', loadData);
+        // Initial Load
+        window.addEventListener('load', loadData);
     </script>
 </body>
 </html>
