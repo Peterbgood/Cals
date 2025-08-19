@@ -134,6 +134,43 @@
                 </div>
                 <ul id="weight-list" class="list-group my-3"></ul>
             </div>
+            <div class="tab-pane fade" id="dashboard-view" role="tabpanel" aria-labelledby="dashboard-tab">
+                <h1 class="text-center mb-4 animate__animated animate__fadeIn">Dashboard</h1>
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card text-center shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Average Daily Calories</h5>
+                                <p id="avg-daily-calories" class="card-text fs-4 fw-bold">--</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Average Weight</h5>
+                                <p id="avg-weight" class="card-text fs-4 fw-bold">--</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Weight Change</h5>
+                                <p id="weight-change" class="card-text fs-4 fw-bold">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="text-center mt-4 mb-3">Calorie Distribution</h2>
+                <div class="chart-container" style="max-width: 400px; height: 400px; margin: 0 auto; padding: 20px;">
+                    <canvas id="foodDistributionChart"></canvas>
+                </div>
+                <h2 class="text-center mt-4 mb-3">Daily Calorie Trend</h2>
+                <div class="chart-container">
+                    <canvas id="dailyCalorieTrendChart"></canvas>
+                </div>
+            </div>
         </div>
         <div class="mt-4 text-center">
             <button id="export-button" class="btn btn-success m-2"><i class="fas fa-download me-1"></i> Export Data</button>
@@ -155,13 +192,16 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="weight-tab" data-bs-toggle="tab" data-bs-target="#weight-view" type="button" role="tab" aria-controls="weight-view" aria-selected="false"><i class="fas fa-weight-scale"></i></button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard-view" type="button" role="tab" aria-controls="dashboard-view" aria-selected="false"><i class="fas fa-tachometer-alt"></i></button>
+                </li>
             </ul>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="accordion.js"></script>
     <script>
-        let dailyChart, weeklyChart, weightChart, weeklyTotalsChart;
+        let dailyChart, weeklyChart, weightChart, weeklyTotalsChart, foodDistributionChart, dailyCalorieTrendChart;
         let data = {
             totalCaloriesUsed: 0,
             remainingCalories: 1500
@@ -170,6 +210,7 @@
         let currentWeekStart = getWeekStart(currentDate);
         let foodLog = {};
         let weightLog = {};
+        let weekData = {};
         let currentView = 'daily';
         const TOTAL_WEEKLY_CALORIES = 10500;
         const DAILY_MAXIMUMS = Array(7).fill(1500);
@@ -179,14 +220,14 @@
         const MS_PER_WEEK = MS_PER_DAY * DAYS_PER_WEEK;
         const THREE_MONTHS_MS = 90 * MS_PER_DAY;
 
-        function getWeekStart(date) {
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            const day = d.getDay();
-            const daysToMonday = (day + 6) % 7;
-            d.setDate(d.getDate() - daysToMonday);
-            return d;
-        }
+       function getWeekStart(date) {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0); // Corrected line
+    const day = d.getDay();
+    const daysToMonday = (day + 6) % 7;
+    d.setDate(d.getDate() - daysToMonday);
+    return d;
+}
 
         function getWeekNumber(date) {
             const d = new Date(date);
@@ -231,25 +272,12 @@
 
             localStorage.setItem('foodLog', JSON.stringify(foodLog));
             localStorage.setItem('weightLog', JSON.stringify(weightLog));
+            localStorage.setItem('weekData', JSON.stringify(weekData));
             localStorage.setItem('currentDate', dateStr);
             localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
         }
 
         function exportData() {
-            const weekData = {};
-            Object.keys(foodLog).forEach(dateStr => {
-                const date = new Date(dateStr);
-                if (isNaN(date)) return;
-                date.setHours(0, 0, 0, 0);
-                const weekStart = getWeekStart(date);
-                const weekStartStr = getDateString(weekStart);
-                if (!weekData[weekStartStr]) {
-                    weekData[weekStartStr] = Array(DAYS_PER_WEEK).fill(0);
-                }
-                const dayIndex = (date.getDay() + 6) % 7;
-                weekData[weekStartStr][dayIndex] = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
-            });
-
             const exportData = { foodLog, weightLog, weekData };
             const dataStr = JSON.stringify(exportData, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
@@ -272,8 +300,10 @@
                     if (importedData.foodLog && importedData.weightLog) {
                         foodLog = importedData.foodLog;
                         weightLog = importedData.weightLog;
+                        weekData = importedData.weekData || {};
                         localStorage.setItem('foodLog', JSON.stringify(foodLog));
                         localStorage.setItem('weightLog', JSON.stringify(weightLog));
+                        localStorage.setItem('weekData', JSON.stringify(weekData));
                         updateUI();
                         alert('Data imported successfully!');
                     } else {
@@ -313,6 +343,18 @@
                 weightLog = {};
             }
 
+            const storedWeekData = localStorage.getItem('weekData');
+            if (storedWeekData) {
+                try {
+                    weekData = JSON.parse(storedWeekData);
+                } catch (error) {
+                    console.error('Error parsing stored week data:', error);
+                    weekData = {};
+                }
+            } else {
+                weekData = {};
+            }
+
             currentDate = new Date();
             currentDate.setHours(0, 0, 0, 0);
             currentWeekStart = getWeekStart(currentDate);
@@ -331,6 +373,8 @@
                 updateWeeklyTotalsUI();
             } else if (currentView === 'weight') {
                 updateWeightUI();
+            } else if (currentView === 'dashboard') {
+                updateDashboardUI();
             }
         }
 
@@ -397,6 +441,12 @@
             updateWeightMinMax();
             updateWeightList();
             renderWeightChart();
+        }
+
+        function updateDashboardUI() {
+            updateDashboardMetrics();
+            renderFoodDistributionChart();
+            renderDailyCalorieTrendChart();
         }
 
         function updateTotalCalories() {
@@ -470,7 +520,7 @@
                             if (newName) {
                                 foodLog[dateStr] = foodLog[dateStr].map(item => {
                                     if (item.name === entry.name) {
-                                        return { ...item, name: newName };
+                                        return { item, name: newName };
                                     }
                                     return item;
                                 });
@@ -489,7 +539,7 @@
                         if (newName && newName !== entry.name) {
                             foodLog[dateStr] = foodLog[dateStr].map(item => {
                                 if (item.name === entry.name) {
-                                    return { ...item, name: newName };
+                                    return { item, name: newName };
                                 }
                                 return item;
                             });
@@ -613,6 +663,40 @@
             document.getElementById('highest-weight-date').textContent = highestWeight !== 0 ? `${highestWeightDate}` : '';
         }
 
+        function updateDashboardMetrics() {
+            // Calculate average daily calories
+            let totalCalories = 0;
+            let daysCount = 0;
+            Object.keys(foodLog).forEach(dateStr => {
+                const calories = foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0);
+                totalCalories += calories;
+                daysCount++;
+            });
+            const avgDailyCalories = daysCount > 0 ? Math.round(totalCalories / daysCount) : 0;
+            document.getElementById('avg-daily-calories').textContent = avgDailyCalories > 0 ? `${avgDailyCalories} cals` : '--';
+
+            // Calculate average weight
+            let totalWeight = 0;
+            let weightCount = 0;
+            Object.keys(weightLog).forEach(dateStr => {
+                totalWeight += weightLog[dateStr];
+                weightCount++;
+            });
+            const avgWeight = weightCount > 0 ? Math.round(totalWeight / weightCount * 10) / 10 : 0;
+            document.getElementById('avg-weight').textContent = avgWeight > 0 ? `${avgWeight} lbs` : '--';
+
+            // Calculate weight change
+            const weightDates = Object.keys(weightLog).sort();
+            if (weightDates.length >= 2) {
+                const earliestWeight = weightLog[weightDates[0]];
+                const latestWeight = weightLog[weightDates[weightDates.length - 1]];
+                const weightChange = Math.round((latestWeight - earliestWeight) * 10) / 10;
+                document.getElementById('weight-change').textContent = weightChange >= 0 ? `+${weightChange} lbs` : `${weightChange} lbs`;
+            } else {
+                document.getElementById('weight-change').textContent = '--';
+            }
+        }
+
         function addWeight() {
             const weightInput = document.getElementById('weight-input');
             const weight = parseFloat(weightInput.value);
@@ -697,6 +781,137 @@
                 dailyChart.data.datasets[0].cutout = '50%';
                 dailyChart.update();
             }
+        }
+
+        function renderFoodDistributionChart() {
+            const ctx = document.getElementById('foodDistributionChart').getContext('2d');
+            const foodCategories = {};
+            Object.values(foodLog).forEach(day => {
+                day.forEach(item => {
+                    const name = item.name.toLowerCase();
+                    if (!foodCategories[name]) {
+                        foodCategories[name] = 0;
+                    }
+                    foodCategories[name] += item.calories;
+                });
+            });
+
+            const topFoods = Object.entries(foodCategories)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5)
+                .reduce((obj, [key, value]) => {
+                    obj[key] = value;
+                    return obj;
+                }, {});
+
+            const labels = Object.keys(topFoods);
+            const data = Object.values(topFoods);
+
+            if (foodDistributionChart) foodDistributionChart.destroy();
+            foodDistributionChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.label}: ${context.raw} cals`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderDailyCalorieTrendChart() {
+            const ctx = document.getElementById('dailyCalorieTrendChart').getContext('2d');
+            const sortedDates = Object.keys(foodLog).sort();
+            const calorieData = sortedDates.map(dateStr => ({
+                date: dateStr,
+                calories: foodLog[dateStr].reduce((sum, item) => sum + item.calories, 0)
+            }));
+
+            const labels = calorieData.map(entry => entry.date);
+            const calories = calorieData.map(entry => entry.calories);
+
+            const maxCalories = calories.length > 0 ? Math.max(...calories) : 1500;
+            const yAxisMax = Math.ceil(maxCalories / 500) * 500;
+
+            if (dailyCalorieTrendChart) dailyCalorieTrendChart.destroy();
+            dailyCalorieTrendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Daily Calories',
+                        data: calories,
+                        borderColor: 'rgba(75, 94, 170, 1)',
+                        backgroundColor: 'rgba(75, 94, 170, 0.2)',
+                        fill: true,
+                        tension: 0.1,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            },
+                            ticks: {
+                                maxTicksLimit: 8,
+                                autoSkip: true,
+                                maxRotation: 45,
+                                minRotation: 0
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Calories'
+                            },
+                            beginAtZero: true,
+                            max: yAxisMax
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.raw} cals`
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function displayCurrentDate() {
