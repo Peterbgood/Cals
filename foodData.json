@@ -6,7 +6,7 @@
     "items": [
       {
         "name": "Coffee",
-        "calories": 80,
+        "calories": 40,
         "type": "coffee",
         "icon": "fas fa-mug-hot"
       },
@@ -218,6 +218,12 @@
         "calories": 25,
         "type": "chocolate",
         "icon": "fas fa-candy-cane"
+      },
+      {
+        "name": "Beer",
+        "calories": 600,
+        "type": "Beer",
+        "icon": "fas fa-beer-mug-empty"
       },
       {
         "name": "Hersh",
