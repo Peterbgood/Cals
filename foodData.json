@@ -349,6 +349,12 @@
         "icon": "fas fa-hamburger"
       },
       {
+        "name": "Whopper Jr",
+        "calories": 330,
+        "type": "sandwich",
+        "icon": "fas fa-hamburger"
+      },
+      {
         "name": "Fries",
         "calories": 440,
         "type": "fries",
