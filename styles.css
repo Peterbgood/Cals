@@ -2,15 +2,14 @@
 body, html {
     font-family: "Open Sans", sans-serif;
     font-weight: 400;
-    color: #212121; /* Updated: Dark Gray for text */
+    color: #212121;
     margin: 0;
     padding: 0;
     height: 100%;
-   
 }
 
 h1 {
-    color: #1A73E8; /* Updated: Vibrant Blue */
+    color: #1A73E8;
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
     letter-spacing: 1px;
@@ -18,22 +17,23 @@ h1 {
 
 /* Arrow Buttons */
 .arrowbuttons .btn-primary {
-    background: #1A73E8 !important; /* Updated: Vibrant Blue */
+    background: #1A73E8 !important;
     color: #FFFFFF !important;
-    border: 2px solid #1A73E8 !important; /* Updated */
+    border: 2px solid #1A73E8 !important;
     border-radius: 8px;
     padding: 10px 20px;
     transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .arrowbuttons .btn-primary:hover {
-    background: #1557B0 !important; /* Updated: Darker Blue for hover */
+    background: #1A73E8 !important;
     color: #FFFFFF !important;
+    transform: none;
 }
 
 .week-divider {
-    background: #F5F7FA !important; /* Updated: Light Gray */
-    color: #212121 !important; /* Updated: Dark Gray */
+    background: #F5F7FA !important;
+    color: #212121 !important;
     text-align: center !important;
     width: 100%;
     display: block !important;
@@ -43,18 +43,18 @@ h1 {
 /* Accordion Headers */
 .btn-cal .accordion-button {
     background-color: #FFFFFF;
-    color: #212121; /* Updated: Dark Gray */
+    color: #212121;
     font-weight: 600;
     transition: background-color 0.3s ease;
 }
 
 .btn-cal .accordion-button:not(.collapsed) {
-    background: #1A73E8; /* Updated: Vibrant Blue */
+    background: #1A73E8;
     color: #FFFFFF;
 }
 
 .btn-cal .accordion-button:not(.collapsed)::after {
-    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%); /* White caret */
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
 
 .btn-cal .accordion-button:focus {
@@ -66,18 +66,18 @@ h1 {
     font-size: 0.875rem;
     width: 100%;
     margin-bottom: 1rem;
-    background: #1A73E8 !important; /* Updated: Vibrant Blue */
+    background: #1A73E8 !important;
     color: #FFFFFF !important;
-    border: 2px solid #1A73E8 !important; /* Updated */
+    border: 2px solid #1A73E8 !important;
     border-radius: 8px;
     padding: 10px 2px;
     transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .add-calorie-button:hover {
-    background: #1557B0 !important; /* Updated: Darker Blue */
+    background: #1A73E8 !important;
     color: #FFFFFF !important;
-    transform: translateY(-2px);
+    transform: none;
 }
 
 @media (min-width: 390px) {
@@ -100,45 +100,46 @@ h1 {
 }
 
 .btn-primary {
-    background: #1A73E8 !important; /* Updated: Vibrant Blue */
+    background: #1A73E8 !important;
     color: #FFFFFF !important;
-    border: 2px solid #1A73E8 !important; /* Updated */
+    border: 2px solid #1A73E8 !important;
     border-radius: 8px;
     transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .btn-primary:hover {
-    background: #1557B0 !important; /* Updated: Darker Blue */
+    background: #1A73E8 !important;
     color: #FFFFFF !important;
+    transform: none;
 }
 
 /* Total and Remaining Calories Containers and Badges */
 .text-primary {
-    color: #1A73E8 !important; /* Updated: Vibrant Blue */
+    color: #1A73E8 !important;
     margin-bottom: 1rem;
 }
 
 .text-success {
-    color: #34C759 !important; /* Updated: Fresh Green */
+    color: #34C759 !important;
     margin-top: 1rem;
 }
 
 .badge.bg-primary {
-    background: #1A73E8 !important; /* Updated: Vibrant Blue */
+    background: #1A73E8 !important;
     color: #FFFFFF !important;
     padding: 5px 10px;
     border-radius: 8px;
 }
 
 .badge.bg-success {
-    background: #34C759 !important; /* Updated: Fresh Green */
+    background: #34C759 !important;
     color: #FFFFFF !important;
     padding: 5px 10px;
     border-radius: 8px;
 }
 
 .badge.bg-danger {
-    background: #D32F2F !important; /* Updated: Rich Red */
+    background: #D32F2F !important;
     color: #FFFFFF !important;
     padding: 5px 10px;
     border-radius: 8px;
@@ -158,30 +159,30 @@ h1 {
     padding: 12px 15px;
     display: flex;
     align-items: center;
-    border: 1px solid #F5F7FA; /* Updated: Light Gray */
+    border: 1px solid #F5F7FA;
     border-bottom: none;
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .list-group-item:last-child {
-    border-bottom: 1px solid #F5F7FA; /* Updated */
+    border-bottom: 1px solid #F5F7FA;
 }
 
 .list-group-item:hover {
-    background: #E8ECEF; /* Updated: Slightly darker gray for hover */
-    transform: translateY(-2px);
+    background: #FFFFFF;
+    transform: none;
 }
 
 .list-group-item.dragging {
     opacity: 0.7;
-    background: #F5F7FA; /* Updated: Light Gray */
+    background: #F5F7FA;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .list-group-item .drag-handle {
     flex: 0 0 30px;
     margin-right: 10px;
-    color: #1A73E8; /* Updated: Vibrant Blue */
+    color: #1A73E8;
     font-size: 1.2rem;
     cursor: grab;
     display: flex;
@@ -199,7 +200,7 @@ h1 {
     text-transform: capitalize;
     font-size: 1rem;
     font-weight: 600;
-    color: #212121; /* Updated: Dark Gray */
+    color: #212121;
     background: transparent;
     border: 1px solid transparent;
     padding: 5px;
@@ -209,8 +210,8 @@ h1 {
 
 .list-group-item .food-name:focus {
     outline: none;
-    border: 1px solid #1A73E8; /* Updated: Vibrant Blue */
-    background: #F5F7FA; /* Updated: Light Gray */
+    border: 1px solid #1A73E8;
+    background: #F5F7FA;
 }
 
 .list-group-item .calories {
@@ -218,8 +219,8 @@ h1 {
     text-align: center;
     font-size: 0.95rem;
     font-weight: 600;
-    color: #FFFFFF; /* Updated: White for contrast */
-    background: #34C759; /* Updated: Fresh Green */
+    color: #FFFFFF;
+    background: #34C759;
     padding: 5px 10px;
     border-radius: 12px;
 }
@@ -227,8 +228,8 @@ h1 {
 .list-group-item .btn-danger {
     flex: 0 0 40px;
     margin-left: 10px;
-    background: #D32F2F !important; /* Updated: Rich Red */
-    border: 2px solid #D32F2F !important; /* Updated */
+    background: #D32F2F !important;
+    border: 2px solid #D32F2F !important;
     border-radius: 6px;
     padding: 5px;
     display: flex;
@@ -238,9 +239,9 @@ h1 {
 }
 
 .list-group-item .btn-danger:hover {
-    background: #B71C1C !important; /* Updated: Darker Red */
-    border-color: #B71C1C !important; /* Updated */
-    transform: scale(1.1);
+    background: #D32F2F !important;
+    border-color: #D32F2F !important;
+    transform: none;
 }
 
 .list-group-item .btn-danger i {
@@ -254,6 +255,13 @@ h1 {
     border: none;
     text-align: left;
     box-shadow: none;
+}
+
+/* Prevent iOS zoom on input focus */
+input, textarea, select {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
 }
 
 /* Weekly Totals List Styling */
@@ -298,7 +306,7 @@ h1 {
 
 .nav-link {
     font-size: 1.2rem;
-    color: #1A73E8; /* Updated: Vibrant Blue */
+    color: #1A73E8;
     padding: 10px;
     text-align: center;
     border: none;
@@ -307,14 +315,14 @@ h1 {
 }
 
 .nav-link.active {
-    background-color: #F5F7FA; /* Updated: Light Gray */
-    color: #1557B0; /* Updated: Darker Blue */
+    background-color: #F5F7FA;
+    color: #1557B0;
     font-weight: 600;
 }
 
 .nav-link:hover {
-    background-color: #E8ECEF; /* Updated: Slightly darker gray */
-    color: #1A73E8; /* Updated: Vibrant Blue */
+    background-color: transparent;
+    color: #1A73E8;
 }
 
 /* Layout */
