@@ -1,53 +1,39 @@
-/* Other CSS rules... */
-
-/* --- Weekly Totals List Styling --- */
-#weekly-totals-list .list-group-item {
-  /* This ensures the content is aligned at the ends of the list item */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#weekly-totals-list .list-group-item span {
-  /* This makes sure the text stays on one line */
-  white-space: nowrap;
-}
-
-/* --- The rest of your stylesheet... */
-
+/* General Styles */
 body, html {
     font-family: "Open Sans", sans-serif;
     font-weight: 400;
-    color: #333333;
+    color: #212121; /* Updated: Dark Gray for text */
     margin: 0;
     padding: 0;
     height: 100%;
+   
 }
 
 h1 {
-    color: #2B4A8C;
+    color: #1A73E8; /* Updated: Vibrant Blue */
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
     letter-spacing: 1px;
 }
 
+/* Arrow Buttons */
 .arrowbuttons .btn-primary {
-    background: #2B4A8C !important;
+    background: #1A73E8 !important; /* Updated: Vibrant Blue */
     color: #FFFFFF !important;
-    border: 2px solid #2B4A8C !important;
+    border: 2px solid #1A73E8 !important; /* Updated */
     border-radius: 8px;
     padding: 10px 20px;
     transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .arrowbuttons .btn-primary:hover {
-    background: #3B5BA5 !important;
+    background: #1557B0 !important; /* Updated: Darker Blue for hover */
     color: #FFFFFF !important;
 }
 
 .week-divider {
-    background: #E6E6E6 !important;
-    color: #333333 !important;
+    background: #F5F7FA !important; /* Updated: Light Gray */
+    color: #212121 !important; /* Updated: Dark Gray */
     text-align: center !important;
     width: 100%;
     display: block !important;
@@ -57,18 +43,18 @@ h1 {
 /* Accordion Headers */
 .btn-cal .accordion-button {
     background-color: #FFFFFF;
-    color: #333333;
+    color: #212121; /* Updated: Dark Gray */
     font-weight: 600;
     transition: background-color 0.3s ease;
 }
 
 .btn-cal .accordion-button:not(.collapsed) {
-    background: #2B4A8C;
+    background: #1A73E8; /* Updated: Vibrant Blue */
     color: #FFFFFF;
 }
 
 .btn-cal .accordion-button:not(.collapsed)::after {
-    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%); /* Makes the caret white */
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%); /* White caret */
 }
 
 .btn-cal .accordion-button:focus {
@@ -80,16 +66,16 @@ h1 {
     font-size: 0.875rem;
     width: 100%;
     margin-bottom: 1rem;
-    background: #2B4A8C !important;
+    background: #1A73E8 !important; /* Updated: Vibrant Blue */
     color: #FFFFFF !important;
-    border: 2px solid #2B4A8C !important;
+    border: 2px solid #1A73E8 !important; /* Updated */
     border-radius: 8px;
     padding: 10px 2px;
     transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .add-calorie-button:hover {
-    background: #3B5BA5 !important;
+    background: #1557B0 !important; /* Updated: Darker Blue */
     color: #FFFFFF !important;
     transform: translateY(-2px);
 }
@@ -114,45 +100,45 @@ h1 {
 }
 
 .btn-primary {
-    background: #2B4A8C !important;
+    background: #1A73E8 !important; /* Updated: Vibrant Blue */
     color: #FFFFFF !important;
-    border: 2px solid #2B4A8C !important;
+    border: 2px solid #1A73E8 !important; /* Updated */
     border-radius: 8px;
     transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .btn-primary:hover {
-    background: #3B5BA5 !important;
+    background: #1557B0 !important; /* Updated: Darker Blue */
     color: #FFFFFF !important;
 }
 
 /* Total and Remaining Calories Containers and Badges */
 .text-primary {
-    color: #2B4A8C !important;
+    color: #1A73E8 !important; /* Updated: Vibrant Blue */
     margin-bottom: 1rem;
 }
 
 .text-success {
-    color: #4B5EAA !important;
+    color: #34C759 !important; /* Updated: Fresh Green */
     margin-top: 1rem;
 }
 
 .badge.bg-primary {
-    background: #2B4A8C !important;
+    background: #1A73E8 !important; /* Updated: Vibrant Blue */
     color: #FFFFFF !important;
     padding: 5px 10px;
     border-radius: 8px;
 }
 
 .badge.bg-success {
-    background: #E6E6E6 !important;
-    color: #333333 !important;
+    background: #34C759 !important; /* Updated: Fresh Green */
+    color: #FFFFFF !important;
     padding: 5px 10px;
     border-radius: 8px;
 }
 
 .badge.bg-danger {
-    background: #C0392B !important;
+    background: #D32F2F !important; /* Updated: Rich Red */
     color: #FFFFFF !important;
     padding: 5px 10px;
     border-radius: 8px;
@@ -161,52 +147,124 @@ h1 {
 /* Food List Styling */
 #food-list {
     padding: 0;
+    margin: 0 auto;
+    max-width: 600px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .list-group-item {
     background: #FFFFFF;
-    padding: 10px;
+    padding: 12px 15px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    cursor: move;
+    border: 1px solid #F5F7FA; /* Updated: Light Gray */
+    border-bottom: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.list-group-item:last-child {
+    border-bottom: 1px solid #F5F7FA; /* Updated */
+}
+
+.list-group-item:hover {
+    background: #E8ECEF; /* Updated: Slightly darker gray for hover */
+    transform: translateY(-2px);
 }
 
 .list-group-item.dragging {
-    opacity: 0.5;
-    background: #E6E6E6;
+    opacity: 0.7;
+    background: #F5F7FA; /* Updated: Light Gray */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .list-group-item .drag-handle {
-    flex: 0 0 auto;
+    flex: 0 0 30px;
     margin-right: 10px;
+    color: #1A73E8; /* Updated: Vibrant Blue */
+    font-size: 1.2rem;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-group-item .drag-handle:active {
+    cursor: grabbing;
 }
 
 .list-group-item .food-name {
+    flex-grow: 1;
     margin-right: 15px;
     text-transform: capitalize;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #212121; /* Updated: Dark Gray */
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 5px;
+    border-radius: 4px;
+    transition: border 0.3s ease, background 0.3s ease;
+}
+
+.list-group-item .food-name:focus {
+    outline: none;
+    border: 1px solid #1A73E8; /* Updated: Vibrant Blue */
+    background: #F5F7FA; /* Updated: Light Gray */
 }
 
 .list-group-item .calories {
     flex: 0 0 60px;
     text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #FFFFFF; /* Updated: White for contrast */
+    background: #34C759; /* Updated: Fresh Green */
+    padding: 5px 10px;
+    border-radius: 12px;
 }
 
 .list-group-item .btn-danger {
-    flex: 0 0 auto;
-    margin-left: 15px;
+    flex: 0 0 40px;
+    margin-left: 10px;
+    background: #D32F2F !important; /* Updated: Rich Red */
+    border: 2px solid #D32F2F !important; /* Updated */
+    border-radius: 6px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.list-group-item .btn-danger:hover {
+    background: #B71C1C !important; /* Updated: Darker Red */
+    border-color: #B71C1C !important; /* Updated */
+    transform: scale(1.1);
+}
+
+.list-group-item .btn-danger i {
+    font-size: 1rem;
 }
 
 #food-list .form-control {
     padding: 5px;
-    width: fit-content;
+    width: 100%;
     display: inline-block;
     border: none;
     text-align: left;
+    box-shadow: none;
+}
+
+/* Weekly Totals List Styling */
+#weekly-totals-list .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#weekly-totals-list .list-group-item span {
+    white-space: nowrap;
 }
 
 /* Navigation */
@@ -235,12 +293,12 @@ h1 {
 }
 
 .nav-item {
-    margin: 0 12px; /* Increases horizontal spacing between tab icons */
+    margin: 0 12px;
 }
 
 .nav-link {
     font-size: 1.2rem;
-    color: #2B4A8C;
+    color: #1A73E8; /* Updated: Vibrant Blue */
     padding: 10px;
     text-align: center;
     border: none;
@@ -249,14 +307,14 @@ h1 {
 }
 
 .nav-link.active {
-    background-color: #E6E6E6;
-    color: #4B5EAA;
+    background-color: #F5F7FA; /* Updated: Light Gray */
+    color: #1557B0; /* Updated: Darker Blue */
     font-weight: 600;
 }
 
 .nav-link:hover {
-    background-color: #F5F5F5;
-    color: #2B4A8C;
+    background-color: #E8ECEF; /* Updated: Slightly darker gray */
+    color: #1A73E8; /* Updated: Vibrant Blue */
 }
 
 /* Layout */
@@ -277,12 +335,30 @@ h1 {
     max-height: 300px;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 576px) {
     .chart-container {
         padding: 10px;
     }
     #weightChart {
         max-height: 250px;
+    }
+    #food-list {
+        max-width: 100%;
+    }
+    .list-group-item {
+        padding: 10px 12px;
+    }
+    .list-group-item .food-name {
+        font-size: 0.9rem;
+    }
+    .list-group-item .calories {
+        font-size: 0.85rem;
+        flex: 0 0 50px;
+    }
+    .list-group-item .btn-danger {
+        flex: 0 0 35px;
+        padding: 4px;
     }
 }
 
