@@ -195,6 +195,18 @@
         "type": "peanut",
         "icon": "fas fa-seedling"
       },
+       {
+        "name": "Sprite",
+        "calories": 160,
+        "type": "Sprite",
+        "icon": "fas fa-glass-water"
+      },
+       {
+        "name": "Sprite",
+        "calories": 230,
+        "type": "Sprite",
+        "icon": "fas fa-glass-water"
+      },
       {
         "name": "Popsicle",
         "calories": 40,
