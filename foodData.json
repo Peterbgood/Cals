@@ -403,7 +403,7 @@
         "name": "Bagel",
         "calories": 450,
         "type": "donut",
-        "icon": "fas fa-bagel"
+        "icon": "fa-solid fa-bagel"
       },
       {
         "name": "Breakfast Sandwich",
