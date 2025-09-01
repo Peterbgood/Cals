@@ -403,7 +403,7 @@
         "name": "Bagel",
         "calories": 450,
         "type": "donut",
-        "icon": "fa-solid fa-bagel"
+        "icon": "fas fa-circle"
       },
       {
         "name": "Breakfast Sandwich",
@@ -421,7 +421,7 @@
         "name": "Wrap",
         "calories": 210,
         "type": "wrap",
-        "icon": "fas fa-taco"
+        "icon": "fas fa-bread-slice"
       }
     ]
   },
