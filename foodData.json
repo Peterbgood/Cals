@@ -400,6 +400,12 @@
         "icon": "fas fa-circle"
       },
       {
+        "name": "Bagel",
+        "calories": 450,
+        "type": "donut",
+        "icon": "fas fa-bagel"
+      },
+      {
         "name": "Breakfast Sandwich",
         "calories": 470,
         "type": "biscuit",
