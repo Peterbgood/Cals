@@ -1,0 +1,1567 @@
+{
+  "foodLog": {
+    "07/28/2025": [
+      {
+        "name": "Coffee",
+        "calories": 120
+      },
+      {
+        "name": "Oat Meal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut",
+        "calories": 100
+      },
+      {
+        "name": "Dinner",
+        "calories": 1000
+      }
+    ],
+    "07/29/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oat Meal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut",
+        "calories": 100
+      },
+      {
+        "name": "Food",
+        "calories": 900
+      },
+      {
+        "name": "Andes",
+        "calories": 150
+      }
+    ],
+    "07/30/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oat",
+        "calories": 300
+      },
+      {
+        "name": "Almon",
+        "calories": 30
+      },
+      {
+        "name": "Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanu",
+        "calories": 100
+      },
+      {
+        "name": "Sand",
+        "calories": 440
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Soda",
+        "calories": 160
+      },
+      {
+        "name": "Chocolate",
+        "calories": 100
+      }
+    ],
+    "07/31/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oat",
+        "calories": 300
+      },
+      {
+        "name": "Almon",
+        "calories": 30
+      },
+      {
+        "name": "Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanu",
+        "calories": 100
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      }
+    ],
+    "08/01/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Andes",
+        "calories": 50
+      },
+      {
+        "name": "Nugs",
+        "calories": 410
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Sauce",
+        "calories": 100
+      },
+      {
+        "name": "Quesidilla",
+        "calories": 590
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/02/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Bisc",
+        "calories": 460
+      },
+      {
+        "name": "Lunch",
+        "calories": 500
+      },
+      {
+        "name": "Sprite",
+        "calories": 230
+      },
+      {
+        "name": "Food",
+        "calories": 800
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/03/2025": [
+      {
+        "name": "Coffee",
+        "calories": 120
+      },
+      {
+        "name": "Muf",
+        "calories": 480
+      },
+      {
+        "name": "Andes",
+        "calories": 50
+      },
+      {
+        "name": "Lunch",
+        "calories": 800
+      },
+      {
+        "name": "Dinner",
+        "calories": 600
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/04/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oat",
+        "calories": 300
+      },
+      {
+        "name": "Almon",
+        "calories": 30
+      },
+      {
+        "name": "Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanu",
+        "calories": 100
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Ice Cream",
+        "calories": 200
+      }
+    ],
+    "08/05/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Andes",
+        "calories": 125
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 80
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Dinner",
+        "calories": 700
+      },
+      {
+        "name": "Ice cream",
+        "calories": 200
+      }
+    ],
+    "08/06/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 80
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Sauce",
+        "calories": 20
+      },
+      {
+        "name": "Sandwich",
+        "calories": 420
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Zesty",
+        "calories": 25
+      }
+    ],
+    "08/07/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "12 Nugs",
+        "calories": 380
+      },
+      {
+        "name": "Zesty",
+        "calories": 25
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 200
+      },
+      {
+        "name": "Dinner",
+        "calories": 700
+      }
+    ],
+    "08/08/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Popsicle",
+        "calories": 40
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Sprite ",
+        "calories": 80
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/09/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Breakfast Sandwich",
+        "calories": 470
+      },
+      {
+        "name": "Lunch",
+        "calories": 600
+      },
+      {
+        "name": "Sprite",
+        "calories": 80
+      },
+      {
+        "name": "Dinner ",
+        "calories": 800
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/10/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Donut",
+        "calories": 480
+      },
+      {
+        "name": "Lunch",
+        "calories": 800
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/11/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Andes",
+        "calories": 75
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      }
+    ],
+    "08/12/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Andes",
+        "calories": 50
+      },
+      {
+        "name": "Eggs",
+        "calories": 210
+      },
+      {
+        "name": "White Bread",
+        "calories": 350
+      },
+      {
+        "name": "Banana",
+        "calories": 100
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Ice cream",
+        "calories": 200
+      }
+    ],
+    "08/13/2025": [
+      {
+        "name": "Coffee",
+        "calories": 160
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Chips",
+        "calories": 100
+      },
+      {
+        "name": "Sandwich",
+        "calories": 420
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Sprite",
+        "calories": 100
+      },
+      {
+        "name": "Choco staw",
+        "calories": 100
+      }
+    ],
+    "08/14/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Andes",
+        "calories": 75
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Ice cream",
+        "calories": 200
+      }
+    ],
+    "08/15/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Andes",
+        "calories": 50
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Cheese",
+        "calories": 50
+      },
+      {
+        "name": "White Bread",
+        "calories": 70
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Chips",
+        "calories": 200
+      },
+      {
+        "name": "Ice cream",
+        "calories": 200
+      },
+      {
+        "name": "12 Nugs",
+        "calories": 380
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Sprite",
+        "calories": 150
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/16/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Chick mini",
+        "calories": 360
+      },
+      {
+        "name": "Sprite",
+        "calories": 140
+      },
+      {
+        "name": "Sushi",
+        "calories": 400
+      },
+      {
+        "name": "Starbucks",
+        "calories": 330
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/17/2025": [
+      {
+        "name": "Coffee",
+        "calories": 160
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Lunch",
+        "calories": 650
+      },
+      {
+        "name": "Sprite",
+        "calories": 230
+      },
+      {
+        "name": "Slim Jim",
+        "calories": 130
+      },
+      {
+        "name": "Quarter Pounder",
+        "calories": 520
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/18/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      }
+    ],
+    "08/19/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Andes",
+        "calories": 25
+      },
+      {
+        "name": "Banana",
+        "calories": 200
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      }
+    ],
+    "08/20/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Lunch",
+        "calories": 400
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Sandwich",
+        "calories": 420
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Soda",
+        "calories": 160
+      }
+    ],
+    "08/21/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Popsicle",
+        "calories": 80
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Whopper Jr",
+        "calories": 330
+      },
+      {
+        "name": "Ice cream",
+        "calories": 200
+      }
+    ],
+    "08/22/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Andes",
+        "calories": 25
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Whole Wheat",
+        "calories": 220
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Cheese",
+        "calories": 80
+      },
+      {
+        "name": "Popsicle",
+        "calories": 40
+      },
+      {
+        "name": "Sandwich",
+        "calories": 420
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Soda",
+        "calories": 200
+      }
+    ],
+    "08/23/2025": [
+      {
+        "name": "Coffee",
+        "calories": 40
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Chipotle ",
+        "calories": 600
+      },
+      {
+        "name": "Starbucks",
+        "calories": 250
+      },
+      {
+        "name": "Dinner",
+        "calories": 700
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/24/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Donut",
+        "calories": 480
+      },
+      {
+        "name": "Muffin",
+        "calories": 200
+      },
+      {
+        "name": "Quesidilla",
+        "calories": 510
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/25/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "8 Nugs",
+        "calories": 250
+      },
+      {
+        "name": "Sauce",
+        "calories": 50
+      },
+      {
+        "name": "Sprite",
+        "calories": 160
+      },
+      {
+        "name": "Hersh",
+        "calories": 120
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Apple",
+        "calories": 95
+      },
+      {
+        "name": "Cookies",
+        "calories": 200
+      }
+    ],
+    "08/26/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 200
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Cookies",
+        "calories": 300
+      }
+    ],
+    "08/27/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Grapes",
+        "calories": 100
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Apple",
+        "calories": 95
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "Sandwich",
+        "calories": 420
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Zesty",
+        "calories": 25
+      },
+      {
+        "name": "Sprite",
+        "calories": 140
+      }
+    ],
+    "08/28/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Grapes",
+        "calories": 100
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Apple",
+        "calories": 95
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      }
+    ],
+    "08/29/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Hersh",
+        "calories": 60
+      },
+      {
+        "name": "Popsicle",
+        "calories": 40
+      },
+      {
+        "name": "8 Nugs",
+        "calories": 250
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Sprite",
+        "calories": 160
+      },
+      {
+        "name": "Hotdog",
+        "calories": 300
+      }
+    ],
+    "08/30/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Breakfast Sandwich",
+        "calories": 480
+      },
+      {
+        "name": "Panda",
+        "calories": 350
+      },
+      {
+        "name": "Sprite",
+        "calories": 230
+      },
+      {
+        "name": "Dinner",
+        "calories": 600
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "08/31/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Breakfast Sandwich",
+        "calories": 480
+      },
+      {
+        "name": "Hersh",
+        "calories": 60
+      },
+      {
+        "name": "Nugs",
+        "calories": 410
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "09/01/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Bagel",
+        "calories": 450
+      },
+      {
+        "name": "Lunch",
+        "calories": 600
+      },
+      {
+        "name": "Starbucks ",
+        "calories": 330
+      },
+      {
+        "name": "Dinner",
+        "calories": 600
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "09/02/2025": [
+      {
+        "name": "Coffee",
+        "calories": 120
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "Apple",
+        "calories": 95
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      }
+    ],
+    "09/03/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Apple",
+        "calories": 190
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "12 Nugs",
+        "calories": 380
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Sauces",
+        "calories": 200
+      }
+    ],
+    "09/04/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "Apple",
+        "calories": 95
+      },
+      {
+        "name": "Food",
+        "calories": 1000
+      }
+    ],
+    "09/05/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 30
+      },
+      {
+        "name": "12 Nugs",
+        "calories": 380
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Sprite",
+        "calories": 320
+      },
+      {
+        "name": "Ice cream snacks",
+        "calories": 500
+      }
+    ],
+    "09/06/2025": [
+      {
+        "name": "Coffee",
+        "calories": 80
+      },
+      {
+        "name": "Breakfast Sandwich",
+        "calories": 480
+      },
+      {
+        "name": "Quesidilla",
+        "calories": 590
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "09/07/2025": [
+      {
+        "name": "Coffee",
+        "calories": 120
+      },
+      {
+        "name": "Avocado ",
+        "calories": 290
+      },
+      {
+        "name": "Avocado",
+        "calories": 250
+      },
+      {
+        "name": "Lunch",
+        "calories": 600
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      },
+      {
+        "name": "Beer",
+        "calories": 600
+      }
+    ],
+    "09/08/2025": [
+      {
+        "name": "Coffee",
+        "calories": 120
+      },
+      {
+        "name": "Hersh",
+        "calories": 90
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 60
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "Apple",
+        "calories": 95
+      },
+      {
+        "name": "Dinner",
+        "calories": 1000
+      }
+    ],
+    "09/09/2025": [
+      {
+        "name": "Coffee",
+        "calories": 120
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 60
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Apple",
+        "calories": 95
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "Dinner",
+        "calories": 800
+      }
+    ],
+    "09/10/2025": [
+      {
+        "name": "Coffee",
+        "calories": 120
+      },
+      {
+        "name": "Andes",
+        "calories": 100
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 60
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "Apple",
+        "calories": 95
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Sandwich",
+        "calories": 420
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Sprite",
+        "calories": 160
+      }
+    ],
+    "09/11/2025": [
+      {
+        "name": "Coffee",
+        "calories": 120
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 60
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "White Bread",
+        "calories": 140
+      },
+      {
+        "name": "Peanut Butter",
+        "calories": 100
+      },
+      {
+        "name": "Dinner",
+        "calories": 600
+      },
+      {
+        "name": "Snacks",
+        "calories": 200
+      }
+    ],
+    "09/12/2025": [
+      {
+        "name": "Coffee",
+        "calories": 120
+      },
+      {
+        "name": "Peach",
+        "calories": 70
+      },
+      {
+        "name": "Yogurt",
+        "calories": 80
+      },
+      {
+        "name": "Oatmeal",
+        "calories": 300
+      },
+      {
+        "name": "Almond",
+        "calories": 60
+      },
+      {
+        "name": "Sandwich",
+        "calories": 420
+      },
+      {
+        "name": "Fries",
+        "calories": 440
+      },
+      {
+        "name": "Sprite",
+        "calories": 160
+      },
+      {
+        "name": "Pop corn",
+        "calories": 200
+      }
+    ]
+  },
+  "weightLog": {
+    "07/24/2025": 164,
+    "07/25/2025": 162.2,
+    "07/22/2025": 164,
+    "07/23/2025": 162.2,
+    "07/28/2025": 164.4,
+    "07/29/2025": 164,
+    "07/30/2025": 162.4,
+    "07/31/2025": 162.4,
+    "08/01/2025": 161.8,
+    "08/04/2025": 165,
+    "08/05/2025": 163.4,
+    "08/06/2025": 163.2,
+    "08/07/2025": 163,
+    "08/08/2025": 163,
+    "08/11/2025": 163,
+    "08/12/2025": 162.2,
+    "08/13/2025": 163,
+    "08/14/2025": 162,
+    "08/15/2025": 161.8,
+    "08/18/2025": 163.6,
+    "08/19/2025": 163,
+    "08/20/2025": 162.6,
+    "08/21/2025": 163,
+    "08/22/2025": 162,
+    "08/25/2025": 163.2,
+    "08/27/2025": 162,
+    "08/26/2025": 163,
+    "08/28/2025": 162,
+    "08/29/2025": 162.2,
+    "09/01/2025": 165,
+    "09/02/2025": 164.4,
+    "09/04/2025": 162.4,
+    "09/03/2025": 162.6,
+    "09/05/2025": 162.4,
+    "09/08/2025": 163.6,
+    "09/09/2025": 162.6,
+    "09/11/2025": 161.4,
+    "09/12/2025": 161.6
+  },
+  "weekData": {}
+}
