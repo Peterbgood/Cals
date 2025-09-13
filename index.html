@@ -44,7 +44,7 @@
                     Total Calories: <span id="total-calories" class="badge bg-primary">0</span>
                 </div>
                 <div class="mt-2 fw-bold fs-3 text-center text-success">
-                    Remaining Calories: <span id="remaining-calories" class="badge bg-success">1500</span>
+                    Remaining Calories: <span id="remaining-calories" class="badge bg-success">1700</span>
                 </div>
                 <div class="mt-5 btn-cal">
                     <div class="accordion" id="foodAccordion"></div>
@@ -204,7 +204,7 @@
         let dailyChart, weeklyChart, weightChart, weeklyTotalsChart, foodDistributionChart, dailyCalorieTrendChart;
         let data = {
             totalCaloriesUsed: 0,
-            remainingCalories: 1500
+            remainingCalories: 1700
         };
         let currentDate = new Date();
         let currentWeekStart = getWeekStart(currentDate);
@@ -212,22 +212,22 @@
         let weightLog = {};
         let weekData = {};
         let currentView = 'daily';
-        const TOTAL_WEEKLY_CALORIES = 10500;
-        const DAILY_MAXIMUMS = Array(7).fill(1500);
+        const TOTAL_WEEKLY_CALORIES = 11900;
+        const DAILY_MAXIMUMS = Array(7).fill(1700);
         const DAYS_PER_WEEK = 7;
         const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         const MS_PER_DAY = 24 * 60 * 60 * 1000;
         const MS_PER_WEEK = MS_PER_DAY * DAYS_PER_WEEK;
         const THREE_MONTHS_MS = 90 * MS_PER_DAY;
 
-       function getWeekStart(date) {
-    const d = new Date(date);
-    d.setHours(0, 0, 0, 0); // Corrected line
-    const day = d.getDay();
-    const daysToMonday = (day + 6) % 7;
-    d.setDate(d.getDate() - daysToMonday);
-    return d;
-}
+        function getWeekStart(date) {
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            const day = d.getDay();
+            const daysToMonday = (day + 6) % 7;
+            d.setDate(d.getDate() - daysToMonday);
+            return d;
+        }
 
         function getWeekNumber(date) {
             const d = new Date(date);
@@ -238,7 +238,7 @@
         }
 
         function getCalorieLimit(date) {
-            return 1500;
+            return 1700;
         }
 
         function getDateString(date) {
@@ -664,7 +664,6 @@
         }
 
         function updateDashboardMetrics() {
-            // Calculate average daily calories
             let totalCalories = 0;
             let daysCount = 0;
             Object.keys(foodLog).forEach(dateStr => {
@@ -675,7 +674,6 @@
             const avgDailyCalories = daysCount > 0 ? Math.round(totalCalories / daysCount) : 0;
             document.getElementById('avg-daily-calories').textContent = avgDailyCalories > 0 ? `${avgDailyCalories} cals` : '--';
 
-            // Calculate average weight
             let totalWeight = 0;
             let weightCount = 0;
             Object.keys(weightLog).forEach(dateStr => {
@@ -685,7 +683,6 @@
             const avgWeight = weightCount > 0 ? Math.round(totalWeight / weightCount * 10) / 10 : 0;
             document.getElementById('avg-weight').textContent = avgWeight > 0 ? `${avgWeight} lbs` : '--';
 
-            // Calculate weight change
             const weightDates = Object.keys(weightLog).sort();
             if (weightDates.length >= 2) {
                 const earliestWeight = weightLog[weightDates[0]];
@@ -859,7 +856,7 @@
             const labels = calorieData.map(entry => entry.date);
             const calories = calorieData.map(entry => entry.calories);
 
-            const maxCalories = calories.length > 0 ? Math.max(...calories) : 1500;
+            const maxCalories = calories.length > 0 ? Math.max(...calories) : 1700;
             const yAxisMax = Math.ceil(maxCalories / 500) * 500;
 
             if (dailyCalorieTrendChart) dailyCalorieTrendChart.destroy();
@@ -977,10 +974,10 @@
             const colorSolidRed = 'rgba(255, 99, 132, 1)';
             const colorSolidGreen = 'rgba(75, 192, 192, 1)';
 
-            const backgroundColors = weekData.map(calories => calories > 1500 ? colorTransparentRed : colorTransparentGreen);
-            const borderColors = weekData.map(calories => calories > 1500 ? colorSolidRed : colorSolidGreen);
+            const backgroundColors = weekData.map(calories => calories > 1700 ? colorTransparentRed : colorTransparentGreen);
+            const borderColors = weekData.map(calories => calories > 1700 ? colorSolidRed : colorSolidGreen);
             
-            const maxCalories = Math.max(...weekData, 1500);
+            const maxCalories = Math.max(...weekData, 1700);
             const yAxisMax = Math.ceil(maxCalories / 500) * 500;
 
             if (weeklyChart) weeklyChart.destroy();
@@ -1021,11 +1018,6 @@
             const weekEnd = new Date(weekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
             const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}`;
             document.getElementById('week-input').value = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
-        }
-
-        function updateNavigationButtons() {
-            document.getElementById('prev-week-button').disabled = false;
-            document.getElementById('next-week-button').disabled = false;
         }
 
         function resetCurrentWeek() {
