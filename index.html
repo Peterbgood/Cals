@@ -355,13 +355,8 @@
                     weekData = {};
                 }
 
-                const storedDate = localStorage.getItem('currentDate');
-                if (storedDate) {
-                    currentDate = new Date(storedDate);
-                    if (isNaN(currentDate)) currentDate = new Date();
-                } else {
-                    currentDate = new Date();
-                }
+                // Always set currentDate to today
+                currentDate = new Date();
                 currentDate.setHours(0, 0, 0, 0);
 
                 const storedWeekStart = localStorage.getItem('currentWeekStart');
