@@ -44,7 +44,7 @@
                     Total Calories: <span id="total-calories" class="badge bg-primary">0</span>
                 </div>
                 <div class="mt-2 fw-bold fs-3 text-center text-success">
-                    Remaining Calories: <span id="remaining-calories" class="badge bg-success">1700</span>
+                    Remaining Calories: <span id="remaining-calories" class="badge bg-success">1500</span>
                 </div>
                 <div class="mt-5 btn-cal">
                     <div class="accordion" id="foodAccordion"></div>
@@ -204,7 +204,7 @@
         let dailyChart, weeklyChart, weightChart, weeklyTotalsChart, foodDistributionChart, dailyCalorieTrendChart;
         let data = {
             totalCaloriesUsed: 0,
-            remainingCalories: 1700
+            remainingCalories: 1500
         };
         let currentDate = new Date();
         let currentWeekStart = getWeekStart(currentDate);
@@ -212,22 +212,22 @@
         let weightLog = {};
         let weekData = {};
         let currentView = 'daily';
-        const TOTAL_WEEKLY_CALORIES = 11900;
-        const DAILY_MAXIMUMS = Array(7).fill(1700);
+        const TOTAL_WEEKLY_CALORIES = 10500;
+        const DAILY_MAXIMUMS = Array(7).fill(1500);
         const DAYS_PER_WEEK = 7;
         const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         const MS_PER_DAY = 24 * 60 * 60 * 1000;
         const MS_PER_WEEK = MS_PER_DAY * DAYS_PER_WEEK;
         const THREE_MONTHS_MS = 90 * MS_PER_DAY;
 
-        function getWeekStart(date) {
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            const day = d.getDay();
-            const daysToMonday = (day + 6) % 7;
-            d.setDate(d.getDate() - daysToMonday);
-            return d;
-        }
+       function getWeekStart(date) {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0); // Corrected line
+    const day = d.getDay();
+    const daysToMonday = (day + 6) % 7;
+    d.setDate(d.getDate() - daysToMonday);
+    return d;
+}
 
         function getWeekNumber(date) {
             const d = new Date(date);
@@ -238,7 +238,7 @@
         }
 
         function getCalorieLimit(date) {
-            return 1700;
+            return 1500;
         }
 
         function getDateString(date) {
@@ -259,48 +259,34 @@
         }
 
         function saveData() {
-            try {
-                const dateStr = getDateString(currentDate);
-                const foodListElement = document.getElementById('food-list');
-                const foodItems = foodListElement.children;
+            const dateStr = getDateString(currentDate);
+            const foodListElement = document.getElementById('food-list');
+            const foodItems = foodListElement.children;
 
-                // Ensure foodLog entry exists
-                if (!foodLog[dateStr]) {
-                    foodLog[dateStr] = [];
-                }
-                // Update foodLog from DOM
-                foodLog[dateStr] = Array.from(foodItems).map(item => ({
-                    name: item.querySelector('.food-name').textContent,
-                    calories: parseInt(item.querySelector('.calories').textContent)
-                }));
+            foodLog[dateStr] = [];
+            Array.from(foodItems).forEach(item => {
+                const name = item.querySelector('.food-name').textContent;
+                const calories = parseInt(item.querySelector('.calories').textContent);
+                foodLog[dateStr].push({ name, calories });
+            });
 
-                // Save to localStorage with error handling
-                localStorage.setItem('foodLog', JSON.stringify(foodLog));
-                localStorage.setItem('weightLog', JSON.stringify(weightLog));
-                localStorage.setItem('weekData', JSON.stringify(weekData));
-                localStorage.setItem('currentDate', dateStr);
-                localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
-            } catch (error) {
-                console.error('Error saving to localStorage:', error);
-                alert('Failed to save data. Local storage may be full or disabled.');
-            }
+            localStorage.setItem('foodLog', JSON.stringify(foodLog));
+            localStorage.setItem('weightLog', JSON.stringify(weightLog));
+            localStorage.setItem('weekData', JSON.stringify(weekData));
+            localStorage.setItem('currentDate', dateStr);
+            localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
         }
 
         function exportData() {
-            try {
-                const exportData = { foodLog, weightLog, weekData };
-                const dataStr = JSON.stringify(exportData, null, 2);
-                const blob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'weight_tracker_data.json';
-                a.click();
-                URL.revokeObjectURL(url);
-            } catch (error) {
-                console.error('Error exporting data:', error);
-                alert('Failed to export data.');
-            }
+            const exportData = { foodLog, weightLog, weekData };
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'weight_tracker_data.json';
+            a.click();
+            URL.revokeObjectURL(url);
         }
 
         function importData(event) {
@@ -333,58 +319,49 @@
         }
 
         function loadData() {
-            try {
-                const storedFoodLog = localStorage.getItem('foodLog');
-                if (storedFoodLog) {
+            const storedFoodLog = localStorage.getItem('foodLog');
+            if (storedFoodLog) {
+                try {
                     foodLog = JSON.parse(storedFoodLog);
-                } else {
+                } catch (error) {
+                    console.error('Error parsing stored food log:', error);
                     foodLog = {};
                 }
+            } else {
+                foodLog = {};
+            }
 
-                const storedWeightLog = localStorage.getItem('weightLog');
-                if (storedWeightLog) {
+            const storedWeightLog = localStorage.getItem('weightLog');
+            if (storedWeightLog) {
+                try {
                     weightLog = JSON.parse(storedWeightLog);
-                } else {
+                } catch (error) {
+                    console.error('Error parsing stored weight log:', error);
                     weightLog = {};
                 }
+            } else {
+                weightLog = {};
+            }
 
-                const storedWeekData = localStorage.getItem('weekData');
-                if (storedWeekData) {
+            const storedWeekData = localStorage.getItem('weekData');
+            if (storedWeekData) {
+                try {
                     weekData = JSON.parse(storedWeekData);
-                } else {
+                } catch (error) {
+                    console.error('Error parsing stored week data:', error);
                     weekData = {};
                 }
-
-                // Always set currentDate to today
-                currentDate = new Date();
-                currentDate.setHours(0, 0, 0, 0);
-
-                const storedWeekStart = localStorage.getItem('currentWeekStart');
-                if (storedWeekStart) {
-                    currentWeekStart = new Date(storedWeekStart);
-                    if (isNaN(currentWeekStart)) currentWeekStart = getWeekStart(currentDate);
-                } else {
-                    currentWeekStart = getWeekStart(currentDate);
-                }
-                currentWeekStart.setHours(0, 0, 0, 0);
-
-                currentView = 'daily';
-                updateUI();
-                setupDragAndDrop();
-            } catch (error) {
-                console.error('Error loading data:', error);
-                alert('Failed to load saved data. Starting with fresh data.');
-                foodLog = {};
-                weightLog = {};
+            } else {
                 weekData = {};
-                currentDate = new Date();
-                currentDate.setHours(0, 0, 0, 0);
-                currentWeekStart = getWeekStart(currentDate);
-                currentWeekStart.setHours(0, 0, 0, 0);
-                currentView = 'daily';
-                updateUI();
-                setupDragAndDrop();
             }
+
+            currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            currentWeekStart = getWeekStart(currentDate);
+            currentWeekStart.setHours(0, 0, 0, 0);
+            currentView = 'daily';
+            updateUI();
+            setupDragAndDrop();
         }
 
         function updateUI() {
@@ -399,7 +376,6 @@
             } else if (currentView === 'dashboard') {
                 updateDashboardUI();
             }
-            saveData(); // Ensure data is saved after UI updates
         }
 
         function setupDragAndDrop() {
@@ -426,13 +402,16 @@
             const dateStr = getDateString(currentDate);
             const foodListElement = document.getElementById('food-list');
             const foodItems = foodListElement.children;
-            foodLog[dateStr] = Array.from(foodItems).map(item => ({
-                name: item.querySelector('.food-name').textContent,
-                calories: parseInt(item.querySelector('.calories').textContent)
-            }));
+            foodLog[dateStr] = [];
+
+            Array.from(foodItems).forEach(item => {
+                const name = item.querySelector('.food-name').textContent;
+                const calories = parseInt(item.querySelector('.calories').textContent);
+                foodLog[dateStr].push({ name, calories });
+            });
+
             updateDailyUI();
             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
-            saveData();
         }
 
         function updateDailyUI() {
@@ -539,9 +518,12 @@
                             e.preventDefault();
                             const newName = nameSpan.textContent.trim();
                             if (newName) {
-                                foodLog[dateStr] = foodLog[dateStr].map(item => 
-                                    item.name === entry.name ? { ...item, name: newName } : item
-                                );
+                                foodLog[dateStr] = foodLog[dateStr].map(item => {
+                                    if (item.name === entry.name) {
+                                        return { item, name: newName };
+                                    }
+                                    return item;
+                                });
                                 updateFoodList();
                                 if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
                                 saveData();
@@ -555,9 +537,12 @@
                     nameSpan.addEventListener('blur', () => {
                         const newName = nameSpan.textContent.trim();
                         if (newName && newName !== entry.name) {
-                            foodLog[dateStr] = foodLog[dateStr].map(item => 
-                                item.name === entry.name ? { ...item, name: newName } : item
-                            );
+                            foodLog[dateStr] = foodLog[dateStr].map(item => {
+                                if (item.name === entry.name) {
+                                    return { item, name: newName };
+                                }
+                                return item;
+                            });
                             updateFoodList();
                             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
                             saveData();
@@ -679,6 +664,7 @@
         }
 
         function updateDashboardMetrics() {
+            // Calculate average daily calories
             let totalCalories = 0;
             let daysCount = 0;
             Object.keys(foodLog).forEach(dateStr => {
@@ -689,6 +675,7 @@
             const avgDailyCalories = daysCount > 0 ? Math.round(totalCalories / daysCount) : 0;
             document.getElementById('avg-daily-calories').textContent = avgDailyCalories > 0 ? `${avgDailyCalories} cals` : '--';
 
+            // Calculate average weight
             let totalWeight = 0;
             let weightCount = 0;
             Object.keys(weightLog).forEach(dateStr => {
@@ -698,6 +685,7 @@
             const avgWeight = weightCount > 0 ? Math.round(totalWeight / weightCount * 10) / 10 : 0;
             document.getElementById('avg-weight').textContent = avgWeight > 0 ? `${avgWeight} lbs` : '--';
 
+            // Calculate weight change
             const weightDates = Object.keys(weightLog).sort();
             if (weightDates.length >= 2) {
                 const earliestWeight = weightLog[weightDates[0]];
@@ -721,6 +709,7 @@
             weightInput.value = '';
             updateUI();
             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
+            updateWeightUI();
             saveData();
         }
 
@@ -870,7 +859,7 @@
             const labels = calorieData.map(entry => entry.date);
             const calories = calorieData.map(entry => entry.calories);
 
-            const maxCalories = calories.length > 0 ? Math.max(...calories) : 1700;
+            const maxCalories = calories.length > 0 ? Math.max(...calories) : 1500;
             const yAxisMax = Math.ceil(maxCalories / 500) * 500;
 
             if (dailyCalorieTrendChart) dailyCalorieTrendChart.destroy();
@@ -988,10 +977,10 @@
             const colorSolidRed = 'rgba(255, 99, 132, 1)';
             const colorSolidGreen = 'rgba(75, 192, 192, 1)';
 
-            const backgroundColors = weekData.map(calories => calories > 1700 ? colorTransparentRed : colorTransparentGreen);
-            const borderColors = weekData.map(calories => calories > 1700 ? colorSolidRed : colorSolidGreen);
+            const backgroundColors = weekData.map(calories => calories > 1500 ? colorTransparentRed : colorTransparentGreen);
+            const borderColors = weekData.map(calories => calories > 1500 ? colorSolidRed : colorSolidGreen);
             
-            const maxCalories = Math.max(...weekData, 1700);
+            const maxCalories = Math.max(...weekData, 1500);
             const yAxisMax = Math.ceil(maxCalories / 500) * 500;
 
             if (weeklyChart) weeklyChart.destroy();
@@ -1032,6 +1021,11 @@
             const weekEnd = new Date(weekStart.getTime() + (DAYS_PER_WEEK - 1) * MS_PER_DAY);
             const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}`;
             document.getElementById('week-input').value = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('prev-week-button').disabled = false;
+            document.getElementById('next-week-button').disabled = false;
         }
 
         function resetCurrentWeek() {
@@ -1320,26 +1314,29 @@
             currentDate.setDate(currentDate.getDate() - 1);
             currentWeekStart = getWeekStart(currentDate);
             updateUI();
+            saveData();
         });
 
         document.getElementById('next-date-button').addEventListener('click', () => {
             currentDate.setDate(currentDate.getDate() + 1);
             currentWeekStart = getWeekStart(currentDate);
             updateUI();
+            saveData();
         });
 
         document.getElementById('prev-week-button').addEventListener('click', () => {
             currentWeekStart.setDate(currentWeekStart.getDate() - DAYS_PER_WEEK);
             updateUI();
+            saveData();
         });
 
         document.getElementById('next-week-button').addEventListener('click', () => {
             currentWeekStart.setDate(currentWeekStart.getDate() + DAYS_PER_WEEK);
             updateUI();
+            saveData();
         });
 
         document.getElementById('food-list').addEventListener('input', () => {
-            updateFoodLogOrder();
             saveData();
             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
         });
