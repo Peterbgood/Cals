@@ -44,7 +44,7 @@
                     Total Calories: <span id="total-calories" class="badge bg-primary">0</span>
                 </div>
                 <div class="mt-2 fw-bold fs-3 text-center text-success">
-                    Remaining Calories: <span id="remaining-calories" class="badge bg-success">1500</span>
+                    Remaining Calories: <span id="remaining-calories" class="badge bg-success">1700</span>
                 </div>
                 <div class="mt-5 btn-cal">
                     <div class="accordion" id="foodAccordion"></div>
@@ -204,7 +204,7 @@
         let dailyChart, weeklyChart, weightChart, weeklyTotalsChart, foodDistributionChart, dailyCalorieTrendChart;
         let data = {
             totalCaloriesUsed: 0,
-            remainingCalories: 1500
+            remainingCalories: 1700
         };
         let currentDate = new Date();
         let currentWeekStart = getWeekStart(currentDate);
@@ -212,8 +212,8 @@
         let weightLog = {};
         let weekData = {};
         let currentView = 'daily';
-        const TOTAL_WEEKLY_CALORIES = 10500;
-        const DAILY_MAXIMUMS = Array(7).fill(1500);
+        const TOTAL_WEEKLY_CALORIES = 11900;
+        const DAILY_MAXIMUMS = Array(7).fill(1700);
         const DAYS_PER_WEEK = 7;
         const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -238,7 +238,7 @@
         }
 
         function getCalorieLimit(date) {
-            return 1500;
+            return 1700;
         }
 
         function getDateString(date) {
@@ -859,7 +859,7 @@
             const labels = calorieData.map(entry => entry.date);
             const calories = calorieData.map(entry => entry.calories);
 
-            const maxCalories = calories.length > 0 ? Math.max(...calories) : 1500;
+            const maxCalories = calories.length > 0 ? Math.max(...calories) : 1700;
             const yAxisMax = Math.ceil(maxCalories / 500) * 500;
 
             if (dailyCalorieTrendChart) dailyCalorieTrendChart.destroy();
@@ -977,10 +977,10 @@
             const colorSolidRed = 'rgba(255, 99, 132, 1)';
             const colorSolidGreen = 'rgba(75, 192, 192, 1)';
 
-            const backgroundColors = weekData.map(calories => calories > 1500 ? colorTransparentRed : colorTransparentGreen);
-            const borderColors = weekData.map(calories => calories > 1500 ? colorSolidRed : colorSolidGreen);
+            const backgroundColors = weekData.map(calories => calories > 1700 ? colorTransparentRed : colorTransparentGreen);
+            const borderColors = weekData.map(calories => calories > 1700 ? colorSolidRed : colorSolidGreen);
             
-            const maxCalories = Math.max(...weekData, 1500);
+            const maxCalories = Math.max(...weekData, 1700);
             const yAxisMax = Math.ceil(maxCalories / 500) * 500;
 
             if (weeklyChart) weeklyChart.destroy();
