@@ -259,34 +259,48 @@
         }
 
         function saveData() {
-            const dateStr = getDateString(currentDate);
-            const foodListElement = document.getElementById('food-list');
-            const foodItems = foodListElement.children;
+            try {
+                const dateStr = getDateString(currentDate);
+                const foodListElement = document.getElementById('food-list');
+                const foodItems = foodListElement.children;
 
-            foodLog[dateStr] = [];
-            Array.from(foodItems).forEach(item => {
-                const name = item.querySelector('.food-name').textContent;
-                const calories = parseInt(item.querySelector('.calories').textContent);
-                foodLog[dateStr].push({ name, calories });
-            });
+                // Ensure foodLog entry exists
+                if (!foodLog[dateStr]) {
+                    foodLog[dateStr] = [];
+                }
+                // Update foodLog from DOM
+                foodLog[dateStr] = Array.from(foodItems).map(item => ({
+                    name: item.querySelector('.food-name').textContent,
+                    calories: parseInt(item.querySelector('.calories').textContent)
+                }));
 
-            localStorage.setItem('foodLog', JSON.stringify(foodLog));
-            localStorage.setItem('weightLog', JSON.stringify(weightLog));
-            localStorage.setItem('weekData', JSON.stringify(weekData));
-            localStorage.setItem('currentDate', dateStr);
-            localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
+                // Save to localStorage with error handling
+                localStorage.setItem('foodLog', JSON.stringify(foodLog));
+                localStorage.setItem('weightLog', JSON.stringify(weightLog));
+                localStorage.setItem('weekData', JSON.stringify(weekData));
+                localStorage.setItem('currentDate', dateStr);
+                localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+                alert('Failed to save data. Local storage may be full or disabled.');
+            }
         }
 
         function exportData() {
-            const exportData = { foodLog, weightLog, weekData };
-            const dataStr = JSON.stringify(exportData, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'weight_tracker_data.json';
-            a.click();
-            URL.revokeObjectURL(url);
+            try {
+                const exportData = { foodLog, weightLog, weekData };
+                const dataStr = JSON.stringify(exportData, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'weight_tracker_data.json';
+                a.click();
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error exporting data:', error);
+                alert('Failed to export data.');
+            }
         }
 
         function importData(event) {
@@ -319,49 +333,63 @@
         }
 
         function loadData() {
-            const storedFoodLog = localStorage.getItem('foodLog');
-            if (storedFoodLog) {
-                try {
+            try {
+                const storedFoodLog = localStorage.getItem('foodLog');
+                if (storedFoodLog) {
                     foodLog = JSON.parse(storedFoodLog);
-                } catch (error) {
-                    console.error('Error parsing stored food log:', error);
+                } else {
                     foodLog = {};
                 }
-            } else {
-                foodLog = {};
-            }
 
-            const storedWeightLog = localStorage.getItem('weightLog');
-            if (storedWeightLog) {
-                try {
+                const storedWeightLog = localStorage.getItem('weightLog');
+                if (storedWeightLog) {
                     weightLog = JSON.parse(storedWeightLog);
-                } catch (error) {
-                    console.error('Error parsing stored weight log:', error);
+                } else {
                     weightLog = {};
                 }
-            } else {
-                weightLog = {};
-            }
 
-            const storedWeekData = localStorage.getItem('weekData');
-            if (storedWeekData) {
-                try {
+                const storedWeekData = localStorage.getItem('weekData');
+                if (storedWeekData) {
                     weekData = JSON.parse(storedWeekData);
-                } catch (error) {
-                    console.error('Error parsing stored week data:', error);
+                } else {
                     weekData = {};
                 }
-            } else {
-                weekData = {};
-            }
 
-            currentDate = new Date();
-            currentDate.setHours(0, 0, 0, 0);
-            currentWeekStart = getWeekStart(currentDate);
-            currentWeekStart.setHours(0, 0, 0, 0);
-            currentView = 'daily';
-            updateUI();
-            setupDragAndDrop();
+                const storedDate = localStorage.getItem('currentDate');
+                if (storedDate) {
+                    currentDate = new Date(storedDate);
+                    if (isNaN(currentDate)) currentDate = new Date();
+                } else {
+                    currentDate = new Date();
+                }
+                currentDate.setHours(0, 0, 0, 0);
+
+                const storedWeekStart = localStorage.getItem('currentWeekStart');
+                if (storedWeekStart) {
+                    currentWeekStart = new Date(storedWeekStart);
+                    if (isNaN(currentWeekStart)) currentWeekStart = getWeekStart(currentDate);
+                } else {
+                    currentWeekStart = getWeekStart(currentDate);
+                }
+                currentWeekStart.setHours(0, 0, 0, 0);
+
+                currentView = 'daily';
+                updateUI();
+                setupDragAndDrop();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('Failed to load saved data. Starting with fresh data.');
+                foodLog = {};
+                weightLog = {};
+                weekData = {};
+                currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0);
+                currentWeekStart = getWeekStart(currentDate);
+                currentWeekStart.setHours(0, 0, 0, 0);
+                currentView = 'daily';
+                updateUI();
+                setupDragAndDrop();
+            }
         }
 
         function updateUI() {
@@ -376,6 +404,7 @@
             } else if (currentView === 'dashboard') {
                 updateDashboardUI();
             }
+            saveData(); // Ensure data is saved after UI updates
         }
 
         function setupDragAndDrop() {
@@ -402,16 +431,13 @@
             const dateStr = getDateString(currentDate);
             const foodListElement = document.getElementById('food-list');
             const foodItems = foodListElement.children;
-            foodLog[dateStr] = [];
-
-            Array.from(foodItems).forEach(item => {
-                const name = item.querySelector('.food-name').textContent;
-                const calories = parseInt(item.querySelector('.calories').textContent);
-                foodLog[dateStr].push({ name, calories });
-            });
-
+            foodLog[dateStr] = Array.from(foodItems).map(item => ({
+                name: item.querySelector('.food-name').textContent,
+                calories: parseInt(item.querySelector('.calories').textContent)
+            }));
             updateDailyUI();
             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
+            saveData();
         }
 
         function updateDailyUI() {
@@ -518,12 +544,9 @@
                             e.preventDefault();
                             const newName = nameSpan.textContent.trim();
                             if (newName) {
-                                foodLog[dateStr] = foodLog[dateStr].map(item => {
-                                    if (item.name === entry.name) {
-                                        return { item, name: newName };
-                                    }
-                                    return item;
-                                });
+                                foodLog[dateStr] = foodLog[dateStr].map(item => 
+                                    item.name === entry.name ? { ...item, name: newName } : item
+                                );
                                 updateFoodList();
                                 if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
                                 saveData();
@@ -537,12 +560,9 @@
                     nameSpan.addEventListener('blur', () => {
                         const newName = nameSpan.textContent.trim();
                         if (newName && newName !== entry.name) {
-                            foodLog[dateStr] = foodLog[dateStr].map(item => {
-                                if (item.name === entry.name) {
-                                    return { item, name: newName };
-                                }
-                                return item;
-                            });
+                            foodLog[dateStr] = foodLog[dateStr].map(item => 
+                                item.name === entry.name ? { ...item, name: newName } : item
+                            );
                             updateFoodList();
                             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
                             saveData();
@@ -706,7 +726,6 @@
             weightInput.value = '';
             updateUI();
             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
-            updateWeightUI();
             saveData();
         }
 
@@ -1306,29 +1325,26 @@
             currentDate.setDate(currentDate.getDate() - 1);
             currentWeekStart = getWeekStart(currentDate);
             updateUI();
-            saveData();
         });
 
         document.getElementById('next-date-button').addEventListener('click', () => {
             currentDate.setDate(currentDate.getDate() + 1);
             currentWeekStart = getWeekStart(currentDate);
             updateUI();
-            saveData();
         });
 
         document.getElementById('prev-week-button').addEventListener('click', () => {
             currentWeekStart.setDate(currentWeekStart.getDate() - DAYS_PER_WEEK);
             updateUI();
-            saveData();
         });
 
         document.getElementById('next-week-button').addEventListener('click', () => {
             currentWeekStart.setDate(currentWeekStart.getDate() + DAYS_PER_WEEK);
             updateUI();
-            saveData();
         });
 
         document.getElementById('food-list').addEventListener('input', () => {
+            updateFoodLogOrder();
             saveData();
             if (isDateInCurrentWeek(currentDate)) updateWeeklyUI();
         });
