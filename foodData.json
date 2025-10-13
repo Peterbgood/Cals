@@ -133,6 +133,12 @@
         "icon": "fas fa-cheese"
       },
       {
+        "name": "Cream Cheese",
+        "calories": 80,
+        "type": "cheese",
+        "icon": "fas fa-cheese"
+      },
+      {
         "name": "Cheese",
         "calories": 50,
         "type": "cheese",
