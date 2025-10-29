@@ -339,39 +339,28 @@
         reader.readAsText(file);
     }
 
-    function loadData() {
-        // Load from localStorage
-        const storedFood = localStorage.getItem('foodLog');
-        const storedWeight = localStorage.getItem('weightLog');
-        const storedWeek = localStorage.getItem('weekData');
-        const storedDate = localStorage.getItem('currentDate');
-        const storedWeekStart = localStorage.getItem('currentWeekStart');
+   function loadData() {
+    // Always start on TODAY
+    currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Midnight today
 
-        foodLog = storedFood ? JSON.parse(storedFood) : {};
-        weightLog = storedWeight ? JSON.parse(storedWeight) : {};
-        weekData = storedWeek ? JSON.parse(storedWeek) : {};
+    // Recalculate current week start
+    currentWeekStart = getWeekStart(currentDate);
 
-        // Restore current date
-        if (storedDate) {
-            currentDate = new Date(storedDate);
-            currentDate.setHours(0, 0, 0, 0);
-        } else {
-            currentDate = new Date();
-            currentDate.setHours(0, 0, 0, 0);
-        }
+    // Load only the logs from localStorage
+    const storedFood = localStorage.getItem('foodLog');
+    const storedWeight = localStorage.getItem('weightLog');
+    const storedWeek = localStorage.getItem('weekData');
 
-        // Restore current week start
-        if (storedWeekStart) {
-            currentWeekStart = new Date(storedWeekStart);
-            currentWeekStart.setHours(0, 0, 0, 0);
-        } else {
-            currentWeekStart = getWeekStart(currentDate);
-        }
+    foodLog = storedFood ? JSON.parse(storedFood) : {};
+    weightLog = storedWeight ? JSON.parse(storedWeight) : {};
+    weekData = storedWeek ? JSON.parse(storedWeek) : {};
 
-        currentView = 'daily';
-        updateUI();
-        setupDragAndDrop();
-    }
+    currentView = 'daily';
+
+    updateUI();
+    setupDragAndDrop();
+}
 
     /* ============================================================= */
     /* UI UPDATE */
