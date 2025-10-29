@@ -277,12 +277,10 @@
             calories: parseInt(i.querySelector('.calories').textContent)
         }));
 
-        // Save everything to localStorage
+        // Save only the logs – NOT the current view date
         localStorage.setItem('foodLog', JSON.stringify(foodLog));
         localStorage.setItem('weightLog', JSON.stringify(weightLog));
         localStorage.setItem('weekData', JSON.stringify(weekData));
-        localStorage.setItem('currentDate', ds);
-        localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
     }
 
     function exportData() {
@@ -307,25 +305,17 @@
                     weightLog = d.weightLog;
                     weekData = d.weekData || {};
 
-                    // Restore currentDate from first entry or today
-                    const dates = Object.keys(foodLog);
-                    if (dates.length > 0) {
-                        currentDate = new Date(dates[0]);
-                        currentDate.setHours(0,0,0,0);
-                    } else {
-                        currentDate = new Date();
-                        currentDate.setHours(0,0,0,0);
-                    }
-                    currentWeekStart = getWeekStart(currentDate);
-
-                    // Save to localStorage
+                    // Save immediately so it survives refresh
                     localStorage.setItem('foodLog', JSON.stringify(foodLog));
                     localStorage.setItem('weightLog', JSON.stringify(weightLog));
                     localStorage.setItem('weekData', JSON.stringify(weekData));
-                    localStorage.setItem('currentDate', getDateString(currentDate));
-                    localStorage.setItem('currentWeekStart', currentWeekStart.toISOString());
 
-                    updateUI();  // Refresh UI
+                    // Force today as the starting view
+                    currentDate = new Date();
+                    currentDate.setHours(0, 0, 0, 0);
+                    currentWeekStart = getWeekStart(currentDate);
+
+                    updateUI();
                     alert('Data imported & saved permanently!');
                 } else {
                     alert('Invalid file: missing foodLog or weightLog.');
@@ -339,28 +329,25 @@
         reader.readAsText(file);
     }
 
-   function loadData() {
-    // Always start on TODAY
-    currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0); // Midnight today
+    function loadData() {
+        // ALWAYS start on TODAY
+        currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+        currentWeekStart = getWeekStart(currentDate);
 
-    // Recalculate current week start
-    currentWeekStart = getWeekStart(currentDate);
+        // Load only the logs
+        const storedFood = localStorage.getItem('foodLog');
+        const storedWeight = localStorage.getItem('weightLog');
+        const storedWeek = localStorage.getItem('weekData');
 
-    // Load only the logs from localStorage
-    const storedFood = localStorage.getItem('foodLog');
-    const storedWeight = localStorage.getItem('weightLog');
-    const storedWeek = localStorage.getItem('weekData');
+        foodLog = storedFood ? JSON.parse(storedFood) : {};
+        weightLog = storedWeight ? JSON.parse(storedWeight) : {};
+        weekData = storedWeek ? JSON.parse(storedWeek) : {};
 
-    foodLog = storedFood ? JSON.parse(storedFood) : {};
-    weightLog = storedWeight ? JSON.parse(storedWeight) : {};
-    weekData = storedWeek ? JSON.parse(storedWeek) : {};
-
-    currentView = 'daily';
-
-    updateUI();
-    setupDragAndDrop();
-}
+        currentView = 'daily';
+        updateUI();
+        setupDragAndDrop();
+    }
 
     /* ============================================================= */
     /* UI UPDATE */
@@ -547,13 +534,21 @@
         document.getElementById('week-input').value = `${fmt(start)} - ${fmt(end)}`;
     }
 
+    /* DAILY CALORIES – LOWEST/HIGHEST (exclude today & empty days) */
     function updateDailyCaloriesMinMax() {
         let min = Infinity, max = 0, minD = '', maxD = '';
+        const todayStr = getDateString(new Date());
+
         Object.keys(foodLog).forEach(ds => {
-            const c = foodLog[ds].reduce((s,i) => s + i.calories, 0);
+            if (ds === todayStr) return;                     // skip today
+            const entries = foodLog[ds];
+            if (!entries || entries.length === 0) return;   // skip empty
+
+            const c = entries.reduce((s,i) => s + i.calories, 0);
             if (c < min) { min = c; minD = ds; }
             if (c > max) { max = c; maxD = ds; }
         });
+
         document.getElementById('lowest-daily-calories').textContent = min !== Infinity ? `${min}` : '--';
         document.getElementById('lowest-daily-calories-date').textContent = min !== Infinity ? minD : '';
         document.getElementById('highest-daily-calories').textContent = max > 0 ? `${max}` : '--';
@@ -570,18 +565,29 @@
     function getWeeklyTotalsData() {
         const today = new Date(); today.setHours(0,0,0,0);
         const ago = new Date(today.getTime() - THREE_MONTHS_MS);
-        const totals = {};
+        const totals = {}, dayCount = {};
+
         Object.keys(foodLog).forEach(ds => {
             const d = new Date(ds);
-            if (d >= ago && d <= today) {
-                const ws = getWeekStart(d);
-                const wsStr = getDateString(ws);
-                const c = foodLog[ds].reduce((s,i) => s + i.calories, 0);
-                totals[wsStr] = (totals[wsStr] || 0) + c;
-            }
+            if (d >= today || d < ago) return;   // skip today & too old
+
+            const ws = getWeekStart(d);
+            const wsStr = getDateString(ws);
+            const c = foodLog[ds].reduce((s,i) => s + i.calories, 0);
+
+            totals[wsStr] = (totals[wsStr] || 0) + c;
+            dayCount[wsStr] = (dayCount[wsStr] || 0) + 1;
         });
-        const sorted = Object.keys(totals).sort((a,b) => new Date(a) - new Date(b));
-        return { labels: sorted.map(s => { const d = new Date(s); return `${d.getMonth()+1}/${d.getDate()}`; }), totals: sorted.map(s => totals[s]), weeks: sorted.map(s => ({weekStart:new Date(s),total:totals[s]})) };
+
+        // Keep only full 7-day weeks
+        const fullWeeks = Object.keys(totals).filter(ws => dayCount[ws] === 7);
+        fullWeeks.sort((a,b) => new Date(a) - new Date(b));
+
+        return {
+            labels: fullWeeks.map(s => { const d = new Date(s); return `${d.getMonth()+1}/${d.getDate()}`; }),
+            totals: fullWeeks.map(s => totals[s]),
+            weeks: fullWeeks.map(s => ({ weekStart: new Date(s), total: totals[s] }))
+        };
     }
 
     function updateWeeklyTotalsList() {
@@ -607,36 +613,62 @@
         });
     }
 
+    /* WEEKLY CALORIES – LOWEST/HIGHEST (only full weeks, exclude current week if incomplete) */
     function updateWeeklyCaloriesMinMax() {
         let min = Infinity, max = 0, minD = '', maxD = '';
-        const { totals, weeks } = getWeeklyTotalsData();
-        totals.forEach((t,i) => {
-            if (t < min) { min = t; minD = getDateString(weeks[i].weekStart); }
-            if (t > max) { max = t; maxD = getDateString(weeks[i].weekStart); }
+        const today = new Date(); today.setHours(0,0,0,0);
+        const todayStr = getDateString(today);
+
+        const weekTotals = {};
+        Object.keys(foodLog).forEach(ds => {
+            if (ds === todayStr) return;
+            const d = new Date(ds);
+            if (d >= today) return;
+
+            const weekStart = getWeekStart(d);
+            const wsStr = getDateString(weekStart);
+
+            if (!weekTotals[wsStr]) weekTotals[wsStr] = { total: 0, days: 0 };
+            weekTotals[wsStr].total += foodLog[ds].reduce((s,i) => s + i.calories, 0);
+            weekTotals[wsStr].days++;
         });
+
+        Object.entries(weekTotals).forEach(([wsStr, info]) => {
+            if (info.days !== 7) return;   // skip incomplete weeks
+            const t = info.total;
+            if (t < min) { min = t; minD = wsStr; }
+            if (t > max) { max = t; maxD = wsStr; }
+        });
+
         document.getElementById('lowest-weekly-calories').textContent = min !== Infinity ? `${min}` : '--';
         document.getElementById('lowest-weekly-calories-date').textContent = min !== Infinity ? minD : '';
         document.getElementById('highest-weekly-calories').textContent = max > 0 ? `${max}` : '--';
         document.getElementById('highest-weekly-calories-date').textContent = max > 0 ? maxD : '';
     }
 
-    /* WEIGHT – ALL TIME */
-    function updateWeightUI() {
-        updateWeightMinMax();
-        updateWeightListAllTime();
-        renderWeightChartAllTime();
-    }
-
+    /* WEIGHT – LOWEST/HIGHEST (exclude today & missing entries) */
     function updateWeightMinMax() {
         let low = Infinity, high = 0, lowD = '', highD = '';
-        Object.entries(weightLog).forEach(([d,w]) => {
+        const todayStr = getDateString(new Date());
+
+        Object.entries(weightLog).forEach(([d, w]) => {
+            if (d === todayStr) return;   // skip today
+            if (!w) return;               // skip missing
+
             if (w < low) { low = w; lowD = d; }
             if (w > high) { high = w; highD = d; }
         });
+
         document.getElementById('lowest-weight-display').textContent = low !== Infinity ? `${low} lbs` : '--';
         document.getElementById('lowest-weight-date').textContent = low !== Infinity ? lowD : '';
         document.getElementById('highest-weight-display').textContent = high > 0 ? `${high} lbs` : '--';
         document.getElementById('highest-weight-date').textContent = high > 0 ? highD : '';
+    }
+
+    function updateWeightUI() {
+        updateWeightMinMax();
+        updateWeightListAllTime();
+        renderWeightChartAllTime();
     }
 
     function updateWeightListAllTime() {
