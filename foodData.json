@@ -292,6 +292,13 @@
         "type": "chicken",
         "icon": "fas fa-drumstick-bite"
       },
+ {
+        "name": "12 grilled Nugs",
+        "calories": 200,
+        "type": "chicken",
+        "icon": "fas fa-drumstick-bite"
+      },
+      
       {
         "name": "Fries",
         "calories": 440,
