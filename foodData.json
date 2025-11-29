@@ -280,6 +280,12 @@
         "type": "biscuit",
         "icon": "fas fa-bread-slice"
       },
+      {
+        "name": "Saugage Sandwich",
+        "calories": 620,
+        "type": "biscuit",
+        "icon": "fas fa-bread-slice"
+      },
        {
         "name": "12 Nugs",
         "calories": 380,
