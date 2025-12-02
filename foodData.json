@@ -4,60 +4,15 @@
     "icon": "fas fa-utensils",
     "collapseId": "collapseGeneric",
     "items": [
-      {
-        "name": "Coffee",
-        "calories": 40,
-        "type": "coffee",
-        "icon": "fas fa-mug-hot"
-      },
-      {
-        "name": "Food",
-        "calories": 500,
-        "type": "food",
-        "icon": "fas fa-plate-wheat"
-      },
-      {
-        "name": "Food",
-        "calories": 400,
-        "type": "food",
-        "icon": "fas fa-plate-wheat"
-      },
-      {
-        "name": "Food",
-        "calories": 300,
-        "type": "food",
-        "icon": "fas fa-plate-wheat"
-      },
-      {
-        "name": "Food",
-        "calories": 200,
-        "type": "food",
-        "icon": "fas fa-plate-wheat"
-      },
-      {
-        "name": "Food",
-        "calories": 100,
-        "type": "food",
-        "icon": "fas fa-plate-wheat"
-      },
-      {
-        "name": "Food",
-        "calories": 50,
-        "type": "food",
-        "icon": "fas fa-plate-wheat"
-      },
-      {
-        "name": "Food",
-        "calories": 20,
-        "type": "food",
-        "icon": "fas fa-plate-wheat"
-      },
-      {
-        "name": "Food",
-        "calories": 10,
-        "type": "food",
-        "icon": "fas fa-plate-wheat"
-      }
+      { "name": "Coffee", "calories": 40, "type": "coffee", "icon": "fas fa-mug-hot" },
+      { "name": "Food 500", "calories": 500, "type": "food", "icon": "fas fa-plate-wheat" },
+      { "name": "Food 400", "calories": 400, "type": "food", "icon": "fas fa-plate-wheat" },
+      { "name": "Food 300", "calories": 300, "type": "food", "icon": "fas fa-plate-wheat" },
+      { "name": "Food 200", "calories": 200, "type": "food", "icon": "fas fa-plate-wheat" },
+      { "name": "Food 100", "calories": 100, "type": "food", "icon": "fas fa-plate-wheat" },
+      { "name": "Food 50", "calories": 50, "type": "food", "icon": "fas fa-plate-wheat" },
+      { "name": "Food 20", "calories": 20, "type": "food", "icon": "fas fa-plate-wheat" },
+      { "name": "Food 10", "calories": 10, "type": "food", "icon": "fas fa-plate-wheat" }
     ]
   },
   {
@@ -65,30 +20,10 @@
     "icon": "fas fa-apple-alt",
     "collapseId": "collapseFruits",
     "items": [
-      {
-        "name": "Banana",
-        "calories": 100,
-        "type": "banana",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "Peach",
-        "calories": 70,
-        "type": "peach",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "Avocado",
-        "calories": 250,
-        "type": "avocado",
-        "icon": "fas fa-leaf"
-      },
-      {
-        "name": "Apple",
-        "calories": 95,
-        "type": "apple",
-        "icon": "fas fa-apple-alt"
-      }
+      { "name": "Banana", "calories": 100, "type": "banana", "icon": "fas fa-leaf" },
+      { "name": "Peach", "calories": 70, "type": "peach", "icon": "fas fa-leaf" },
+      { "name": "Avocado", "calories": 250, "type": "avocado", "icon": "fas fa-leaf" },
+      { "name": "Apple", "calories": 95, "type": "apple", "icon": "fas fa-apple-alt" }
     ]
   },
   {
@@ -96,54 +31,14 @@
     "icon": "fas fa-cheese",
     "collapseId": "collapseDairy",
     "items": [
-      {
-        "name": "Eggs",
-        "calories": 70,
-        "type": "eggs",
-        "icon": "fas fa-egg"
-      },
-      {
-        "name": "Yogurt",
-        "calories": 80,
-        "type": "yogurt",
-        "icon": "fas fa-bowl-food"
-      },
-      {
-        "name": "Milk",
-        "calories": 150,
-        "type": "milk",
-        "icon": "fas fa-glass-whiskey"
-      },
-      {
-        "name": "Almond",
-        "calories": 80,
-        "type": "milk",
-        "icon": "fas fa-glass-whiskey"
-      },
-      {
-        "name": "Almond",
-        "calories": 30,
-        "type": "milk",
-        "icon": "fas fa-glass-whiskey"
-      },
-      {
-        "name": "Cheese",
-        "calories": 80,
-        "type": "cheese",
-        "icon": "fas fa-cheese"
-      },
-      {
-        "name": "Cream Cheese",
-        "calories": 80,
-        "type": "cheese",
-        "icon": "fas fa-cheese"
-      },
-      {
-        "name": "Cheese",
-        "calories": 50,
-        "type": "cheese",
-        "icon": "fas fa-cheese"
-      }
+      { "name": "Eggs", "calories": 70, "type": "eggs", "icon": "fas fa-egg" },
+      { "name": "Yogurt", "calories": 80, "type": "yogurt", "icon": "fas fa-bowl-food" },
+      { "name": "Milk", "calories": 150, "type": "milk", "icon": "fas fa-glass-whiskey" },
+      { "name": "Almond Milk (Full)", "calories": 80, "type": "milk", "icon": "fas fa-glass-whiskey" },
+      { "name": "Almond Milk (Light)", "calories": 30, "type": "milk", "icon": "fas fa-glass-whiskey" },
+      { "name": "Cheese", "calories": 80, "type": "cheese", "icon": "fas fa-cheese" },
+      { "name": "Cream Cheese", "calories": 80, "type": "cheese", "icon": "fas fa-cheese" },
+      { "name": "Cheese (Light)", "calories": 50, "type": "cheese", "icon": "fas fa-cheese" }
     ]
   },
   {
@@ -151,30 +46,10 @@
     "icon": "fas fa-bread-slice",
     "collapseId": "collapseGrains",
     "items": [
-      {
-        "name": "Whole Wheat",
-        "calories": 110,
-        "type": "bread",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "White Bread",
-        "calories": 70,
-        "type": "bread",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Rye Bread",
-        "calories": 35,
-        "type": "bread",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Oatmeal",
-        "calories": 300,
-        "type": "bread",
-        "icon": "fa-solid fa-bowl-food"
-      }
+      { "name": "Whole Wheat Bread", "calories": 110, "type": "bread", "icon": "fas fa-bread-slice" },
+      { "name": "White Bread", "calories": 70, "type": "bread", "icon": "fas fa-bread-slice" },
+      { "name": "Rye Bread", "calories": 35, "type": "bread", "icon": "fas fa-bread-slice" },
+      { "name": "Oatmeal", "calories": 300, "type": "oatmeal", "icon": "fa-solid fa-bowl-food" }
     ]
   },
   {
@@ -182,81 +57,18 @@
     "icon": "fas fa-hamburger",
     "collapseId": "collapseOther",
     "items": [
-
-{
-        "name": "Guacamole",
-        "calories": 120,
-        "type": "beans",
-        "icon": "fas fa-leaf"
-      },
-      
-      
-      {
-        "name": "Beans",
-        "calories": 440,
-        "type": "beans",
-        "icon": "fas fa-seedling"
-      },
-      {
-        "name": "Ham",
-        "calories": 80,
-        "type": "ham",
-        "icon": "fas fa-drumstick-bite"
-      },
-      {
-        "name": "Peanut Butter",
-        "calories": 100,
-        "type": "peanut",
-        "icon": "fas fa-seedling"
-      },
-       {
-        "name": "Sprite",
-        "calories": 160,
-        "type": "Sprite",
-        "icon": "fas fa-glass-water"
-      },
-       {
-        "name": "Sprite",
-        "calories": 230,
-        "type": "Sprite",
-        "icon": "fas fa-glass-water"
-      },
-      {
-        "name": "Popsicle",
-        "calories": 40,
-        "type": "popsicle",
-        "icon": "fas fa-ice-cream"
-      },
-      {
-        "name": "Sauce",
-        "calories": 50,
-        "type": "sauce",
-        "icon": "fas fa-pepper-hot"
-      },
-      {
-        "name": "Oreo mini",
-        "calories": 340,
-        "type": "dessert",
-        "icon": "fas fa-cookie"
-      },
-      {
-        "name": "Andes",
-        "calories": 25,
-        "type": "chocolate",
-        "icon": "fas fa-candy-cane"
-      },
-      {
-        "name": "Beer",
-        "calories": 600,
-        "type": "Beer",
-        "icon": "fas fa-beer-mug-empty"
-      },
-      {
-        "name": "Hersh",
-        "calories": 15,
-        "type": "chocolate",
-        "icon": "fas fa-square"
-      }
+      { "name": "Guacamole", "calories": 120, "type": "guacamole", "icon": "fas fa-leaf" },
+      { "name": "Beans", "calories": 440, "type": "beans", "icon": "fas fa-seedling" },
+      { "name": "Ham", "calories": 80, "type": "ham", "icon": "fas fa-drumstick-bite" },
+      { "name": "Peanut Butter", "calories": 100, "type": "peanutbutter", "icon": "fas fa-seedling" },
+      { "name": "Sprite (12oz)", "calories": 160, "type": "soda", "icon": "fas fa-glass-water" },
+      { "name": "Sprite (20oz)", "calories": 230, "type": "soda", "icon": "fas fa-glass-water" },
+      { "name": "Popsicle", "calories": 40, "type": "popsicle", "icon": "fas fa-ice-cream" },
+      { "name": "Sauce", "calories": 50, "type": "sauce", "icon": "fas fa-pepper-hot" },
+      { "name": "Oreo Mini", "calories": 340, "type": "dessert", "icon": "fas fa-cookie" },
+      { "name": "Andes Mint", "calories": 25, "type": "chocolate", "icon": "fas fa-candy-cane" },
+      { "name": "Beer", "calories": 600, "type": "beer", "icon": "fas fa-beer-mug-empty" },
+      { "name": "Hershey's Kiss", "calories": 15, "type": "chocolate", "icon": "fas fa-square" }
     ]
   },
   {
@@ -264,87 +76,18 @@
     "icon": "fas fa-drumstick-bite",
     "collapseId": "collapseChickfila",
     "items": [
-      {
-        "name": "Deluxe Sandwich",
-        "calories": 490,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Sandwich",
-        "calories": 420,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Strip",
-        "calories": 410,
-        "type": "chicken",
-        "icon": "fas fa-drumstick-bite"
-      },
-      {
-        "name": "Biscuit Sandwich",
-        "calories": 460,
-        "type": "biscuit",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Saugage Sandwich",
-        "calories": 620,
-        "type": "biscuit",
-        "icon": "fas fa-bread-slice"
-      },
-       {
-        "name": "12 Nugs",
-        "calories": 380,
-        "type": "chicken",
-        "icon": "fas fa-drumstick-bite"
-      },
-      {
-        "name": "8 Nugs",
-        "calories": 250,
-        "type": "chicken",
-        "icon": "fas fa-drumstick-bite"
-      },
- {
-        "name": "12 grilled Nugs",
-        "calories": 200,
-        "type": "chicken",
-        "icon": "fas fa-drumstick-bite"
-      },
-      
-      {
-        "name": "Fries",
-        "calories": 440,
-        "type": "fries",
-        "icon": "fas fa-french-fries"
-      },
-
-
-       {
-        "name": "Small Fries",
-        "calories": 230,
-        "type": "fries",
-        "icon": "fas fa-french-fries"
-      },
-      {
-        "name": "Zesty",
-        "calories": 25,
-        "type": "sauce",
-        "icon": "fas fa-pepper-hot"
-      },
-      {
-        "name": "Shake",
-        "calories": 560,
-        "type": "shake",
-        "icon": "fas fa-ice-cream"
-      },
-      {
-        "name": "Lemon Shake",
-        "calories": 320,
-        "type": "shake",
-        "icon": "fas fa-lemon"
-      }
+      { "name": "Deluxe Sandwich", "calories": 490, "type": "sandwich", "icon": "fas fa-hamburger" },
+      { "name": "Chicken Sandwich", "calories": 420, "type": "sandwich", "icon": "fas fa-hamburger" },
+      { "name": "Grilled Strip", "calories": 410, "type": "chicken", "icon": "fas fa-drumstick-bite" },
+      { "name": "Chicken Biscuit", "calories": 460, "type": "biscuit", "icon": "fas fa-bread-slice" },
+      { "name": "Sausage Biscuit", "calories": 620, "type": "biscuit", "icon": "fas fa-bread-slice" },
+      { "name": "12 ct Nuggets", "calories": 380, "type": "chicken", "icon": "fas fa-drumstick-bite" },
+      { "name": "8 ct Nuggets", "calories": 250, "type": "chicken", "icon": "fas fa-drumstick-bite" },
+      { "name": "12 ct Grilled Nuggets", "calories": 200, "type": "chicken", "icon": "fas fa-drumstick-bite" },
+      { "name": "Medium Fries", "calories": 440, "type": "fries", "icon": "fas fa-french-fries" },
+      { "name": "Zesty Sauce", "calories": 25, "type": "sauce", "icon": "fas fa-pepper-hot" },
+      { "name": "Milkshake", "calories": 560, "type": "shake", "icon": "fas fa-ice-cream" },
+      { "name": "Lemonade Shake", "calories": 320, "type": "shake", "icon": "fas fa-lemon" }
     ]
   },
   {
@@ -352,44 +95,13 @@
     "icon": "fas fa-burger",
     "collapseId": "collapseMcDonalds",
     "items": [
-
-      items": [
-      {
-        "name": "McDouble",
-        "calories": 390,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Big Mac",
-        "calories": 550,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Fries",
-        "calories": 440,
-        "type": "fries",
-        "icon": "fas fa-french-fries"
-      },
-      {
-        "name": "Quarter Pounder",
-        "calories": 520,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Breakfast Sandwich",
-        "calories": 480,
-        "type": "sandwich",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Nugs",
-        "calories": 410,
-        "type": "chicken",
-        "icon": "fas fa-drumstick-bite"
-      }
+      { "name": "McDouble", "calories": 390, "type": "sandwich", "icon": "fas fa-hamburger" },
+      { "name": "Big Mac", "calories": 550, "type": "sandwich", "icon": "fas fa-hamburger" },
+      { "name": "Medium Fries", "calories": 440, "type": "fries", "icon": "fas fa-french-fries" },
+      { "name": "Small Fries", "calories": 230, "type": "fries", "icon": "fas fa-french-fries" },
+      { "name": "Quarter Pounder", "calories": 520, "type": "sandwich", "icon": "fas fa-hamburger" },
+      { "name": "Breakfast Sandwich", "calories": 480, "type": "sandwich", "icon": "fas fa-bread-slice" },
+      { "name": "10 pc Nuggets", "calories": 410, "type": "chicken", "icon": "fas fa-drumstick-bite" }
     ]
   },
   {
@@ -397,24 +109,9 @@
     "icon": "fas fa-crown",
     "collapseId": "collapseBurgerKing",
     "items": [
-      {
-        "name": "Whopper",
-        "calories": 670,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Whopper Jr",
-        "calories": 330,
-        "type": "sandwich",
-        "icon": "fas fa-hamburger"
-      },
-      {
-        "name": "Fries",
-        "calories": 440,
-        "type": "fries",
-        "icon": "fas fa-french-fries"
-      }
+      { "name": "Whopper", "calories": 670, "type": "sandwich", "icon": "fas fa-hamburger" },
+      { "name": "Whopper Jr", "calories": 330, "type": "sandwich", "icon": "fas fa-hamburger" },
+      { "name": "Medium Fries", "calories": 440, "type": "fries", "icon": "fas fa-french-fries" }
     ]
   },
   {
@@ -422,13 +119,7 @@
     "icon": "fas fa-hamburger",
     "collapseId": "collapseFreddies",
     "items": [
-     
-      {
-        "name": "Fries",
-        "calories": 440,
-        "type": "fries",
-        "icon": "fas fa-french-fries"
-      }
+      { "name": "Fries", "calories": 440, "type": "fries", "icon": "fas fa-french-fries" }
     ]
   },
   {
@@ -436,36 +127,11 @@
     "icon": "fas fa-coffee",
     "collapseId": "collapseDunkin",
     "items": [
-      {
-        "name": "Donut",
-        "calories": 240,
-        "type": "donut",
-        "icon": "fas fa-circle"
-      },
-      {
-        "name": "Bagel",
-        "calories": 450,
-        "type": "donut",
-        "icon": "fas fa-circle"
-      },
-      {
-        "name": "Breakfast Sandwich",
-        "calories": 470,
-        "type": "biscuit",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Bacon Sandwich",
-        "calories": 400,
-        "type": "biscuit",
-        "icon": "fas fa-bread-slice"
-      },
-      {
-        "name": "Wrap",
-        "calories": 210,
-        "type": "wrap",
-        "icon": "fas fa-bread-slice"
-      }
+      { "name": "Donut", "calories": 240, "type": "donut", "icon": "fas fa-circle" },
+      { "name": "Bagel", "calories": 450, "type": "bagel", "icon": "fas fa-circle" },
+      { "name": "Breakfast Sandwich", "calories": 470, "type": "sandwich", "icon": "fas fa-bread-slice" },
+      { "name": "Bacon Sandwich", "calories": 400, "type": "sandwich", "icon": "fas fa-bread-slice" },
+      { "name": "Wrap", "calories": 210, "type": "wrap", "icon": "fas fa-bread-slice" }
     ]
   },
   {
@@ -473,18 +139,8 @@
     "icon": "fas fa-pepper-hot",
     "collapseId": "collapseSalsaritas",
     "items": [
-      {
-        "name": "Quesidilla",
-        "calories": 590,
-        "type": "quesadilla",
-        "icon": "fas fa-cheese"
-      },
-      {
-        "name": "Bowl",
-        "calories": 800,
-        "type": "bowl",
-        "icon": "fas fa-bowl-food"
-      }
+      { "name": "Quesadilla", "calories": 590, "type": "quesadilla", "icon": "fas fa-cheese" },
+      { "name": "Bowl", "calories": 800, "type": "bowl", "icon": "fas fa-bowl-food" }
     ]
   },
   {
@@ -492,18 +148,8 @@
     "icon": "fas fa-bell",
     "collapseId": "collapseTacoBell",
     "items": [
-      {
-        "name": "Quesidilla",
-        "calories": 510,
-        "type": "quesadilla",
-        "icon": "fas fa-cheese"
-      },
-      {
-        "name": "Chalupa",
-        "calories": 360,
-        "type": "taco",
-        "icon": "fas fa-taco"
-      }
+      { "name": "Quesadilla", "calories": 510, "type": "quesadilla", "icon": "fas fa-cheese" },
+      { "name": "Chalupa", "calories": 360, "type": "chalupa", "icon": "fas fa-taco" }
     ]
   }
 ]
