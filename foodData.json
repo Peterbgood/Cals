@@ -344,6 +344,14 @@
     "icon": "fas fa-burger",
     "collapseId": "collapseMcDonalds",
     "items": [
+
+      items": [
+      {
+        "name": "McDouble",
+        "calories": 390,
+        "type": "sandwich",
+        "icon": "fas fa-hamburger"
+      },
       {
         "name": "Big Mac",
         "calories": 550,
