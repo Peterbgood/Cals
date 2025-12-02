@@ -319,6 +319,14 @@
         "type": "fries",
         "icon": "fas fa-french-fries"
       },
+
+
+       {
+        "name": "Small Fries",
+        "calories": 230,
+        "type": "fries",
+        "icon": "fas fa-french-fries"
+      },
       {
         "name": "Zesty",
         "calories": 25,
