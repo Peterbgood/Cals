@@ -182,6 +182,14 @@
     "icon": "fas fa-hamburger",
     "collapseId": "collapseOther",
     "items": [
+
+{
+        "name": "Guacamole",
+        "calories": 120,
+        "type": "beans",
+        "icon": "fas fa-leaf"
+      },
+      
       
       {
         "name": "Beans",
