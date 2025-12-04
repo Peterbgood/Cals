@@ -182,7 +182,18 @@
     "icon": "fas fa-hamburger",
     "collapseId": "collapseOther",
     "items": [
-      
+      {
+        "name": "Guacamole",
+        "calories": 120,
+        "type": "beans",
+        "icon": "fas fa-seedling"
+      },
+      {
+        "name": "Salami",
+        "calories": 30,
+        "type": "beans",
+        "icon": "fas fa-seedling"
+      },
       {
         "name": "Beans",
         "calories": 440,
